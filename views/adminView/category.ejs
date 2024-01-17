@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOLE SAAVY</title>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="/img/ssLOGO.png"
+    />
+    <link rel="stylesheet" href="/assets/css/styles.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 20px; 
+        }
+  
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: left;
+        }
+  
+        th {
+          background-color: #f2f2f2;
+        }
+  
+        button {
+          padding: 8px 16px;
+          cursor: pointer;
+        }
+  
+        .block {
+          background-color: #ff6347; /* Tomato color */
+          color: #fff;
+          border: none;
+        }
+  
+        .unblock {
+          background-color: #5cb85c; /* Green color */
+          color: #fff;
+          border: none;
+        }
+        .form-control{
+            width: 50%;
+            align-items: center;
+            margin-left: 25%;
+            border: solid;
+        }
+       .btn{
+        margin-left: 20px;
+       }
+       .msg{
+        color: re;
+       }
+      </style>
+  </head>
+
+  <body>
+    <!--  Body Wrapper -->
+    <div
+      class="page-wrapper"
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin6"
+      data-sidebartype="full"
+      data-sidebar-position="fixed"
+      data-header-position="fixed"
+    >  
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+      <!-- Sidebar Start -->
+      <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div>
+          <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="./index.html" class="text-nowrap logo-img">  
+              <img src="/img/ssLOGO.png" width="180" alt="" />
+            </a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+              <i class="ti ti-x fs-8"></i>
+            </div>
+          </div>
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Home</span>
+              </li>
+  
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Dashboard</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                  <span class="hide-menu">CUSTOMERS</span>
+                </a>
+              </li>
+   
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-list"></i>
+                  </span>
+                  <span class="hide-menu">CATEGORIES</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-p"></i>
+                  </span>
+                  <span class="hide-menu">PRODUCTS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                  <span>
+                    <i class="fa-brands fa-dropbox"></i>
+                  </span>
+                  <span class="hide-menu">ORDERS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-credit-card"></i>
+                  </span>
+                  <span class="hide-menu">PAYMENTS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                  </span>
+                  <span class="hide-menu">LOGOUT</span>
+                </a>
+              </li>
+  
+              
+              
+              
+             
+            </ul>
+          
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+      </aside>
+      
+      <!--  Sidebar End -->
+      <!--  Main wrapper -->
+      <div class="body-wrapper">
+        <!--  Header Start -->
+        <header class="app-header">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <ul class="navbar-nav">
+              <li class="nav-item d-block d-xl-none">
+                <a
+                  class="nav-link sidebartoggler nav-icon-hover"
+                  id="headerCollapse"
+                  href="javascript:void(0)"
+                >
+                  <i class="ti ti-menu-2"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                  <i class="ti ti-bell-ringing"></i>
+                  <div class="notification bg-primary rounded-circle"></div>
+                </a>
+              </li>
+            </ul>
+            <div
+              class="navbar-collapse justify-content-end px-0"
+              id="navbarNav"
+            >
+              <ul
+                class="navbar-nav flex-row ms-auto align-items-center justify-content-end"
+              >
+                <a href="" target="_blank" class="btn btn-primary">PROFILE</a>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link nav-icon-hover"
+                    href="javascript:void(0)"
+                    id="drop2"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="../assets/images/profile/user-1.jpg"
+                      alt=""
+                      width="35"
+                      height="35"
+                      class="rounded-circle"
+                    />
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                    aria-labelledby="drop2"
+                  >
+                    <div class="message-body">
+                      <a
+                        href="javascript:void(0)"
+                        class="d-flex align-items-center gap-2 dropdown-item"
+                      >
+                        <i class="ti ti-user fs-6"></i>
+                        <p class="mb-0 fs-3">My Profile</p>
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="d-flex align-items-center gap-2 dropdown-item"
+                      >
+                        <i class="ti ti-mail fs-6"></i>
+                        <p class="mb-0 fs-3">My Account</p>
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="d-flex align-items-center gap-2 dropdown-item"
+                      >
+                        <i class="ti ti-list-check fs-6"></i>
+                        <p class="mb-0 fs-3">My Task</p>
+                      </a>
+                      <a
+                        href="./authentication-login.html"
+                        class="btn btn-outline-primary mx-3 mt-2 d-block"
+                        >Logout</a
+                      >
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+        <!--  Header End -->
+        <div class="container-fluid">
+          <!-- Row 1 -->
+          <div class="row text-center">
+              <h2>Category Table</h2>
+      
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center">
+                  <thead class="table-warning">
+                    <tr>
+                      <th class="text-center">Category Name</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+<% if(locals.message){%>
+  <div class="msg">
+  <%= message %>
+  </div>
+   <% } %>
+                    
+                    <% if (categories.length > 0) { %>
+                      <% for (let i = 0; i < categories.length; i++) { %>
+                        <tr>
+                          <td class="align-middle"><%= categories[i].categoryName %></td>
+                          <td class="d-flex justify-content-center">
+                            <button type="button" class="btn actionbtn <%= categories[i].is_listed ? 'btn-danger' : 'btn-success' %>" data-category-id="<%= categories[i]._id %>" data-category-state="<%= categories[i].is_listed ? 'Listed' : 'Unlisted' %>" style="min-width: 100px;">
+                              <%= categories[i].is_listed ? 'Unlist' : 'List' %>
+                            </button>
+                            <a href="/admin/edit?id=<%= categories[i]._id %>" class="text-white">
+                            <button  type="button" class="btn actionbtn btn-info  ml-2" >EDIT</button>
+                          </a>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="2">No categories found</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+              
+
+
+              <div class="container mt-5 ">
+                <form id="myForm" >
+                  <div class="form-row align-items-center">
+                    <!-- Input text field -->
+                    <div class="col-auto">
+                      <label class="sr-only" for="textInput">Enter Text:</label>
+                      <input type="text" class="form-control mb-2" id="textInput" name="textInput" placeholder="Enter Category Name" required>
+                    </div>
+            
+                    <!-- Add Category button -->
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-primary mb-2" onclick="addCategory()">Add Category</button>
+                    </div>
+                  </div>
+              
+                  </form>
+              </div>
+
+          </div>
+      </div>
+
+
+
+      <script>
+
+         function addCategory(){
+            const newCategory = document.getElementById('textInput').value.trim()
+
+             // Check if the category is not empty
+       if (newCategory !== '') {
+        // Create a new list item
+        fetch('/admin/category', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers as needed
+        },
+        body: JSON.stringify({ category:newCategory})
+      }).then(response => {
+            return response.json();
+      }).then(data =>{
+        let value = data.value
+        if(data){
+          if(value==0){
+            Swal.fire({
+  title: "Category Already Exist",
+  showClass: {
+    popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+  },
+  hideClass: {
+    popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+  }
+});
+          }else if (value==1){
+            window.location.reload();
+            
+            Swal.fire({
+  title: "new category added",
+  showClass: {
+    popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+  },
+  hideClass: {
+    popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+  }
+});
+          }
+     
+        }
+      
+      }).catch(error => {
+            console.log(error);
+        });
+
+
+      } else {
+        // Notify the user that the category cannot be empty
+        alert('Please enter a category.');
+      }
+    }
+
+
+
+
+    document.querySelectorAll('.actionbtn').forEach(function(button){
+    button.addEventListener('click',  function () {
+        let categoryId = this.getAttribute('data-category-id');
+        let currentState = this.getAttribute('data-category-state');
+
+    
+    
+
+        let url;
+      
+        if(currentState=='Listed'){
+          url ='/admin/unlist-category'
+        }
+        else{
+          url ='/admin/list-category'
+        }
+        
+        
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({categoryId})
+        }).then(response => {
+            return response.json();
+        }).then(data=>{
+          if(data.message){
+            if(currentState=='Listed'){
+              this.setAttribute('data-category-state', 'Unlisted')
+              this.textContent = 'List'
+              this.classList.replace('btn-danger', 'btn-success')
+
+              Swal.fire({
+  title: "Category Unlisted",
+  showClass: {
+    popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+  },
+  hideClass: {
+    popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+  }
+});
+            }else{
+              this.setAttribute('data-category-state', 'Listed')
+              this.textContent = 'Unlist'
+              this.classList.replace('btn-success', 'btn-danger')
+             
+              Swal.fire({
+  title: "Category Listed",
+  showClass: {
+    popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+  },
+  hideClass: {
+    popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+  }
+});
+
+            }
+          }
+        })
+      })})
+      
+
+      </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+  </body>
+</html>

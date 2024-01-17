@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Address</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom styles if needed */
+    body {
+      background-color: #f8f9fa;
+    }
+    .modal-content {
+      border-radius: 10px;
+    }
+    /* Center the modal vertically and horizontally */
+    .modal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #addressmsg{
+        color: cadetblue;
+        size: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="modal" id="addAddressModal">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 400px;">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Address</h5>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Form for adding address -->
+        <form method="post" onsubmit="return ValidationEditAddress()">
+          <h4 id="addressmsg"><%= message %></h4>
+          <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" class="form-control" id="name" name="fullname" value="<%= Address.fullname %>" required>
+            <span id="nameerror" class="error"></span>
+          </div>
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" name="city" value="<%= Address.city %>" required>
+            <span id="cityerror" class="error"></span>
+          </div>
+          <div class="form-group">
+            <label for="state">State:</label>
+            <input type="text" class="form-control" id="state" name="state" value="<%= Address.state %>" required>
+            <span id="stateerror" class="error"></span>
+          </div>
+          <div class="form-group">
+            <label for="pin">Pincode:</label>
+            <input type="text" class="form-control" id="pin" name="Pin" value="<%= Address.pincode %>" required>
+            <span id="pinerror" class="error"></span>
+          </div>
+          <div class="form-group">
+            <label for="phn">Phone:</label>
+            <input type="text" class="form-control" id="phn" name="phone" value="<%= Address.phone %>" required>
+            <input type="hidden" class="form-control" id="phn" name="id" value="<%= Address._id %>" required>
+            <span id="phnerror" class="error"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Edit</button>
+          <button type="button" onclick="window.location.href='/profile'" class="btn btn-secondary">Back</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js (required for Bootstrap components) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+function ValidationEditAddress(){
+
+    const Fullname = document.getElementById("name").value;
+        const City = document.getElementById("city").value;
+        const State = document.getElementById("state").value;
+        const Pin = document.getElementById("pin").value;
+        const Phone = document.getElementById("phn").value;
+
+        const namereg = /^[a-zA-Z\s]{1,20}$/;
+        if (!namereg.test(Fullname.trim())) {
+          nameerror.textContent = "Invalid name";
+          return false;
+        } else {
+          nameerror.textContent = "";
+        }
+
+        const cityreg = /^[a-zA-Z]{1,10}$/;
+        if (!cityreg.test(City.trim())) {
+          cityerror.textContent = "Invalid input";
+          return false;
+        } else {
+          cityerror.textContent = "";
+        }
+
+        const statereg = /^[a-zA-Z]{1,10}$/;
+        if (!statereg.test(State.trim())) {
+          stateerror.textContent = "Invalid input";
+          return false;
+        } else {
+          stateerror.textContent = "";
+        }
+
+        const pinreg = /^[0-9]{1,6}$/;
+        if (!pinreg.test(Pin.trim())) {
+          pinerror.textContent = "Invalid input";
+          return false;
+        } else {
+          pinerror.textContent = "";
+        }
+
+        const phonereg = /^[0-9]{10}$/;
+        if (!phonereg.test(Phone.trim())) {
+          phnerror.textContent = "Invalid input";
+          return false;
+        } else {
+          phnerror.textContent = "";
+        }
+
+        
+}
+
+</script>
+
+</body>
+</html>

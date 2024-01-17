@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocked Page</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .blocked-container {
+      text-align: center;
+    }
+
+    .blocked-image {
+      max-width: 100%;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="blocked-container">
+    <img src="images/Blocked.png" alt="Blocked Image" class="blocked-image">
+    <h1>You are Blocked By Admin</h1>
+  </div>
+</body>
+
+<script>
+
+  setTimeout(() => {
+    window.location.href="/login"
+  }, 2000);
+
+</script>
+</html>

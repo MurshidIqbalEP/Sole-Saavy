@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Male_Fashion Template" />
+    <meta name="keywords" content="Male_Fashion, unica, creative, html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sole Savvy</title>
+  
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+      
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-gAa8eAaxBvBH1xQIcOvZw3kgXY5z9+OQD1/Wr+weEW0fAz+PZZdWqcDAIm2JCpzP" crossorigin="anonymous">
+
+   
+
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css" />
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+  </head>
+
+  <body>
+    <!-- Header Section Begin -->
+    <header class="header">
+      <div class="header__top">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-7">
+              <div class="header__top__left">
+                <p>Free shipping, 30-day return or refund guarantee.</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-5">
+              <div class="header__top__right">
+                <div class="header__top__links">
+                  <a href="/Register">Sign in</a>
+                  <a href="#">FAQs</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="header__logo">
+              <a href="./index.html"
+                ><img class="logo" src="/img/ssLOGO.png" alt=""
+              /></a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <nav class="header__menu mobile-menu">
+              <ul>
+                <li class="active"><a href="/home">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li>
+                  <a href="#">Pages</a>
+                  <ul class="dropdown">
+                    <!-- <li><a href="./about.html">About Us</a></li>
+                                <li><a href="./shop-details.html">Shop Details</a></li> -->
+                    <li><a href="./cart">Shopping Cart</a></li>
+                    <!-- <li><a href="./checkout.html">Check Out</a></li>
+                                <li><a href="./blog-details.html">Blog Details</a></li> -->
+                  </ul>
+                </li>
+                <li><a href="./blog.html">Blog</a></li>
+                <li><a href="./contact.html">Contacts</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3" style="padding-left: 70px">
+            <div class="header__nav__option d-flex">
+              <a href="#" class="search-switch"
+                ><img src="/img/icon/search.png" alt=""
+              /></a>
+              <a href="#"><img src="/img/icon/heart.png" alt="" /></a>
+              <a href="./cart"><img src="/img/icon/cart.png" alt="cart" /> </a>
+              <div style="width: 19px; height: 19px">
+                <a href="./profile"
+                  ><img src="/img/icon/user.png" alt="Profile" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+    </header>
+    <!-- Header Section End -->
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcrumb__text">
+              <h4>Order Detail</h4>
+              <div class="breadcrumb__links">
+                <a href="/home">Home</a>
+                <span>Order Details</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- order view  is start -->
+    <div class="container">
+      <!-- order view  is start -->
+      <div class="container">
+        <div class="container-bigDiv">
+          <h2 class="mt-5 mb-4 text-center"><b>ORDER DETAILS</b></h2>
+          <input type="hidden" name="order" value="<%= orders %>" />
+    
+          <div style="background-color: #f3f2ee; padding: 10px">
+            
+              <p id="Id"><strong>OrderID:</strong>&nbsp;<%= orders[0]._id %> </p>
+              <p id="Method"></p><strong>Payment Method:</strong>&nbsp;<%= orders[0].paymentMethod %> </p>
+              <p id="Total"></p><strong>Total Amount:</strong> <%= orders[0].totalAmount %> </p>
+              <p id="Date"></p><strong>Ordered Date:</strong> <%= orders[0].orderedDate.toLocaleDateString() %> </p>
+           
+          </div>
+    
+          <table class="table" style="background-color: #f3f2ee; margin-top: 10px;">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Order Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% orders.forEach(order => { %>
+                <% order.products.forEach(product => { %>
+                  <tr>
+                    <td>
+                      <img
+                        src="<%= '/uploads/' + product.productId.image[0] %>"
+                        alt="No pic"
+                        class="img-fluid"
+                        style="max-width: 79px; max-height: 97px; border-radius: 13%"
+                      />
+                    </td>
+                    <td><%= product.productId.productName %></td>
+                    <td><%= product.quantity %></td>
+                    <td>
+                      <% if(product.orderStatus=='Cancelled' || product.orderStatus !== 'Returned'){ %>
+                        <p style="color: red;"><%= product.orderStatus %></p>
+                      <% } else { %>
+                        <%= product.orderStatus %>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if(product.orderStatus !== 'Cancelled' && product.orderStatus !== 'Delivered' && product.orderStatus !== 'Returned' ){ %>
+                        <button class="btn btn-primary" onclick="cancellOrder('<%= orders[0]._id %>','<%= product.productId._id %>')">Cancel</button>
+                    <% } %>
+                    
+
+                      <% if(product.orderStatus == 'Delivered'){ %>
+                        <button type="button" class="btn btn-danger" onclick="returnOrder('<%= orders[0]._id %>','<%= product.productId._id %>','<%= product.quantity %>')">
+                            Return Product
+                        </button>
+
+                      
+                      <% } %>
+
+                    </td>
+                  </tr>
+                <% }); %>
+               
+              <% }); %>
+            </tbody>
+          </table>
+    
+          <div style="width: 100%;  margin-top: 10px; padding-left: 100px; background-color: #f3f2ee; display: flex;">
+           
+            <div style="padding: 20px; width: 70%;">
+              <h3 style="align-content: center;">Shipping Details :</h3>
+              <p id="Name"><strong>Name:</strong> <%= orders[0].shippingAddress.fullname %></p>
+              <p  id="City"><strong>City:</strong><%= orders[0].shippingAddress.city %></p>
+              <p  id="State"><strong>State:</strong><%= orders[0].shippingAddress.state %></p>
+              <p id="Pin"><strong>Pincode:</strong><%= orders[0].shippingAddress.pincode %></p>
+              <p id="Phone"><strong>Phone:</strong><%= orders[0].shippingAddress.phone %></p>
+            </div>
+            <div style="flex-direction: column;">
+            <div><button onclick="window.location.href='/shop'" class="btn btn-dark" style="margin-top: 200px; width: 200px;">Continue Shoping</button></div>
+            <div><button class="btn btn-success" style="margin-top: 10px; margin-bottom: 10px; width: 200px;" onclick="invoiceGenerater('<%= orders[0]._id %>')">INVOICE</i>
+            </button></div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- order view is end -->
+    </div>
+    
+    <!-- order view  is end -->
+
+
+    <script>
+
+     function invoiceGenerater(orderid){
+     console.log('hai 1');
+
+      fetch('invoiceData',{
+            method:'post',
+            headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({orderid})
+     })
+     .then(response => {
+            return response.json();
+          })
+     .then(data=>{
+        const Orders = data.orders
+        
+        let productsArray = [];
+     
+      
+Orders.products.forEach(product => {
+  
+        productsArray.push({
+            "quantity": product.quantity,
+            "description": product.productId.productName,
+            "tax-rate": 0,  // Adjust as needed
+            "price": product.productId.actualPrice
+        });
+   
+});
+
+        var data = {
+    // If not using the free version, set your API key
+    // "apiKey": "123abc", // Get apiKey through: https://app.budgetinvoice.com/register
+    
+    // Customize enables you to provide your own templates
+    // Please review the documentation for instructions and examples
+    "customize": {
+        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+    },
+    "images": {
+        // The logo on top of your invoice
+        "logo": "https://public.budgetinvoice.com/img/logo_en_original.png",
+        // The invoice background
+        "background": "https://public.budgetinvoice.com/img/watermark-draft.jpg"
+    },
+    // Your own data
+    "sender": {
+        "company": "Sole Saavy",
+        "address": "Sample Street",
+        "pin": "260132",
+        "city": "Calicut",
+        "country": "India",
+         "State": "Kerala",
+        //"custom2": "custom value 2",
+        //"custom3": "custom value 3"
+    },
+    // Your recipient
+    "client": {
+        "company":Orders.shippingAddress.fullname ,
+        "address": Orders.shippingAddress.city,
+        "zip": Orders.shippingAddress.pincode ,
+        "city": Orders.shippingAddress.phone,
+       
+    },
+    "information": {
+        // Invoice number
+        "number": Orders.shippingAddress._id,
+        // Invoice data
+        "date": Orders.shippingAddress.orderedDate,
+      
+    },
+    // The products you would like to see on your invoice
+    // Total values are being calculated automatically
+    "products": productsArray,
+    // The message you would like to display on the bottom of your invoice
+    "bottom-notice": "Kindly pay your invoice within 15 days.",
+    // Settings to customize your invoice
+    "settings": {
+        "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+        // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')        
+        // "margin-top": 25, // Defaults to '25'
+        // "margin-right": 25, // Defaults to '25'
+        // "margin-left": 25, // Defaults to '25'
+        // "margin-bottom": 25, // Defaults to '25'
+        // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+        // "height": "1000px", // allowed units: mm, cm, in, px
+        // "width": "500px", // allowed units: mm, cm, in, px
+        // "orientation": "landscape", // portrait or landscape, defaults to portrait
+    },
+    // Translate your invoice to your preferred language
+    "translate": {
+        // "invoice": "FACTUUR",  // Default to 'INVOICE'
+        // "number": "Nummer", // Defaults to 'Number'
+        // "date": "Datum", // Default to 'Date'
+        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+        // "products": "Producten", // Defaults to 'Products'
+        // "quantity": "Aantal", // Default to 'Quantity'
+        // "price": "Prijs", // Defaults to 'Price'
+        // "product-total": "Totaal", // Defaults to 'Total'
+        // "total": "Totaal", // Defaults to 'Total'
+        // "vat": "btw" // Defaults to 'vat'
+    },
+};
+
+//Create your invoice! Easy!
+easyinvoice.createInvoice(data, function (result) {
+    //The response will contain a base64 encoded PDF file
+   
+    easyinvoice.download("invoice.pdf")
+});
+
+     })
+
+    }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function cancellOrder(orderid,productid){
+           
+           fetch('cancellOrder',{
+            method:'put',
+            headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({orderid,productid})
+      
+           })
+           .then(response => {
+            return response.json();
+          })
+          .then(data =>{
+            window.location.reload()
+          })
+        }
+
+/* return function  *////////////////////////////////////////////
+
+function returnOrder(orderId,productId,quantity){
+
+
+ 
+  Swal.fire({
+  title: "Submit your Reason for Return",
+  input: "select", // Change input type to "select"
+  inputOptions: {
+    'Wrong Product': 'Wrong Product',
+    'Damaged Product': 'Damaged Product',
+    'Changed Mind': 'Changed Mind'
+  },
+  inputAttributes: {
+    autocapitalize: "off",
+  },
+  showCancelButton: true,
+  confirmButtonText: "Submit",
+  showLoaderOnConfirm: true,
+  preConfirm: async (selectedOption) => {
+    try {
+      const backendUrl = "/orderReturn";
+   
+
+      const response = await fetch(backendUrl, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedOption, orderId, productId, quantity }),
+      });
+
+      if (!response.ok) {
+        return Swal.showValidationMessage(`
+          ${JSON.stringify(await response.json())}
+        `);
+      }
+      window.location.reload()
+      return response.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+  allowOutsideClick: () => !Swal.isLoading(),
+}).then((result) => {
+  if (result.isConfirmed) {
+    // Handle confirmation if needed
+  }
+});
+
+  
+
+ 
+
+
+}
+
+
+
+
+function submitReturn(orderid,productid,quantity){
+
+  console.log(orderid,productid,quantity);
+}
+
+
+    </script>
+   <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script><!---  invoice -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

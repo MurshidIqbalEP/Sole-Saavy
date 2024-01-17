@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Male_Fashion Template" />
+    <meta name="keywords" content="Male_Fashion, unica, creative, html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Male-Fashion | Template</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+  </head>
+
+  <style>
+    .errormsg {
+      size: 5px;
+      color: red;
+    }
+    #addresses {
+      margin-top: 20px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .address-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .address-item {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+
+    .address-item p {
+      margin: 8px 0;
+    }
+
+    .address-item strong {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  </style>
+
+  <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+      <div class="offcanvas__option">
+        <div class="offcanvas__links">
+          <a href="#">Sign in</a>
+          <a href="#">FAQs</a>
+        </div>
+        <div class="offcanvas__top__hover">
+          <span>Usd <i class="arrow_carrot-down"></i></span>
+          <ul>
+            <li>USD</li>
+            <li>EUR</li>
+            <li>USD</li>
+          </ul>
+        </div>
+      </div>
+      <div class="offcanvas__nav__option">
+        <a href="#" class="search-switch"
+          ><img src="img/icon/search.png" alt=""
+        /></a>
+        <a href="#"><img src="img/icon/heart.png" alt="" /></a>
+        <a href="#"><img src="img/icon/cart.png" alt="" /> <span>0</span></a>
+        <div class="price">$0.00</div>
+      </div>
+      <div id="mobile-menu-wrap"></div>
+      <div class="offcanvas__text">
+        <p>Free shipping, 30-day return or refund guarantee.</p>
+      </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+      <div class="header__top">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-6 col-md-7">
+                      <div class="header__top__left">
+                          <p>Free shipping, 30-day return or refund guarantee.</p>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-5">
+                      <div class="header__top__right">
+                          <div class="header__top__links">
+                              <a href="/Register">Sign in</a>
+                              <a href="#">FAQs</a>
+                          </div>
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-md-3">
+                  <div class="header__logo">
+                      <a href="./index.html"><img class="logo" src="/img/ssLOGO.png" alt=""></a>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                  <nav class="header__menu mobile-menu">
+                      <ul>
+                          <li ><a href="/home">Home</a></li>
+                          <li ><a href="/shop">Shop</a></li>
+                          <li class="active"><a href="#">Pages</a>
+                              <ul class="dropdown">
+                                  <!-- <li><a href="./about.html">About Us</a></li>
+                                  <li><a href="./shop-details.html">Shop Details</a></li> -->
+                                  <li><a href="./cart">Shopping Cart</a></li>
+                                  <!-- <li><a href="./checkout.html">Check Out</a></li>
+                                  <li><a href="./blog-details.html">Blog Details</a></li> -->
+                              </ul>
+                          </li>
+                          <li><a href="./blog.html">Blog</a></li>
+                          <li><a href="./contact.html">Contacts</a></li>
+                      </ul>
+                  </nav>
+              </div>
+              <div class="col-lg-3 col-md-3" style="padding-left: 70px;">
+                  <div class="header__nav__option d-flex">
+                      <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                      <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                      <a href="./cart"><img src="img/icon/cart.png" alt="cart"> </a>
+                      <div style="width: 19px;
+                      height: 19px;">
+                          <a href="./profile"><img src="img/icon/user.png" alt="Profile"> </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+  </header>
+  <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcrumb__text">
+              <h4>Shop</h4>
+              <div class="breadcrumb__links">
+                <a href="./home">Home</a>
+                <span>Profile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <div class="container light-style flex-grow-1 container-p-y">
+      <h4 class="font-weight-bold py-3 mb-4">Account settings</h4>
+      <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+          <div class="col-md-3 pt-0">
+            <div class="list-group list-group-flush account-settings-links">
+              <a
+                class="list-group-item list-group-item-action active"
+                data-toggle="list"
+                href="#account-general"
+                >General</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                data-toggle="list"
+                href="#account-change-password"
+                >Change password</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                data-toggle="list"
+                href="#addresses"
+                >Address</a
+              >
+              <a
+                class="list-group-item list-group-item-action "
+                data-toggle="list"
+                href="#orders"
+                >Orders</a
+              >
+              
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="tab-content">
+              <div class="tab-pane fade active show" id="account-general">
+                
+
+                <hr class="border-light m-0" />
+                <div class="card-body">
+                  <div class="form-group">
+                    <label class="form-label">FirstName</label>
+                    <input
+                      type="text"
+                      class="form-control mb-1"
+                      readonly
+                      value="<%= user.FirstName %>"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">LastName</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      readonly
+                      value="<%= user.LastName %>"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">E-mail</label>
+                    <input
+                      type="text"
+                      class="form-control mb-1"
+                      readonly
+                      value="<%= user.Email %>"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="account-change-password">
+                <h4
+                  id="msg"
+                  style="padding-left: 20px; padding-top: 10px; color: blue"
+                ></h4>
+                <div class="card-body pb-2">
+                  <div class="form-group">
+                    <label class="form-label">Current password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="Currentpass"
+                      required
+                    />
+                    <span class="errormsg" id="cuerr"></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">New password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="newpass"
+                      required
+                    />
+                    <span class="errormsg" id="newerr"></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Repeat new password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="Repeatpass"
+                      required
+                    />
+                    <span class="errormsg" id="reperr"></span>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-success"
+                    onclick="changepass()"
+                  >
+                    Change
+                  </button>
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="addresses">
+
+                <div class="d-flex justify-content-end pt-2 px-2">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#addAddressModal"
+                  >
+                    Add Address
+                  </button>
+                </div>
+                
+                <h2><%= user.FirstName %>'s Addresses</h2>
+
+                <% if(Address.length==0){ %>
+                  <div style=" border: 1px solid; border-color: black; height: 100px; text-align: center;" >
+                    <h5 style="color: red; padding-top: 35px;">NO Address Found</h5>
+                  </div>
+                 
+                  <% } %>
+
+                <ul class="address-list">
+                  <% Address.forEach(address => { %>
+                  <li class="address-item">
+                    <p><strong>Name:</strong> <%= address.fullname %></p>
+                    <p><strong>City:</strong> <%= address.city %></p>
+                    <p><strong>State:</strong> <%= address.state %></p>
+                    <p><strong>Pin:</strong> <%= address.pincode %></p>
+                    <p><strong>Phone:</strong> <%= address.phone %></p>
+                    <a href="profile/editAddress?id=<%= address._id %>">
+                      <button type="button" class="btn btn-primary">
+                        Edit
+                      </button></a
+                    >
+                    <button
+                      class="btn btn-danger"
+                      onclick="dltAdd('<%= address._id %>')"
+                    >
+                      Delete
+                    </button>
+                  </li>
+                  <% }); %>
+                </ul>
+              </div>
+
+
+<!--  orders-->
+
+              <div class="tab-pane fade" id="orders">
+                
+                <h2><%= user.FirstName %>'s Orders</h2>
+
+                <% if(Orders.length==0){ %>
+                  <div style=" border: 1px solid; border-color: black; height: 100px; text-align: center;" >
+                    <h5 style="color: red; padding-top: 35px;">NO Order Found</h5>
+                  </div>
+                 
+                  <% } %>
+
+                <ul class="address-list">
+                  <% Orders.forEach(order => { %>
+                  <li class="address-item">
+                   <div class="d-flex">
+                    <% for (const product of order.products) { %>
+                      <img src="<%= '/uploads/' + product.productId.image[0] %>" alt="No pic" class="img-fluid" style="max-width: 79px;max-height: 50x;border-radius: 10%;">
+                     <div style="margin-left: 23px; padding-top: 34px; padding-right: 20px;">
+                      <p><strong>Name:</strong> <%= product.productId.productName %></p>
+                      <p><strong>Quantity:</strong> <%= product.quantity %></p>
+                    </div> 
+                    <% } %>
+
+                  </div>
+                    
+                    <p><strong>Amount:</strong> <%= order.totalAmount %></p>
+                    <p><strong>Ordered Date:</strong> <%= order.orderedDate.toLocaleDateString() %></p>
+                    <p><strong>Order Status:</strong> <%= order.orderStatus %></p>
+                    <a href='profile/orderDetails?orderid=<%= order._id %>'>
+                    <button class="btn btn-primary" > Details </button></a>
+                  </li>
+                  <% }); %>
+                </ul>
+              </div>
+<!--  orders end -->
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal Section Begin -->
+
+    <!-- modal addaddress -->
+
+    <!-- Modal -->
+    <div class="modal" id="addAddressModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title">Add Address</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <!-- Form for adding address -->
+            <form>
+              <h4 id="addressmsg"></h4>
+              <div class="form-group">
+                <label for="address">Full Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter your address"
+                  required
+                />
+                <span id="nameerror" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="city">City:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="city"
+                  placeholder="Enter your city"
+                  required
+                />
+                <span id="cityerror" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="zipcode">State:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="state"
+                  placeholder="Enter your state"
+                  required
+                />
+                <span id="stateerror" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="zipcode">Pincode:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pin"
+                  placeholder="Enter your pin code"
+                  required
+                />
+                <span id="pinerror" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="zipcode">Phone:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phn"
+                  placeholder="Enter your phone number"
+                  required
+                />
+                <span id="phnerror" class="error"></span>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                onclick="addAddress()"
+              >
+                Add
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- end of modal addaddress -->
+
+    <!-- start of modal EditAddress -->
+
+    <div class="modal" id="editAddress">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Address</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Form for editing address -->
+            <form id="editAddressForm">
+              <h4 id="editAddressMsg"></h4>
+              <!-- Hidden input for address ID -->
+              <input
+                type="hidden"
+                id="editAddressId"
+                name="editAddressId"
+                value=""
+              />
+              <div class="form-group">
+                <label for="editName">Full Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editName"
+                  placeholder="Enter your address"
+                  required
+                />
+                <span id="editNameError" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="editCity">City:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editCity"
+                  placeholder="Enter your city"
+                  required
+                />
+                <span id="editCityError" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="editState">State:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editState"
+                  placeholder="Enter your state"
+                  required
+                />
+                <span id="editStateError" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="editPin">Pincode:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editPin"
+                  placeholder="Enter your pin code"
+                  required
+                />
+                <span id="editPinError" class="error"></span>
+              </div>
+              <div class="form-group">
+                <label for="editPhn">Phone:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editPhn"
+                  placeholder="Enter your phone number"
+                  required
+                />
+                <span id="editPhnError" class="error"></span>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                onclick="editAddress()"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- End of modal EditAddress -->
+
+    <!-- modal Section Begin -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer__about">
+              <div class="footer__logo">
+                <a href="#"><img src="img/ssLOGOW.png" alt="" /></a>
+              </div>
+              <p>
+                The customer is at the heart of our unique business model, which
+                includes design.
+              </p>
+              <a href="#"><img src="img/payment.png" alt="" /></a>
+            </div>
+          </div>
+          <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Clothing Store</a></li>
+                <li><a href="#">Trending Shoes</a></li>
+                <li><a href="#">Accessories</a></li>
+                <li><a href="#">Sale</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Payment Methods</a></li>
+                <li><a href="#">Delivary</a></li>
+                <li><a href="#">Return & Exchanges</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+            <div class="footer__widget">
+              <h6>NewLetter</h6>
+              <div class="footer__newslatter">
+                <p>
+                  Be the first to know about new arrivals, look books, sales &
+                  promos!
+                </p>
+                <form action="#">
+                  <input type="text" placeholder="Your email" />
+                  <button type="submit">
+                    <span class="icon_mail_alt"></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Footer Section End -->
+
+    <script>
+
+function orderDetails(orderid){
+  const url = `profile/orderDetails?orderid=${orderid}`;
+
+  fetch(url,{
+    method:'get',
+    headers: {
+            "Content-Type": "application/json",
+  },
+  
+  })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+      function changepass() {
+        const currentPass = document.getElementById("Currentpass").value;
+        const newPass = document.getElementById("newpass").value;
+        const RepeatPass = document.getElementById("Repeatpass").value;
+
+        console.log(currentPass, newPass, RepeatPass);
+
+        if (currentPass.length < 5) {
+          const currerr = document.getElementById("cuerr");
+          currerr.innerHTML = "Invalid Password";
+          return false;
+        } else {
+          const currerr = document.getElementById("cuerr");
+          currerr.innerHTML = "";
+        }
+
+        const passwordRegex = /^[a-zA-Z0-9]{5,10}$/;
+        if (!passwordRegex.test(newPass.trim())) {
+          const currerr = document.getElementById("newerr");
+          currerr.innerHTML =
+            "Invalid Password. Password should be more than 5 characters.";
+          return false;
+        } else if (newPass.trim() !== RepeatPass.trim()) {
+          const currerr = document.getElementById("newerr");
+          currerr.innerHTML = "Invalid Password.";
+          return false;
+        } else {
+          const currerr = document.getElementById("newerr");
+          currerr.innerHTML = "";
+        }
+
+        if (!passwordRegex.test(RepeatPass.trim())) {
+          const currerr = document.getElementById("reperr");
+          currerr.innerHTML = "Invalid Password. ";
+          return false;
+        } else {
+          const currerr = document.getElementById("reperr");
+          currerr.innerHTML = "";
+        }
+
+        fetch("profile/changePass", {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPass,
+            newPass,
+            RepeatPass,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.value === 1) {
+              document.getElementById("msg").innerText = "Password updated";
+              const msg = document.getElementById("msg");
+              msg.innerText = "Password updated";
+              msg.style.color = "green";
+            } else {
+              const msg = document.getElementById("msg");
+              msg.innerText = "Password is not correct";
+              msg.style.color = "red";
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function addAddress() {
+        const Fullname = document.getElementById("name").value;
+        const City = document.getElementById("city").value;
+        const State = document.getElementById("state").value;
+        const Pin = document.getElementById("pin").value;
+        const Phone = document.getElementById("phn").value;
+
+        const namereg = /^[a-zA-Z\s]{1,20}$/;
+        if (!namereg.test(Fullname.trim())) {
+          nameerror.textContent = "Invalid name";
+          return false;
+        } else {
+          nameerror.textContent = "";
+        }
+
+        const cityreg = /^[a-zA-Z]{1,10}$/;
+        if (!cityreg.test(City.trim())) {
+          cityerror.textContent = "Invalid input";
+          return false;
+        } else {
+          cityerror.textContent = "";
+        }
+
+        const statereg = /^[a-zA-Z]{1,10}$/;
+        if (!statereg.test(State.trim())) {
+          stateerror.textContent = "Invalid input";
+          return false;
+        } else {
+          stateerror.textContent = "";
+        }
+
+        const pinreg = /^[0-9]{1,6}$/;
+        if (!pinreg.test(Pin.trim())) {
+          pinerror.textContent = "Invalid input";
+          return false;
+        } else {
+          pinerror.textContent = "";
+        }
+
+        const phonereg = /^[0-9]{10}$/;
+        if (!phonereg.test(Phone.trim())) {
+          phnerror.textContent = "Invalid input";
+          return false;
+        } else {
+          phnerror.textContent = "";
+        }
+
+        fetch("profile/addAddress", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Fullname,
+            City,
+            State,
+            Pin,
+            Phone,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.value === 1) {
+              const msg = document.getElementById("addressmsg");
+              msg.innerText = "Address Added";
+              msg.style.color = "green";
+            } else {
+              const msg = document.getElementById("addressmsg");
+              msg.innerText = "Some thing Wrong";
+              msg.style.color = "red";
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function dltAdd(ProductId) {
+        fetch("profile/dltAddress", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ProductId 
+          }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.value === 1) {
+              Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Address deleted",
+  showConfirmButton: false,
+  timer: 1500
+});
+            } else {
+              Swal.fire({
+  position: "center",
+  icon: "warning",
+  title: "Address not deleted",
+  showConfirmButton: false,
+  timer: 1500
+});
+            }
+          })
+
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+
+      }
+    </script>
+
+    <!-- Js Plugins -->
+    <script src="/Script/validation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- sweetalert -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

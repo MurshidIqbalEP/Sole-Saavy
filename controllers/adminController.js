@@ -1,0 +1,455 @@
+const admin = require("../models/adminModel");
+const user = require("../models/UserModel");
+const category = require("../models/categoryModel");
+const product = require("../models/productModel");
+const Orders = require("../models/orderModel");
+const bcrypt = require("bcrypt");
+const { trusted } = require("mongoose");
+const { render } = require("../routes/userRoutes");
+
+const securepassword = async (Password) => {
+  try {
+    const passwordhash = await bcrypt.hash(Password, 10);
+    return passwordhash;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const loadAdminLogin = async (req, res) => {
+  try {
+    res.status(200).render("adminView/login");
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
+const loadDashboard = async (req, res) => {
+  try {
+    const email = req.body.Email;
+    const pass = req.body.pass;
+
+    const adminData = await admin.findOne({ Email: email });
+
+    if (adminData) {
+      const passmatch = await bcrypt.compare(pass, adminData.Password);
+
+      if (passmatch) {
+        req.session.admin_id = adminData._id;
+
+        res.status(200).redirect("admin/Dashboard");
+      } else {
+        res
+          .status(200)
+          .render("adminView/login", { message: "invalid  password" });
+      }
+    } else {
+      res
+        .status(200)
+        .render("adminView/login", { message: "invalid email or password" });
+    }
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
+const adminLogOut = async (req, res) => {
+  try {
+    req.session.destroy();
+    res.status(200).redirect("/admin");
+  } catch (error) {}
+};
+
+const loadHome = async (req, res) => {
+  try {
+    res.status(200).render("adminView/Dashboard");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadCustomers = async (req, res) => {
+  try {
+    const onlyUser = await user.find({ is_admin: 0 });
+    res.status(200).render("adminView/customers", { users: onlyUser });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadCategory = async (req, res) => {
+  try {
+    const Categories = await category.find();
+    res.status(200).render("adminView/category", { categories: Categories });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const addCategory = async (req, res) => {
+  try {
+    const catNAme = req.body.category;
+    const newcat = await category.findOne({
+      categoryName: { $regex: new RegExp(`^${catNAme}$`, "i") },
+    });
+
+    if (newcat) {
+      res.json({ message: "category already exists", value: 0 });
+    } else {
+      console.log("success");
+      const Category = new category({
+        categoryName: req.body.category,
+        is_listed: true,
+      });
+      const categorydata = await Category.save();
+
+      if (categorydata) {
+        // res.redirect('/adminView/category')
+        res.status(200).json({ message: "Category added", value: 1 });
+      }
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadProducts = async (req, res) => {
+  try {
+    let search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
+
+    let page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+    let limit = 2;
+
+    let srt = 1;
+
+    if (req.query.srt) {
+      let request = req.query.srt;
+      srt = parseInt(request, 10);
+    }
+
+    const allProduct = await product
+      .find({ productName: { $regex: ".*" + search + ".*", $options: "i" } })
+      .sort({ productName: srt })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+    const count = await product
+      .find({ productName: { $regex: ".*" + search + ".*", $options: "i" } })
+      .countDocuments();
+    res
+      .status(200)
+      .render("adminView/products", {
+        product: allProduct,
+        totalpage: Math.ceil(count / limit),
+        currentpage: page,
+      });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadBlockUser = async (req, res) => {
+  try {
+    const userid = req.body.userId;
+    const userData = await user.findOne({ _id: userid });
+    userData.is_blocked = true;
+    const saved = await userData.save();
+    if (saved) {
+      res.status(200).json({ message: "user is blocked succefully" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadunblockUser = async (req, res) => {
+  try {
+    const userid = req.body.userId;
+    const userData = await user.findOne({ _id: userid });
+    userData.is_blocked = false;
+    const saved = await userData.save();
+    if (saved) {
+      res.status(200).json({ message: "user is unblocked succefully" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const unlistCategory = async (req, res) => {
+  try {
+    const CategoryId = req.body.categoryId;
+    const catagoryData = await category.findOne({ _id: CategoryId });
+    catagoryData.is_listed = false;
+
+    const UL = await catagoryData.save();
+
+    res.status(200).json({ message: "category unlisted" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const listCategory = async (req, res) => {
+  try {
+    const CategoryId = req.body.categoryId;
+    const catagoryData = await category.findOne({ _id: CategoryId });
+    catagoryData.is_listed = true;
+
+    const UL = await catagoryData.save();
+
+    res.status(200).json({ message: "category listed" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadEdit = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const catData = await category.findById({ _id: id });
+    if (catData) {
+      res.status(200).render("adminView/editCategory", { catData, id });
+    }
+  } catch (error) {
+    res.status(200).send(error.message);
+  }
+};
+
+const Edit = async (req, res) => {
+  try {
+    const id = req.body.ID;
+    const inputdata = req.body.inputCat;
+
+    const validate = await category.findOne({
+      categoryName: { $regex: new RegExp(`^${inputdata}$`, "i") },
+    });
+
+    if (!validate) {
+      const editData = await category.findOneAndUpdate(
+        { _id: id },
+        { $set: { categoryName: inputdata } }
+      );
+      if (editData) {
+        res.status(200).json({ value: 1 });
+      }
+    } else {
+      res.status(200).json({ value: 0 });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadAddProduct = async (req, res) => {
+  try {
+    const Product = await product.find({});
+    res.status(200).render("adminView/addProduct", { Product });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const insertProduct = async (req, res) => {
+  try {
+    const img = [];
+    for (let i = 0; i < req.files.length; i++) {
+      img.push(req.files[i].filename);
+    }
+
+    const Product = new product({
+      productName: req.body.productName,
+      actualPrice: req.body.actualPrice,
+      description: req.body.description,
+      Stock: req.body.stock,
+      image: img,
+      category: req.body.category,
+    });
+
+    const productdata = await Product.save();
+    if (productdata) {
+      res.status(200).redirect("/admin/products");
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const unlistProduct = async (req, res) => {
+  try {
+    const ProductId = req.body.productId;
+    const productData = await product.findOne({ _id: ProductId });
+    productData.is_listed = false;
+
+    const UL = await productData.save();
+
+    res.status(200).json({ message: "product unlisted" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const listProduct = async (req, res) => {
+  try {
+    const ProductId = req.body.productId;
+    const productData = await product.findOne({ _id: ProductId });
+    productData.is_listed = true;
+
+    const UL = await productData.save();
+
+    res.status(200).json({ message: "product unlisted" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadproductedit = async (req, res) => {
+  try {
+    const productid = req.query.id;
+
+    const allproduct = await product.findOne({ _id: productid });
+    res
+      .status(200)
+      .render("adminView/editProduct", { product: allproduct, productid });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const deleteimg = async (req, res) => {
+  try {
+    const { img, productID } = req.body;
+
+    const dltImage = await product.findOneAndUpdate(
+      { _id: productID },
+      { $pull: { image: img } }
+    );
+    if (dltImage) {
+      res.status(200).json({ value: 0 });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const cropImage=async (req,res)=>{
+  try {
+    const img = req.query.img
+    const productId=req.query.id
+
+    res.status(200).render('adminView/crop',{img,productId})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+const editproduct = async (req, res) => {
+  try {
+    console.log(req.body.stock);
+    console.log(req.body.description);
+    const img = [];
+    for (let i = 0; i < req.files.length; i++) {
+      img.push(req.files[i].filename);
+    }
+
+    const updateProduct = await product.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        $set: {
+          productName: req.body.productName,
+          actualPrice: req.body.actualPrice,
+          image: img, // Assuming img is the field in your request body containing the image data
+          description: req.body.description, // Corrected the field name to 'description'
+          Stock: req.body.stock, // Corrected the field name to 'Stock'
+          category: req.body.category,
+        },
+      } // This option returns the modified document, not the original
+    );
+
+    if (updateProduct) {
+      res.status(200).redirect("/admin//products");
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const loadOrders = async (req, res) => {
+  try {
+    const orders = await Orders.find({}).populate("products.productId");
+    res.status(200).render("adminView/orders", { orders });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const loadOrderDetail = async (req, res) => {
+  try {
+    const orderId = req.query.id;
+
+    const orders = await Orders.findOne({ _id: orderId.trim() }).populate(
+      "products.productId"
+    );
+
+    if (orders) {
+      res.status(200).render("adminView/orderDetails", { orders });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const setSatus = async (req, res) => {
+  try {
+    const { selectedValue, orderid, productid } = req.body;
+
+    const order = await Orders.findOne({ _id: orderid });
+    const product = await order.products.find(
+      (product) => product.productId.toString() === productid
+    );
+    product.orderStatus = selectedValue;
+    const statusChanged = await order.save();
+    if (statusChanged) {
+      res.status(200).json({ value: 1 });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+module.exports = {
+  loadAdminLogin,
+  loadDashboard,
+  // loadAdminRegister,
+  // insertAdminData,
+  loadDashboard,
+  adminLogOut,
+  loadHome,
+  loadCustomers,
+  loadCategory,
+  addCategory,
+  loadProducts,
+  loadBlockUser,
+  loadunblockUser,
+  unlistCategory,
+  listCategory,
+  loadEdit,
+  Edit,
+  loadAddProduct,
+  insertProduct,
+  unlistProduct,
+  listProduct,
+  loadproductedit,
+  deleteimg,
+  editproduct,
+  loadOrders,
+  loadOrderDetail,
+  setSatus,
+  cropImage
+};

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOLE SAAVY</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/ss.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .action-column {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+                    <a href="./index.html" class="text-nowrap logo-img">
+                        <img src="/img/ssLOGO.png" width="180" alt="" />
+                    </a>
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
+                    </div>
+                </div>
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-layout-dashboard"></i>
+                                </span>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <span class="hide-menu">CUSTOMERS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-list"></i>
+                                </span>
+                                <span class="hide-menu">CATEGORIES</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-p"></i>
+                                </span>
+                                <span class="hide-menu">PRODUCTS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                                <span>
+                                    <i class="fa-brands fa-dropbox"></i>
+                                </span>
+                                <span class="hide-menu">ORDERS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-credit-card"></i>
+                                </span>
+                                <span class="hide-menu">PAYMENTS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                </span>
+                                <span class="hide-menu">LOGOUT</span>
+                            </a>
+                        </li>
+
+
+
+
+
+                    </ul>
+
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+
+
+            <!-- order view  is start -->
+            <div class="container">
+                <!-- order view  is start -->
+                <div class="container">
+                    <div class="container-bigDiv">
+
+                        <% if (orders.length <= 0 ){ %>
+                       <div style="width: 300px; height: 300px; display: flex; margin-left: 300px; margin-top: 100px;">
+                        <img src="/img/no_orders.png" alt="No Orders Found">
+                      
+                       </div>
+                        <% }else{ %> 
+                        <h3 class="mt-5 mb-2 text-center"><b>ORDERS</b></h3>
+                        <input type="hidden" name="order" value="<%= orders %>" />
+
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Total Amount</th>
+                                    <th>Product Name</th>
+                                    <th>Payment Method</th>
+                                    <th class="action-column">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Use a forEach loop to dynamically generate rows -->
+                                <% orders.forEach(order=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= order.orderedDate.toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                            <%= order._id %>
+                                        </td>
+                                        <td>
+                                            <%= order.shippingAddress.fullname %>
+                                        </td>
+                                        <td>
+                                            <%= order.totalAmount %>
+                                        </td>
+
+                                        <td>
+                                            <% order.products.forEach(product=> { %>
+                                                <li>
+                                                    <%= product.productId.productName %>
+                                                </li>
+
+                                                <% }) %>
+                                        </td>
+
+                                        <td>
+                                            <%= order.paymentMethod %>
+                                        </td>
+                                        <td class="action-column">
+                                            <a href="/admin/orderDetail?id= <%= order._id %>">
+                                            <button class="btn btn-info">Details</button></a>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+
+                        <% } %>
+
+
+
+                    </div>
+                </div>
+                <!-- order view is end -->
+            </div>
+
+            <!-- order view  is end -->
+
+
+            
+
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+            <script src="../assets/js/dashboard.js"></script>
+</body>
+
+</html>

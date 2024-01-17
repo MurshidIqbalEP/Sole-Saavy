@@ -1,0 +1,1 @@
+const  easyinvoice = require('easyinvoice');

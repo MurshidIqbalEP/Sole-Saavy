@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrderDetails</title>
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css" />
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+</head>
+<body>
+    
+    <div class="container">
+        <!-- order view  is start -->
+        <div class="container">
+          <div class="container-bigDiv">
+            <h2 class="mt-5 mb-4 text-center"><b>ORDER DETAILS</b></h2>
+            <input type="hidden" name="order" value="<%= orders %>" />
+      
+            <div style="background-color: #f3f2ee; padding: 10px">
+              <p>
+                <strong>OrderID:</strong>&nbsp;<%= orders._id %> <br>
+                <strong>Payment Method:</strong>&nbsp;<%= orders.paymentMethod %> <br>
+                <strong>Total Amount:</strong> <%= orders.totalAmount %><br />
+                <strong>Ordered Date:</strong> <%= orders.orderedDate.toLocaleDateString() %><br />
+              </p>
+            </div>
+      
+            <table class="table" style="background-color: #f3f2ee; margin-top: 10px;">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Order Status</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+              
+                  <% orders.products.forEach(product => { %>
+                    <tr>
+                      <td>
+                        <img
+                          src="<%= '/uploads/' + product.productId.image[0] %>"
+                          alt="No pic"
+                          class="img-fluid"
+                          style="max-width: 79px; max-height: 97px; border-radius: 13%"
+                        />
+                      </td>
+                      <td><%= product.productId.productName %></td>
+                      <td><%= product.quantity %></td>
+                    
+                      <td>
+                        <% if(product.orderStatus == 'Returned' || product.orderStatus == 'Cancelled' || product.orderStatus == 'Delivered'  ) { %>
+                          <button class="btn bg-transparent"> <%= product.orderStatus %></button>
+                          <% }else{ %>
+                        <select id='options<%= product.productId._id %>' style="width: 300px;" data-orderid="<%= orders._id %>" data-productid="<%= product.productId %>" onchange="setStatys('<%= orders._id %>','<%= product.productId._id %>')">
+                          <option value="<%= product.orderStatus %>"><%= product.orderStatus %></option>
+                          <option value="Order Shipped">Order Shipped</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+
+                        <% } %>
+                        
+
+                      </td>
+                      
+                    </tr>
+                  <% }); %>
+                    
+              </tbody>
+            </table>
+      
+            <div style="width: 100%;  margin-top: 10px; padding-left: 100px; background-color: #f3f2ee; display: flex;">
+             
+              <div style="padding: 20px; width: 70%;">
+                <h3 style="align-content: center;">Shipping Details :</h3>
+                <p><strong>Name:</strong> <%= orders.shippingAddress.fullname %></p>
+                <p><strong>City:</strong><%= orders.shippingAddress.city %></p>
+                <p><strong>State:</strong><%= orders.shippingAddress.state %></p>
+                <p><strong>Pincode:</strong><%= orders.shippingAddress.pincode %></p>
+                <p><strong>Phone:</strong><%= orders.shippingAddress.phone %></p>
+              </div>
+              <div style="flex-direction: column;">
+              <div><button id="dashboardButton" class="btn btn-dark" style="margin-top: 200px; width: 200px;">Back To Dashboard</button>
+              </div>
+              
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- order view is end -->
+      </div>
+
+      <script>
+        document.getElementById("dashboardButton").addEventListener("click", function() {
+          window.location.href = '/admin/orders';
+        });
+
+
+function setStatys(orderid,productid){
+
+const selectedValue = document.getElementById(`options${productid}`).value
+
+
+
+fetch('/admin/updateStatus', {
+  method: 'put',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ selectedValue, orderid, productid })
+})
+.then(response =>{
+  return response.json()
+})
+.then(data=>{
+  Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Order Status Changed",
+  showConfirmButton: false,
+  timer: 1500
+});
+})
+
+
+
+}
+
+
+      </script>
+
+
+
+    
+
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+
+</body>
+</html>
