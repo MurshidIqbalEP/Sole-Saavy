@@ -170,12 +170,10 @@
                     <h5 class="card-title fw-semibold">Sales Overview</h5>
                   </div>
                   <div>
-                    <select class="form-select">
-                      <option value="1">March 2023</option>
-                      <option value="2">April 2023</option>
-                      <option value="3">May 2023</option>
-                      <option value="4">June 2023</option>
-                    </select>
+                    <button class="btn" onclick="findOrders('today')">Today</button>
+                    <button class="btn" onclick="findOrders('weekly')">Weekly</button>
+                    <button class="btn" onclick="findOrders('monthly')">Monthly</button>
+                    <button class="btn" onclick="findOrders('yearly')">Yearly</button>
                   </div>
                 </div>
                 <div id="chart"></div>
@@ -259,6 +257,8 @@
       </div>
     </div>
   </div>
+
+  
   <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/sidebarmenu.js"></script>

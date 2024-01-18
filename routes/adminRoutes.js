@@ -52,7 +52,7 @@ adminRoute.get('/orders',adminController.loadOrders)
 adminRoute.get('/orderDetail',adminController.loadOrderDetail)
 adminRoute.put('/updateStatus',adminController.setSatus)
 
-
+adminRoute.get('/takeOrders',adminController.chartdata)
 
 
 
