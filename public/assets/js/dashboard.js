@@ -21,6 +21,11 @@ function findOrders(time){
 
 }
 
+ // Vanilla JavaScript
+ window.addEventListener("load", () => {
+  findOrders("today");
+});
+
 
   function salesGraph(salesDetails,sale){
     let orderCount = sale.orderCount;
@@ -327,3 +332,5 @@ function findOrders(time){
     },
   };
   new ApexCharts(document.querySelector("#earning"), earning).render();
+
+ 

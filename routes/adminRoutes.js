@@ -55,6 +55,8 @@ adminRoute.put('/updateStatus',adminController.setSatus)
 adminRoute.get('/takeOrders',adminController.chartdata)
 
 
+adminRoute.get('/salesReport',adminController.loadSalesReport)
+
 
 
 module.exports = adminRoute;

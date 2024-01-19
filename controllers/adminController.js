@@ -142,13 +142,11 @@ const loadProducts = async (req, res) => {
     const count = await product
       .find({ productName: { $regex: ".*" + search + ".*", $options: "i" } })
       .countDocuments();
-    res
-      .status(200)
-      .render("adminView/products", {
-        product: allProduct,
-        totalpage: Math.ceil(count / limit),
-        currentpage: page,
-      });
+    res.status(200).render("adminView/products", {
+      product: allProduct,
+      totalpage: Math.ceil(count / limit),
+      currentpage: page,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -338,16 +336,16 @@ const deleteimg = async (req, res) => {
   }
 };
 
-const cropImage=async (req,res)=>{
+const cropImage = async (req, res) => {
   try {
-    const img = req.query.img
-    const productId=req.query.id
+    const img = req.query.img;
+    const productId = req.query.id;
 
-    res.status(200).render('adminView/crop',{img,productId})
+    res.status(200).render("adminView/crop", { img, productId });
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 const editproduct = async (req, res) => {
   try {
@@ -423,186 +421,191 @@ const setSatus = async (req, res) => {
   }
 };
 
-const chartdata=async (req,res)=>{
+const chartdata = async (req, res) => {
   try {
-
-    const time= req.query.time;
-
+    const time = req.query.time;
 
     let timeFrame = new Date(new Date().setHours(0, 0, 0, 0));
     let pipeline = [
-        {
-            $match: {
-
-                orderedDate: {
-                    $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-                    $lte: new Date(new Date().setHours(23, 59, 59, 999)),
-                },
-            },
+      {
+        $match: {
+          orderedDate: {
+            $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+            $lte: new Date(new Date().setHours(23, 59, 59, 999)),
+          },
         },
-        {
-            $group: {
-                _id: null,
-                totalAmount: { $sum: "$totalAmount" },
-                orderCount: { $sum: 1 },
-            },
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalAmount" },
+          orderCount: { $sum: 1 },
         },
-        {
-            $project: {
-                _id: 0,
-                totalAmount: 1,
-                orderCount: 1,
-                label: "Today",
-            },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalAmount: 1,
+          orderCount: 1,
+          label: "Today",
         },
+      },
     ];
 
-
     if (time === "weekly") {
-        timeFrame = new Date(new Date().setHours(0, 0, 0, 0) - new Date().getDay() * 86400000);
+      timeFrame = new Date(
+        new Date().setHours(0, 0, 0, 0) - new Date().getDay() * 86400000
+      );
 
-        pipeline = [
-            {
-                $match: {
-                    orderDate: {
-                        $gte: new Date(new Date().setHours(0, 0, 0, 0) - new Date().getDay() * 86400000),
-                        $lte: new Date(new Date().setHours(23, 59, 59, 999)),
-                    },
-                },
+      pipeline = [
+        {
+          $match: {
+            orderDate: {
+              $gte: new Date(
+                new Date().setHours(0, 0, 0, 0) - new Date().getDay() * 86400000
+              ),
+              $lte: new Date(new Date().setHours(23, 59, 59, 999)),
             },
-            {
-                $group: {
-                    _id: { $dayOfWeek: "$orderedDate" },
-                    totalAmount: { $sum: "$totalAmount" },
-                    orderCount: { $sum: 1 },
-                },
+          },
+        },
+        {
+          $group: {
+            _id: { $dayOfWeek: "$orderedDate" },
+            totalAmount: { $sum: "$totalAmount" },
+            orderCount: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            label: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$_id", 1] }, then: "Sunday" },
+                  { case: { $eq: ["$_id", 2] }, then: "Monday" },
+                  { case: { $eq: ["$_id", 3] }, then: "Tuesday" },
+                  { case: { $eq: ["$_id", 4] }, then: "Wednesday" },
+                  { case: { $eq: ["$_id", 5] }, then: "Thursday" },
+                  { case: { $eq: ["$_id", 6] }, then: "Friday" },
+                  { case: { $eq: ["$_id", 7] }, then: "Saturday" },
+                ],
+                default: "Unknown",
+              },
             },
-            {
-                $project: {
-                    _id: 0,
-                    label: {
-                        $switch: {
-                            branches: [
-                                { case: { $eq: ["$_id", 1] }, then: "Sunday" },
-                                { case: { $eq: ["$_id", 2] }, then: "Monday" },
-                                { case: { $eq: ["$_id", 3] }, then: "Tuesday" },
-                                { case: { $eq: ["$_id", 4] }, then: "Wednesday" },
-                                { case: { $eq: ["$_id", 5] }, then: "Thursday" },
-                                { case: { $eq: ["$_id", 6] }, then: "Friday" },
-                                { case: { $eq: ["$_id", 7] }, then: "Saturday" },
-                            ],
-                            default: "Unknown",
-                        },
-                    },
-                    totalAmount: 1,
-                    orderCount: 1,
-                },
-            },
-            {
-                $sort: { _id: 1 },
-            },
-        ];
+            totalAmount: 1,
+            orderCount: 1,
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ];
     }
-
-
-
-
 
     if (time === "monthly") {
-        timeFrame = new Date(new Date().getFullYear(), 0, 1);
+      timeFrame = new Date(new Date().getFullYear(), 0, 1);
 
-        pipeline = [
-            {
-                $match: {
-                  orderedDate: {
-                        $gte: new Date(new Date().setDate(1)),
-                        $lte: new Date(new Date().setHours(23, 59, 59, 999)),
-                    },
+      pipeline = [
+        {
+          $match: {
+            orderedDate: {
+              $gte: new Date(new Date().setDate(1)),
+              $lte: new Date(new Date().setHours(23, 59, 59, 999)),
+            },
+          },
+        },
+        {
+          $group: {
+            _id: { $month: "$orderedDate" },
+            totalAmount: { $sum: "$totalAmount" },
+            orderCount: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            label: {
+              $dateToString: {
+                format: "%B",
+                date: {
+                  $dateFromParts: {
+                    year: new Date().getFullYear(),
+                    month: "$_id",
+                  },
                 },
-            },
-            {
-                $group: {
-                    _id: { $month: "$orderedDate" },
-                    totalAmount: { $sum: "$totalAmount" },
-                    orderCount: { $sum: 1 },
-                },
-            },
-            {
-                $project: {
-                    _id: 0,
-                    label: { $dateToString: { format: "%B", date: { $dateFromParts: { year: new Date().getFullYear(), month: "$_id" } } } }, // Format month name
-                    totalAmount: 1,
-                    orderCount: 1,
-                },
-            },
-            {
-                $sort: { _id: 1 },
-            },
-        ];
+              },
+            }, // Format month name
+            totalAmount: 1,
+            orderCount: 1,
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ];
     }
-
-
-
-
-
-
 
     if (time === "yearly") {
-        const currentYear = new Date().getFullYear();
-        const firstYear = currentYear - 4;
+      const currentYear = new Date().getFullYear();
+      const firstYear = currentYear - 4;
 
-        timeFrame = new Date(firstYear, 0, 1);
+      timeFrame = new Date(firstYear, 0, 1);
 
-        pipeline = [
-            {
-                $match: {
-                  orderedDate: {
-                        $gte: new Date(firstYear, 0, 1),
-                        $lte: new Date(new Date().setHours(23, 59, 59, 999)),
-                    },
-                },
+      pipeline = [
+        {
+          $match: {
+            orderedDate: {
+              $gte: new Date(firstYear, 0, 1),
+              $lte: new Date(new Date().setHours(23, 59, 59, 999)),
             },
-            {
-                $group: {
-                    _id: { $year: "$orderedDate" },
-                    totalAmount: { $sum: "$totalAmount" },
-                    orderCount: { $sum: 1 },
-                },
-            },
-            {
-                $project: {
-                    _id: 0,
-                    label: "$_id",
-                    totalAmount: 1,
-                    orderCount: 1,
-                },
-            },
-            {
-                $sort: { label: 1 },
-            },
-        ];
+          },
+        },
+        {
+          $group: {
+            _id: { $year: "$orderedDate" },
+            totalAmount: { $sum: "$totalAmount" },
+            orderCount: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            label: "$_id",
+            totalAmount: 1,
+            orderCount: 1,
+          },
+        },
+        {
+          $sort: { label: 1 },
+        },
+      ];
     }
 
+    // sales
+    const salesDetails = await Orders.aggregate(pipeline);
 
-   // sales
-   const salesDetails = await Orders.aggregate(pipeline);
+    const sales = {
+      totalAmount: 0,
+      orderCount: [],
+      label: [],
+    };
 
-   const sales = {
-       totalAmount: 0,
-       orderCount: [],
-       label: [],
-   };
-   
+    sales.totalAmount = salesDetails.reduce((acc, { totalAmount }) => {
+      return acc + Number(totalAmount);
+    }, 0);
+    sales.orderCount = salesDetails.map(({ orderCount }) => orderCount);
+    sales.label = salesDetails.map(({ label }) => label);
 
-   sales.totalAmount = salesDetails.reduce((acc, { totalAmount }) => {
-       return acc + Number(totalAmount);
-   }, 0);
-   sales.orderCount = salesDetails.map(({ orderCount }) => orderCount);
-   sales.label = salesDetails.map(({ label }) => label);
-  
+    res.status(200).json({ salesDetails, sales });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
-res.status(200).json({salesDetails,sales});
-   
+
+const loadSalesReport=async (req,res)=>{
+  try {
+    res.status(200).render('adminView/salesReport')
   } catch (error) {
     console.log(error.message)
   }
@@ -637,5 +640,6 @@ module.exports = {
   loadOrderDetail,
   setSatus,
   cropImage,
-  chartdata
+  chartdata,
+  loadSalesReport
 };
