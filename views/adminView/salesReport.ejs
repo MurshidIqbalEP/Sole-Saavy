@@ -9,18 +9,36 @@
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-         .body-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        .body-wrapper {
+            text-align: center;
+            /* Center the content within the body-wrapper */
+            margin-top: 70px;
         }
-        
-        .brown-div {
-            background-color: brown;
-            width: 800px;
-            height: 200px;
+
+        .container-fluid {
+            background-color: rgb(213, 211, 204);
+            margin-top: 50px;
+            padding: 20px;
+            /* Added padding for better spacing */
+            display: inline-block;
+            /* Center the container */
+        }
+
+        label {
+            display: block;
+            /* Make labels display as blocks for better alignment */
+            margin-bottom: 10px;
+            /* Add margin between labels and inputs */
+        }
+
+        input {
+            width: 20%;
+            /* Make input fields take up the full width of their container */
+            padding: 5px;
+            /* Add padding for better appearance */
+            box-sizing: border-box;
+            background-color: rgb(222, 217, 217);
+            /* Include padding in the input's total width */
         }
     </style>
 
@@ -97,7 +115,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link active " href="./index.html" aria-expanded="false" >
+                            <a class="sidebar-link active " href="./index.html" aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-credit-card"></i>
                                 </span>
@@ -120,30 +138,163 @@
             <!-- End Sidebar scroll-->
         </aside>
         <!--  Sidebar End -->
-        <!--  Main wrapper -->  
+        <!--  Main wrapper -->
 
         <div class="body-wrapper">
             <div class="container-fluid">
-                <div class="brown-div d-flex">
-                    <!-- Your content goes here -->
-                </div>
+                <h3>Select Date:</h3>
+                <span id="err" style="color: red;"></span>
+                <label for="Start">Start Date:</label>
+                <input id="startDate" type="date">
+
+
+                <label for="end">End Date:</label>
+                <input id="endDate" type="date">
+                <br>
+                <button class="btn  btn-primary" style="margin-top: 20px;" onclick="salesData()">Submit</button>
             </div>
+
+
+            <div class="table-responsive" style="padding: 10px;">
+                <table class="table table-bordered" id="myTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Order Date</th>
+                            <th>Order ID</th>
+                            <th>Total Amount</th>
+                            <th>Payment Method</th>
+                            <th>Shipping Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportBody">
+
+                    </tbody>
+                </table>
+                <button class="btn btn-success" onclick="dwnldReport()"> Dowload</button>
+            </div>
+
         </div>
-    
-            <!-- order view  is end -->
+
+        <!-- order view  is end -->
 
 
-            
+        <script>
+            function salesData() {
+                const sart = document.getElementById('startDate').value
+                const end = document.getElementById('endDate').value
+
+                if (sart == '' || end == '') {
+                    document.getElementById('err').innerText = "select Date"
+                } else {
+
+                    let url = `/admin/salesReportData?start=${sart}&end=${end}`
+
+                    fetch(url, {
+                        method: "get",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(Response => {
+                            return Response.json()
+                        })
+                        .then(data => {
+                            if (data.salesData) {
+                                const salesdata = data.salesData
+
+                                const tableBody = document.querySelector('#myTable tbody');
+                                salesdata.forEach(sale => {
+                                    const row = tableBody.insertRow();
+                                    row.insertCell(0).textContent = new Date(sale.orderedDate).toLocaleDateString('en-AU', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    });
+                                    row.insertCell(1).textContent = sale._id;
+                                    row.insertCell(2).textContent = sale.totalAmount;
+                                    row.insertCell(3).textContent = sale.paymentMethod;
+                                    row.insertCell(4).innerHTML = `${sale.shippingAddress.fullname} <br> ${sale.shippingAddress.city},${sale.shippingAddress.state} <br> ${sale.shippingAddress.pincode},${sale.shippingAddress.phone}`;
 
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
-            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/js/sidebarmenu.js"></script>
-            <script src="../assets/js/app.min.js"></script>
-            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-            <script src="../assets/js/dashboard.js"></script>
+                                });
+
+                            }
+                        })
+
+                }
+
+            }
+
+
+            function dwnldReport() {
+                const sart = document.getElementById('startDate').value
+                const end = document.getElementById('endDate').value
+
+                if (sart == '' || end == '') {
+                    document.getElementById('err').innerText = "select Date"
+                } else {
+                    let url = `/admin/dwnldReport?start=${sart}&end=${end}`
+
+                    fetch(url, {
+                        method: "get",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                        .then(Response => {
+                            return Response.json()
+                        })
+                        .then(data => {
+
+                            if (data.salesReportData) {
+                              
+
+                                const csvContent = 'Ordered On,Order ID,Total Amount,Payment Method,Shipping Address\n'
+                                    + data.salesReportData.map(sales =>
+                                    `${new Date(sales.orderedDate).toLocaleString('en-AU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+})},${sales._id},${sales.totalAmount},"${sales.paymentMethod}",`
+                                        + `"${sales.shippingAddress.fullname} `
+                                        + `${sales.shippingAddress.phone}, ${sales.shippingAddress.pincode}, `
+                                        + `${sales.shippingAddress.city}, ${sales.shippingAddress.state}"`)
+                                        .join('\n');
+
+
+                                const blob = new Blob([csvContent], { type: 'text/csv' });
+                                const url = URL.createObjectURL(blob);
+
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'sales_Report.csv'; // Specify the filename
+                                document.body.appendChild(a);
+
+                                a.click();
+
+                                document.body.removeChild(a);
+
+
+
+                            } else {
+                                console.log('No salesOrders data available.');
+                            }
+                        })
+                }
+
+            }
+
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
+        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/sidebarmenu.js"></script>
+        <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
 </body>
 
 </html>

@@ -4,6 +4,7 @@ const category = require("../models/categoryModel");
 const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
 const bcrypt = require("bcrypt");
+const {Parser} = require('json2csv');
 const { trusted } = require("mongoose");
 const { render } = require("../routes/userRoutes");
 
@@ -611,6 +612,45 @@ const loadSalesReport=async (req,res)=>{
   }
 }
 
+const reportData=async(req,res)=>{
+  try {
+    
+    const startingDate = new Date(req.query.start);
+    const endDate = new Date(req.query.end);
+
+    const salesData = await Orders.aggregate([
+      {$match:{orderedDate:{$gte:startingDate,$lte:endDate}}}
+    ])
+
+    if(salesData){
+       res.status(200).json({salesData})
+    }
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+const dowloadReport=async(req,res)=>{
+  try {
+    
+    const startingDate = new Date(req.query.start);
+    const endDate = new Date(req.query.end);
+
+    const salesReportData = await Orders.aggregate([
+      {$match:{orderedDate:{$gte:startingDate,$lte:endDate}}}
+    ])
+
+    if(salesReportData){
+      res.status(200).json({salesReportData})
+    }
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
 module.exports = {
   loadAdminLogin,
   loadDashboard,
@@ -641,5 +681,7 @@ module.exports = {
   setSatus,
   cropImage,
   chartdata,
-  loadSalesReport
+  loadSalesReport,
+  reportData,
+  dowloadReport
 };

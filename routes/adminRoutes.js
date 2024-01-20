@@ -56,7 +56,8 @@ adminRoute.get('/takeOrders',adminController.chartdata)
 
 
 adminRoute.get('/salesReport',adminController.loadSalesReport)
-
+adminRoute.get('/salesReportData',adminController.reportData)
+adminRoute.get('/dwnldReport',adminController.dowloadReport)
 
 
 module.exports = adminRoute;
