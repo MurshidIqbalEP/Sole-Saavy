@@ -156,7 +156,11 @@
                         <% }else{ %> 
                         <h3 class="mt-5 mb-2 text-center"><b>ORDERS</b></h3>
                         <input type="hidden" name="order" value="<%= orders %>" />
+                       
 
+                        <div style=" width: 200px; text-align: center; padding-top: 0px;">
+                            <p style="margin: 0;">Sort By Date: <a href="?srt=1">ASC</a> Or <a href="?srt=-1">DESC</a></p>
+                        </div>
 
                         <table>
                             <thead>
@@ -210,7 +214,14 @@
 
                         <% } %>
 
-
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-lm">
+                              <% for (let i = 1; i <= totalpage; i++) { %>
+                                <li class="page-item">
+                                  <a class="page-link" href="?page=<%= i %>" > <%= i %></a>
+                                </li>
+                              <% } %>
+                            </ul>
 
                     </div>
                 </div>

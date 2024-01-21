@@ -58,6 +58,9 @@
        .btn{
         margin-left: 20px;
        }
+       .errMsg{
+        color: red;
+       }
       </style>
   </head>
 
@@ -302,7 +305,7 @@
                     <div class="form-group">
                         <label for="actualPrice">Actual Price:</label>
                         <input type="text" class="form-control" id="actualPrice" name="actualPrice" value="<%= product.actualPrice %>">
-                        <span id="priceERROR"></span>
+                        <span id="priceERROR" class="errMsg"></span>
                     </div>
             
                     <!-- Category -->
@@ -326,8 +329,9 @@
 
                     <div class="form-group mt-2">
                       <label for="img">Product Image:</label>
-                      <input type="file" class="images form-control-file" id="image" name="files"  multiple required>
+                      <input type="file" class="images form-control-file" id="imageFiles" name="files"  multiple required>
                     </div>
+                    <span id="fileErr" class="errMsg"></span>
                      <br>
 
                      <% if(product.image.length > 0){ %>
@@ -337,7 +341,6 @@
                       <% for(let i=0; i < product.image.length; i++) { %>
                           <div style="display: flex; flex-direction: column; margin-left: 20px;"><img class="border border-dark" src="/uploads/<%= product.image[i] %>" alt="" style="width: 150px; height: 180px;" >
                             <div style="flex-direction: row;"> 
-                              <button class="btn btn-dark" style="margin-left: 0; margin-top: 5px;" onclick="CropImg('<%= product.image[i] %>','<%= product._id %>')">Crop</button> 
                             <button class="btn btn-danger" style="margin-left: 0; margin-top: 5px;" onclick="deleteIMG('<%= product.image[i] %>','<%= product._id %>')">Delete</button>
                           </div>
                           </div>
@@ -360,12 +363,15 @@
     button.addEventListener('click',  function () {
 
       const Price = document.getElementById('actualPrice').value
-       
+      const fileInput = document.getElementById('imageFiles');
+      const files = fileInput.files
+
   if(Price <= 0){
     console.log(Price);
     document.getElementById('priceERROR').innerText='Check The Price '
-    
-   
+    return false;
+  }else if(files.length==0){
+    document.getElementById('fileErr').innerText='select Images'
   }else{
 
     let id= document.getElementById('id').value.trim()

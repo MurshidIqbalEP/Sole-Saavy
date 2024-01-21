@@ -125,7 +125,7 @@ const loadProducts = async (req, res) => {
     if (req.query.page) {
       page = req.query.page;
     }
-    let limit = 2;
+    let limit = 5;
 
     let srt = 1;
 
@@ -381,8 +381,32 @@ const editproduct = async (req, res) => {
 
 const loadOrders = async (req, res) => {
   try {
-    const orders = await Orders.find({}).populate("products.productId");
-    res.status(200).render("adminView/orders", { orders });
+    let srt=1;
+    if (req.query.srt) {
+      let request = req.query.srt;
+      srt = parseInt(request, 10);
+    }
+
+    let page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+    let limit = 10;
+
+
+    const orders = await Orders.find({})
+    .sort({ orderedDate: srt })
+    .limit(limit * 1)
+    .skip((page - 1) * limit)
+    .populate("products.productId")
+    .exec();
+    
+    const count = await Orders
+      .find({  })
+      .countDocuments();
+
+    res.status(200).render("adminView/orders", { orders,count,totalpage: Math.ceil(count / limit),
+    currentpage: page});
   } catch (error) {
     console.log(error.message);
   }
