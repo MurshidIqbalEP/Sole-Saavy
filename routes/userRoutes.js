@@ -51,6 +51,7 @@ userRoute.get('/checkout',userController.loadcheckout)
 userRoute.post('/placeOrder',userController.placeOrder)
 userRoute.post('/onlinePayment',userController.onlinePayment)
 userRoute.post('/verifyOnlinePayment',userController.verifyPayment)
+userRoute.get('/orderSuccess',userController.loadOrderSuccess)
 
 
 

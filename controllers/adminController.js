@@ -4,7 +4,7 @@ const category = require("../models/categoryModel");
 const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
 const bcrypt = require("bcrypt");
-const {Parser} = require('json2csv');
+const { Parser } = require("json2csv");
 const { trusted } = require("mongoose");
 const { render } = require("../routes/userRoutes");
 
@@ -357,23 +357,43 @@ const editproduct = async (req, res) => {
       img.push(req.files[i].filename);
     }
 
-    const updateProduct = await product.findOneAndUpdate(
-      { _id: req.body.id },
-      {
-        $set: {
-          productName: req.body.productName,
-          actualPrice: req.body.actualPrice,
-          image: img, // Assuming img is the field in your request body containing the image data
-          description: req.body.description, // Corrected the field name to 'description'
-          Stock: req.body.stock, // Corrected the field name to 'Stock'
-          category: req.body.category,
-        },
-      } // This option returns the modified document, not the original
-    );
+    if(img.length>0){
 
-    if (updateProduct) {
-      res.status(200).redirect("/admin//products");
+      const updateProductWithIMG = await product.findOneAndUpdate(
+        { _id: req.body.id },
+        {
+          $set: {
+            productName: req.body.productName,
+            actualPrice: req.body.actualPrice,
+            image: img, // Assuming img is the field in your request body containing the image data
+            description: req.body.description,
+            Stock: req.body.stock, 
+            category: req.body.category,
+          },
+        } 
+      );
+    }else{
+       
+      const updateProduct = await product.findOneAndUpdate(
+        { _id: req.body.id },
+        {
+          $set: {
+            productName: req.body.productName,
+            actualPrice: req.body.actualPrice,
+            description: req.body.description,
+            Stock: req.body.stock, 
+            category: req.body.category,
+          },
+        } 
+      );
+
     }
+
+    
+
+  
+      res.status(200).redirect("/admin/products");
+  
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -381,7 +401,7 @@ const editproduct = async (req, res) => {
 
 const loadOrders = async (req, res) => {
   try {
-    let srt=1;
+    let srt = 1;
     if (req.query.srt) {
       let request = req.query.srt;
       srt = parseInt(request, 10);
@@ -393,20 +413,23 @@ const loadOrders = async (req, res) => {
     }
     let limit = 10;
 
-
     const orders = await Orders.find({})
-    .sort({ orderedDate: srt })
-    .limit(limit * 1)
-    .skip((page - 1) * limit)
-    .populate("products.productId")
-    .exec();
-    
-    const count = await Orders
-      .find({  })
-      .countDocuments();
+      .sort({ orderedDate: srt })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .populate("products.productId")
+      .exec();
 
-    res.status(200).render("adminView/orders", { orders,count,totalpage: Math.ceil(count / limit),
-    currentpage: page});
+    const count = await Orders.find({}).countDocuments();
+
+    res
+      .status(200)
+      .render("adminView/orders", {
+        orders,
+        count,
+        totalpage: Math.ceil(count / limit),
+        currentpage: page,
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -627,53 +650,47 @@ const chartdata = async (req, res) => {
   }
 };
 
-
-const loadSalesReport=async (req,res)=>{
+const loadSalesReport = async (req, res) => {
   try {
-    res.status(200).render('adminView/salesReport')
+    res.status(200).render("adminView/salesReport");
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
-const reportData=async(req,res)=>{
+const reportData = async (req, res) => {
   try {
-    
     const startingDate = new Date(req.query.start);
     const endDate = new Date(req.query.end);
 
     const salesData = await Orders.aggregate([
-      {$match:{orderedDate:{$gte:startingDate,$lte:endDate}}}
-    ])
+      { $match: { orderedDate: { $gte: startingDate, $lte: endDate } } },
+    ]);
 
-    if(salesData){
-       res.status(200).json({salesData})
+    if (salesData) {
+      res.status(200).json({ salesData });
     }
-
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
-const dowloadReport=async(req,res)=>{
+const dowloadReport = async (req, res) => {
   try {
-    
     const startingDate = new Date(req.query.start);
     const endDate = new Date(req.query.end);
 
     const salesReportData = await Orders.aggregate([
-      {$match:{orderedDate:{$gte:startingDate,$lte:endDate}}}
-    ])
+      { $match: { orderedDate: { $gte: startingDate, $lte: endDate } } },
+    ]);
 
-    if(salesReportData){
-      res.status(200).json({salesReportData})
+    if (salesReportData) {
+      res.status(200).json({ salesReportData });
     }
-
   } catch (error) {
     console.log(error.message);
   }
-}
-
+};
 
 module.exports = {
   loadAdminLogin,
@@ -707,5 +724,5 @@ module.exports = {
   chartdata,
   loadSalesReport,
   reportData,
-  dowloadReport
+  dowloadReport,
 };

@@ -129,7 +129,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link"
-                  href="./index.html"
+                  href="/admin/Category"
                   aria-expanded="false"
                 >
                   <span>
@@ -142,7 +142,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link"
-                  href="./index.html"
+                  href="/admin/products"
                   aria-expanded="false"
                 >
                   <span>
@@ -155,7 +155,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link"
-                  href="./index.html"
+                  href="/admin/orders"
                   aria-expanded="false"
                 >
                   <span>
@@ -168,7 +168,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link"
-                  href="./index.html"
+                  href="/admin/salesReport"
                   aria-expanded="false"
                 >
                   <span>
@@ -227,56 +227,7 @@
                 class="navbar-nav flex-row ms-auto align-items-center justify-content-end"
               >
                 <a href="" target="_blank" class="btn btn-primary">PROFILE</a>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link nav-icon-hover"
-                    href="javascript:void(0)"
-                    id="drop2"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="../assets/images/profile/user-1.jpg"
-                      alt=""
-                      width="35"
-                      height="35"
-                      class="rounded-circle"
-                    />
-                  </a>
-                  <div
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                    aria-labelledby="drop2"
-                  >
-                    <div class="message-body">
-                      <a
-                        href="javascript:void(0)"
-                        class="d-flex align-items-center gap-2 dropdown-item"
-                      >
-                        <i class="ti ti-user fs-6"></i>
-                        <p class="mb-0 fs-3">My Profile</p>
-                      </a>
-                      <a
-                        href="javascript:void(0)"
-                        class="d-flex align-items-center gap-2 dropdown-item"
-                      >
-                        <i class="ti ti-mail fs-6"></i>
-                        <p class="mb-0 fs-3">My Account</p>
-                      </a>
-                      <a
-                        href="javascript:void(0)"
-                        class="d-flex align-items-center gap-2 dropdown-item"
-                      >
-                        <i class="ti ti-list-check fs-6"></i>
-                        <p class="mb-0 fs-3">My Task</p>
-                      </a>
-                      <a
-                        href="./authentication-login.html"
-                        class="btn btn-outline-primary mx-3 mt-2 d-block"
-                        >Logout</a
-                      >
-                    </div>
-                  </div>
-                </li>
+                
               </ul>
             </div>
           </nav>
@@ -324,12 +275,13 @@
                     <!-- Description -->
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="description" name="description"  placeholder="<%= product.description %>"></textarea>
+                        <textarea class="form-control" id="description" name="description"><%= product.description %></textarea>
+
                     </div>
 
                     <div class="form-group mt-2">
                       <label for="img">Product Image:</label>
-                      <input type="file" class="images form-control-file" id="imageFiles" name="files"  multiple required>
+                      <input type="file" class="images form-control-file" id="imageFiles" name="files"  multiple >
                     </div>
                     <span id="fileErr" class="errMsg"></span>
                      <br>
@@ -367,11 +319,9 @@
       const files = fileInput.files
 
   if(Price <= 0){
-    console.log(Price);
+    
     document.getElementById('priceERROR').innerText='Check The Price '
     return false;
-  }else if(files.length==0){
-    document.getElementById('fileErr').innerText='select Images'
   }else{
 
     let id= document.getElementById('id').value.trim()

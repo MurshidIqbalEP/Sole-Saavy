@@ -69,14 +69,14 @@ const loadLogin = async (req, res) => {
   }
 };
 
-const userLogOut=async (req,res)=>{
+const userLogOut = async (req, res) => {
   try {
     req.session.destroy();
     res.status(200).redirect("/login");
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 const loadhome = async (req, res) => {
   try {
@@ -298,6 +298,11 @@ const loadShop = async (req, res) => {
       cat = req.query.cat;
     }
 
+    let srt=1
+    if(req.query.srt){
+      srt= parseInt(req.query.srt);     
+    }
+
     const categories = await category.find({ is_listed: true });
     const products = await product
       .find({
@@ -305,6 +310,7 @@ const loadShop = async (req, res) => {
         productName: { $regex: ".*" + search + ".*", $options: "i" },
         category: { $regex: ".*" + cat + ".*", $options: "i" },
       })
+      .sort({actualPrice:srt})
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
@@ -323,7 +329,7 @@ const loadShop = async (req, res) => {
       currentPage: page,
     });
   } catch (error) {
-    res.status(500).send(error.message);
+    console.log(error.message);
   }
 };
 
@@ -484,7 +490,7 @@ const loadprofile = async (req, res) => {
       res.status(200).render("userView/profile.ejs", {
         user: findUser,
         Address: address,
-        Orders:orders,
+        Orders: orders,
       });
     } else {
       res.status(200).render("userView/404.ejs");
@@ -685,7 +691,7 @@ const verifyPayment = async (req, res) => {
         const dltcart = await cart.findOneAndDelete({ userId: userid });
         await StockAdjusting(allProducts.items);
 
-        res.status(200).json({ value: 1 });
+        res.status(200).json({value:1});
       }
     } else {
       console.log("signature not matching");
@@ -698,7 +704,7 @@ const verifyPayment = async (req, res) => {
 const loadOrderDetails = async (req, res) => {
   try {
     const orderId = req.query.orderid;
-    const order = await Order.find({ _id: orderId }).populate(
+    const order = await Orders.find({ _id: orderId }).populate(
       "products.productId"
     );
     if (order) {
@@ -761,7 +767,7 @@ const returnOrder = async (req, res) => {
 const invoiceData = async (req, res) => {
   try {
     const orderId = req.body.orderid;
-    const orders = await Order.findOne({ _id: orderId }).populate(
+    const orders = await Orders.findOne({ _id: orderId }).populate(
       "products.productId"
     );
     if (orders) {
@@ -771,6 +777,14 @@ const invoiceData = async (req, res) => {
     console.log(error.message);
   }
 };
+
+const loadOrderSuccess=async (req,res)=>{
+  try {
+    res.status(200).render('userView/orderSuccess');
+  } catch (error) {
+    console.log('error.message')
+  }
+}
 
 module.exports = {
   insertUser,
@@ -806,4 +820,5 @@ module.exports = {
   invoiceData,
   onlinePayment,
   verifyPayment,
+  loadOrderSuccess
 };
