@@ -15,7 +15,7 @@ const isLogin = async (req, res, next) => {
 
 const isLogout = async(req,res,next)=>{
     try {
-        if(req.session.user_id){
+        if(req.session.admin_id){
              res.redirect('/admin/home');
         }else{
 
@@ -25,15 +25,9 @@ const isLogout = async(req,res,next)=>{
         console.log(error.message);
     }
 }
-const isBlock = async(req,res,next)=>{
-  try {
-    console.log(req.session);
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 module.exports ={
     isLogin,
-    isLogout,
+    isLogout
    
 }

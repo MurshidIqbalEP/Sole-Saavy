@@ -282,56 +282,47 @@ const Resetpassword = async (req, res) => {
 
 const loadShop = async (req, res) => {
   try {
-    let search = "";
-    if (req.query.search) {
-      search = req.query.search;
-    }
-
-    let page = 1;
-    if (req.query.page) {
-      page = req.query.page;
-    }
+    let search = req.query.search || "";
+    let page = parseInt(req.query.page) || 1;
     const limit = 3;
-
-    var cat = "";
-    if (req.query.cat) {
-      cat = req.query.cat;
-    }
-
-    let srt=1
-    if(req.query.srt){
-      srt= parseInt(req.query.srt);     
-    }
+    let cat = req.query.cat || "";
+    let sortDirection = parseInt(req.query.srt) || 1;
 
     const categories = await category.find({ is_listed: true });
+
+    // Build the query object for filtering
+    const query = {
+      is_listed: true,
+      productName: { $regex: ".*" + search + ".*", $options: "i" },
+    };
+
+    if (cat) {
+      query.category = { $regex: ".*" + cat + ".*", $options: "i" };
+    }
+
     const products = await product
-      .find({
-        is_listed: true,
-        productName: { $regex: ".*" + search + ".*", $options: "i" },
-        category: { $regex: ".*" + cat + ".*", $options: "i" },
-      })
-      .sort({actualPrice:srt})
+      .find(query)
+      .sort({ actualPrice: sortDirection })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
 
-    const count = await product
-      .find({
-        is_listed: true,
-        productName: { $regex: ".*" + search + ".*", $options: "i" },
-      })
-      .countDocuments();
+    const count = await product.countDocuments(query);
 
     res.status(200).render("userView/shop", {
       categories,
       products,
       totalPage: Math.ceil(count / limit),
       currentPage: page,
+      currentCategory: cat,
+      currentSort: sortDirection,
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
+
 
 const loadShopDetail = async (req, res) => {
   try {
@@ -628,6 +619,7 @@ const placeOrder = async (req, res) => {
 
     const orderDone = await placedOrder.save();
     if (orderDone) {
+      const dltcart = await cart.findOneAndUpdate({ userId: Userid },{$set:{items:[]}});
       await StockAdjusting(allProducts.items);
       res.status(200).json({ value: 1 });
     } else {
@@ -688,7 +680,7 @@ const verifyPayment = async (req, res) => {
       });
       const orderDone = await placedOrderforOnline.save();
       if (orderDone) {
-        const dltcart = await cart.findOneAndDelete({ userId: userid });
+        const dltcart = await cart.findOneAndUpdate({ userId: userid },{$set:{items:[]}});
         await StockAdjusting(allProducts.items);
 
         res.status(200).json({value:1});

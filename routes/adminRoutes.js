@@ -15,49 +15,49 @@ const adminController=require('../controllers/adminController');// importing use
 // adminRoute.post('/signup', adminController.insertAdminData);
 
 
-adminRoute.get('/', adminController.loadAdminLogin);
-adminRoute.post('/',adminController.loadDashboard)
+adminRoute.get('/',auth.isLogout,adminController.loadAdminLogin);
+adminRoute.post('/',adminController.LoginVerify)
 
 adminRoute.get('/logout',auth.isLogin,adminController.adminLogOut)
 
 adminRoute.get('/Dashboard',auth.isLogin,adminController.loadHome);
 
-adminRoute.get('/customers',adminController.loadCustomers);
-adminRoute.post('/block-user',adminController.loadBlockUser);
-adminRoute.post('/unBlock-user',adminController.loadunblockUser);
+adminRoute.get('/customers',auth.isLogin,adminController.loadCustomers);
+adminRoute.post('/block-user',auth.isLogin,adminController.loadBlockUser);
+adminRoute.post('/unBlock-user',auth.isLogin,adminController.loadunblockUser);
 
-adminRoute.get('/category',adminController.loadCategory);
-adminRoute.post('/category',adminController.addCategory);
-adminRoute.post('/unlist-category',adminController.unlistCategory);
-adminRoute.post('/list-category',adminController.listCategory);
-adminRoute.get('/edit',adminController.loadEdit);
-adminRoute.put('/edit',adminController.Edit);
-
-
-
-
-adminRoute.get('/products',adminController.loadProducts)
-adminRoute.get('/addProduct',adminController.loadAddProduct)
-adminRoute.post('/addProduct',upload.array('files', 4),adminController.insertProduct)
-adminRoute.post('/unlist-product',adminController.unlistProduct)
-adminRoute.post('/list-product',adminController.listProduct)
-adminRoute.get('/productedit',adminController.loadproductedit)
-adminRoute.delete('/deleteimg',adminController.deleteimg)
-adminRoute.post('/productedit',upload.array('files', 4),adminController.editproduct)
-adminRoute.get('/crop',adminController.cropImage)
+adminRoute.get('/category',auth.isLogin,adminController.loadCategory);
+adminRoute.post('/category',auth.isLogin,adminController.addCategory);
+adminRoute.post('/unlist-category',auth.isLogin,adminController.unlistCategory);
+adminRoute.post('/list-category',auth.isLogin,adminController.listCategory);
+adminRoute.get('/edit',auth.isLogin,adminController.loadEdit);
+adminRoute.put('/edit',auth.isLogin,adminController.Edit);
 
 
 
-adminRoute.get('/orders',adminController.loadOrders)
-adminRoute.get('/orderDetail',adminController.loadOrderDetail)
-adminRoute.put('/updateStatus',adminController.setSatus)
 
-adminRoute.get('/takeOrders',adminController.chartdata)
+adminRoute.get('/products',auth.isLogin,adminController.loadProducts)
+adminRoute.get('/addProduct',auth.isLogin,adminController.loadAddProduct)
+adminRoute.post('/addProduct',auth.isLogin,upload.array('files', 4),adminController.insertProduct)
+adminRoute.post('/unlist-product',auth.isLogin,adminController.unlistProduct)
+adminRoute.post('/list-product',auth.isLogin,adminController.listProduct)
+adminRoute.get('/productedit',auth.isLogin,adminController.loadproductedit)
+adminRoute.delete('/deleteimg',auth.isLogin,adminController.deleteimg)
+adminRoute.post('/productedit',auth.isLogin,upload.array('files', 4),adminController.editproduct)
+adminRoute.get('/crop',auth.isLogin,adminController.cropImage)
 
 
-adminRoute.get('/salesReport',adminController.loadSalesReport)
-adminRoute.get('/salesReportData',adminController.reportData)
-adminRoute.get('/dwnldReport',adminController.dowloadReport)
+
+adminRoute.get('/orders',auth.isLogin,adminController.loadOrders)
+adminRoute.get('/orderDetail',auth.isLogin,adminController.loadOrderDetail)
+adminRoute.put('/updateStatus',auth.isLogin,adminController.setSatus)
+
+adminRoute.get('/takeOrders',auth.isLogin,adminController.chartdata)
+
+
+adminRoute.get('/salesReport',auth.isLogin,adminController.loadSalesReport)
+adminRoute.get('/salesReportData',auth.isLogin,adminController.reportData)
+adminRoute.get('/dwnldReport',auth.isLogin,adminController.dowloadReport)
 
 
 module.exports = adminRoute;

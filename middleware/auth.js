@@ -17,10 +17,11 @@ const isLogin = async (req, res, next) => {
 const isLogout = async (req, res, next) => {
   try {
     if (req.session.userId) {
-      res.redirect("/home");
-    } else {
-      next();
+      return res.redirect("/home");
+    }else{
+      next()
     }
+    
   } catch (error) {
     console.log(error.message);
   }

@@ -12,10 +12,11 @@ function findOrders(time){
  })
  .then(response => response.json())
     .then(data => {
-        const {salesDetails,sales}=data
+        const {salesDetails,sales,payment,salesByCat}=data
 
         salesGraph(salesDetails,sales)
-
+        paymentGraph(payment)
+        categoryGraph(salesByCat)
     })
 
 
@@ -129,118 +130,89 @@ function findOrders(time){
 
 }
 
-  //   series: [
-  //     { name: "Earnings this month:", data: [100, 200, 300, 350, 390, 180, 1000, 390] },
-     
-  //   ],
-
-  //   chart: {
-  //     type: "bar",
-  //     height: 345,
-  //     offsetX: -15,
-  //     toolbar: { show: true },
-  //     foreColor: "#adb0bb",
-  //     fontFamily: 'inherit',
-  //     sparkline: { enabled: false },
-  //   },
 
 
-  //   colors: ["#5D87FF", "#49BEFF"],
 
+function paymentGraph(payment) {
+    console.log("Payment:", payment);
+    let online = payment.online;
+    let COD = payment.cod;
+    let wallet = payment.wallet;
+    console.log("Online:", online);
+    console.log("COD:", COD);
+    console.log(wallet, "wallet");
 
-  //   plotOptions: {
-  //     bar: {
-  //       horizontal: false,
-  //       columnWidth: "35%",
-  //       borderRadius: [6],
-  //       borderRadiusApplication: 'end',
-  //       borderRadiusWhenStacked: 'all'
-  //     },
-  //   },
-  //   markers: { size: 0 },
+   
+   
 
-  //   dataLabels: {
-  //     enabled: false,
-  //   },
+    var breakup = {
+        color: "#adb5bd",
+        series: [COD, online, wallet],
+        labels: ["COD", "Online", "Wallet"], // Added "Wallet" to labels
+        chart: {
+            width: 180,
+            type: "donut",
+            fontFamily: "Plus Jakarta Sans', sans-serif",
+            foreColor: "#adb0bb",
+        },
+        plotOptions: {
+            pie: {
+                startAngle: 0,
+                endAngle: 360,
+                donut: {
+                    size: '75%',
+                },
+            },
+        },
+        stroke: {
+            show: false,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        legend: {
+            show: false,
+        },
+        colors: ["#5D87FF", "#FFC107", "#FF5733"], // Added color for "Wallet"
+        responsive: [
+            {
+                breakpoint: 991,
+                options: {
+                    chart: {
+                        width: 150,
+                    },
+                },
+            },
+        ],
+        tooltip: {
+            theme: "dark",
+            fillSeriesColor: false,
+        },
+    };
 
+    chart = new ApexCharts(document.querySelector("#breakup"), breakup);
+    chart.render();
+}
 
-  //   legend: {
-  //     show: false,
-  //   },
+////////////////////////////////////////////////////////////////////////
 
+function categoryGraph(salesByCat) {
+  let MEN = salesByCat.MEN;
+  let Female = salesByCat.Female;
+  let Kids = salesByCat.Kids;
 
-  //   grid: {
-  //     borderColor: "rgba(0,0,0,0.1)",
-  //     strokeDashArray: 3,
-  //     xaxis: {
-  //       lines: {
-  //         show: false,
-  //       },
-  //     },
-  //   },
-
-  //   xaxis: {
-  //     type: "category",
-  //     categories: ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007"],
-  //     labels: {
-  //       style: { cssClass: "grey--text lighten-2--text fill-color" },
-  //     },
-  //   },
-
-
-  //   yaxis: {
-  //     show: true,
-  //     min: 0,
-  //     max: 1000,
-  //     tickAmount: 4,
-  //     labels: {
-  //       style: {
-  //         cssClass: "grey--text lighten-2--text fill-color",
-  //       },
-  //     },
-  //   },
-  //   stroke: {
-  //     show: true,
-  //     width: 3,
-  //     lineCap: "butt",
-  //     colors: ["transparent"],
-  //   },
-
-
-  //   tooltip: { theme: "light" },
-
-  //   responsive: [
-  //     {
-  //       breakpoint: 600,
-  //       options: {
-  //         plotOptions: {
-  //           bar: {
-  //             borderRadius: 3,
-  //           }
-  //         },
-  //       }
-  //     }
-  //   ]
-
-
-  // };
-
-  // var chart = new ApexCharts(document.querySelector("#chart"), chart);
-  // chart.render();
-
-
-  // =====================================
-  // Breakup
-  // =====================================
   var breakup = {
     color: "#adb5bd",
-    series: [38, 40, 25],
-    labels: ["2022", "2021", "2020"],
+    series: [MEN, Female, Kids],
+    labels: ["MEN", "Female", "Kids"],
     chart: {
       width: 180,
-      type: "donut",
+      type: "pie",
       fontFamily: "Plus Jakarta Sans', sans-serif",
       foreColor: "#adb0bb",
+      sparkline: {
+        enabled: true,
+      },
     },
     plotOptions: {
       pie: {
@@ -254,16 +226,13 @@ function findOrders(time){
     stroke: {
       show: false,
     },
-
     dataLabels: {
       enabled: false,
     },
-
     legend: {
       show: false,
     },
-    colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
-
+    colors: ["#5D87FF", "#FFC107", "#FF5733"],
     responsive: [
       {
         breakpoint: 991,
@@ -280,57 +249,74 @@ function findOrders(time){
     },
   };
 
-  var chart = new ApexCharts(document.querySelector("#breakup"), breakup);
+  // Corrected the variable name here
+  chart = new ApexCharts(document.querySelector("#Category"), breakup);
   chart.render();
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  // var breakup = {
+  //   color: "#adb5bd",
+  //   series: [MEN, Female, Kids],
+  //   labels: ["MEN", "Female", "Kids"],
+  //   chart: {
+  //     width: 180,
+  //     type: "donut",
+  //     fontFamily: "Plus Jakarta Sans', sans-serif",
+  //     foreColor: "#adb0bb",
+  //     options3d: {
+  //       enabled: true,
+  //       alpha: 45,
+  //       beta: 0,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     pie: {
+  //       startAngle: 0,
+  //       endAngle: 360,
+  //       donut: {
+  //         size: '75%',
+  //       },
+  //     },
+  //   },
+  //   stroke: {
+  //     show: false,
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   legend: {
+  //     show: false,
+  //   },
+  //   colors: ["#5D87FF", "#FFC107", "#FF5733"],
+  //   responsive: [
+  //     {
+  //       breakpoint: 991,
+  //       options: {
+  //         chart: {
+  //           width: 150,
+  //         },
+  //       },
+  //     },
+  //   ],
+  //   tooltip: {
+  //     theme: "dark",
+  //     fillSeriesColor: false,
+  //   },
+  // };
+
+  // // Corrected the variable name here
+  // chart = new ApexCharts(document.querySelector("#Category"), breakup);
+  // chart.render();
+}
 
 
-  // =====================================
-  // Earning
-  // =====================================
-  var earning = {
-    chart: {
-      id: "sparkline3",
-      type: "area",
-      height: 60,
-      sparkline: {
-        enabled: true,
-      },
-      group: "sparklines",
-      fontFamily: "Plus Jakarta Sans', sans-serif",
-      foreColor: "#adb0bb",
-    },
-    series: [
-      {
-        name: "Earnings",
-        color: "#49BEFF",
-        data: [25, 66, 20, 40, 12, 58, 20],
-      },
-    ],
-    stroke: {
-      curve: "smooth",
-      width: 2,
-    },
-    fill: {
-      colors: ["#f3feff"],
-      type: "solid",
-      opacity: 0.05,
-    },
 
-    markers: {
-      size: 0,
-    },
-    tooltip: {
-      theme: "dark",
-      fixed: {
-        enabled: true,
-        position: "right",
-      },
-      x: {
-        show: false,
-      },
-    },
-  };
-  new ApexCharts(document.querySelector("#earning"), earning).render();
 
- 
+
+
+
+  
+  
+
+  

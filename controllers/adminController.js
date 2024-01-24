@@ -25,7 +25,7 @@ const loadAdminLogin = async (req, res) => {
   }
 };
 
-const loadDashboard = async (req, res) => {
+const LoginVerify = async (req, res) => {
   try {
     const email = req.body.Email;
     const pass = req.body.pass;
@@ -37,7 +37,6 @@ const loadDashboard = async (req, res) => {
 
       if (passmatch) {
         req.session.admin_id = adminData._id;
-
         res.status(200).redirect("admin/Dashboard");
       } else {
         res
@@ -82,6 +81,7 @@ const loadCategory = async (req, res) => {
   try {
     const Categories = await category.find();
     res.status(200).render("adminView/category", { categories: Categories });
+   
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -357,8 +357,7 @@ const editproduct = async (req, res) => {
       img.push(req.files[i].filename);
     }
 
-    if(img.length>0){
-
+    if (img.length > 0) {
       const updateProductWithIMG = await product.findOneAndUpdate(
         { _id: req.body.id },
         {
@@ -367,13 +366,12 @@ const editproduct = async (req, res) => {
             actualPrice: req.body.actualPrice,
             image: img, // Assuming img is the field in your request body containing the image data
             description: req.body.description,
-            Stock: req.body.stock, 
+            Stock: req.body.stock,
             category: req.body.category,
           },
-        } 
+        }
       );
-    }else{
-       
+    } else {
       const updateProduct = await product.findOneAndUpdate(
         { _id: req.body.id },
         {
@@ -381,19 +379,14 @@ const editproduct = async (req, res) => {
             productName: req.body.productName,
             actualPrice: req.body.actualPrice,
             description: req.body.description,
-            Stock: req.body.stock, 
+            Stock: req.body.stock,
             category: req.body.category,
           },
-        } 
+        }
       );
-
     }
 
-    
-
-  
-      res.status(200).redirect("/admin/products");
-  
+    res.status(200).redirect("/admin/products");
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -422,14 +415,12 @@ const loadOrders = async (req, res) => {
 
     const count = await Orders.find({}).countDocuments();
 
-    res
-      .status(200)
-      .render("adminView/orders", {
-        orders,
-        count,
-        totalpage: Math.ceil(count / limit),
-        currentpage: page,
-      });
+    res.status(200).render("adminView/orders", {
+      orders,
+      count,
+      totalpage: Math.ceil(count / limit),
+      currentpage: page,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -629,6 +620,48 @@ const chartdata = async (req, res) => {
       ];
     }
 
+    // payment method
+    const paymentMethods = await Orders.aggregate([
+      { $match: { orderedDate: { $gte: timeFrame } } },
+      { $group: { _id: "$paymentMethod", orderCount: { $sum: 1 } } },
+    ]);
+
+    const payment = {
+      online:
+        paymentMethods.find(({ _id }) => _id === "online")?.orderCount ?? 0,
+      cod: paymentMethods.find(({ _id }) => _id === "COD")?.orderCount ?? 0,
+      wallet:
+        paymentMethods.find(({ _id }) => _id === "wallet")?.orderCount ?? 0,
+    };
+
+    const Categories = await Orders.aggregate([
+      {
+        $unwind: "$products",
+      },
+      {
+        $lookup: {
+          from: "products", // The name of the "products" collection
+          localField: "products.productId",
+          foreignField: "_id",
+          as: "productInfo",
+        },
+      },
+      {
+        $unwind: "$productInfo",
+      },
+      {
+        $group: {
+          _id: "$productInfo.category",
+          totalSales: { $sum: "$products.quantity" },
+        },
+      },
+    ]);
+
+    const salesByCat = Categories.reduce((result, item) => {
+      result[item._id] = item.totalSales;
+      return result;
+    }, {});
+
     // sales
     const salesDetails = await Orders.aggregate(pipeline);
 
@@ -644,7 +677,7 @@ const chartdata = async (req, res) => {
     sales.orderCount = salesDetails.map(({ orderCount }) => orderCount);
     sales.label = salesDetails.map(({ label }) => label);
 
-    res.status(200).json({ salesDetails, sales });
+    res.status(200).json({ salesDetails, sales, payment, salesByCat });
   } catch (error) {
     console.log(error.message);
   }
@@ -694,10 +727,9 @@ const dowloadReport = async (req, res) => {
 
 module.exports = {
   loadAdminLogin,
-  loadDashboard,
+  LoginVerify,
   // loadAdminRegister,
   // insertAdminData,
-  loadDashboard,
   adminLogOut,
   loadHome,
   loadCustomers,

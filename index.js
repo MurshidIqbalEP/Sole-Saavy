@@ -6,12 +6,16 @@ const app = express();
 const port = process.env.port || 3000;
 const path = require("path")
 const session = require("express-session")
+const nocache = require('nocache');
+
 
 
 const userRoute  = require('./routes/userRoutes');
 const adminRoute = require('./routes/adminRoutes');
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(nocache());
 
 app.use(
     session({

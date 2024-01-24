@@ -10,6 +10,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
+<style>
+  .time-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .time-frames {
+    width: 130px;
+    height: 30px;
+    background-color: #08686B;
+    border: 2px solid #08686B;
+    border-radius: 5px;
+    color: rgb(224, 224, 224);
+    transition: all 0.3s;
+  }
+  .time-frames:hover {
+    background-color: transparent;
+    color: #08686B;
+  }
+  .time-frame-active {
+    background-color: transparent;
+    color: #08686B;
+  }
+</style>
+
 <body>
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -162,7 +187,7 @@
       <div class="container-fluid">
         <!--  Row 1 -->
         <div class="row">
-          <div class="col-lg-12 d-flex align-items-center">
+          <div class="col-lg-7 d-flex align-items-center">
             <div class="card w-100">
               <div class="card-body">
                 <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
@@ -180,7 +205,103 @@
             </div>
           </div>
           
+          <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- payment Meth -->
+                    <div class="card overflow-hidden">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-9 fw-semibold">Payment Methods</h5>
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <!-- <h4 class="fw-semibold mb-3" >&#8377;<span id="amountTotal"></span></h4> -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <!-- <span
+                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                        </span> -->
+                                        <!-- <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                        <p class="fs-3 mb-0">last year</p> -->
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <span
+                                                class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                                            <span class="fs-2" id="cash">COD</span>
+                                        </div>
+                                        <div class="me-3">
+                                            <span
+                                                class="round-8 bg-warning rounded-circle me-2 d-inline-block"></span>
+                                            <span class="fs-2" id="onli">Online</span>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="round-8 bg-danger rounded-circle me-2 d-inline-block"></span>
+                                            <span class="fs-2" id="wall">Wallet</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-center">
+                                        <div id="breakup"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <!-- Category -->
+                    <div class="card overflow-hidden">
+                      <div class="card-body p-4">
+                          <h5 class="card-title mb-9 fw-semibold">Sales By Category</h5>
+                          <div class="row align-items-center">
+                              <div class="col-8">
+                                  <!-- <h4 class="fw-semibold mb-3" >&#8377;<span id="amountTotal"></span></h4> -->
+                                  <div class="d-flex align-items-center mb-3">
+                                      <!-- <span
+                                          class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                          <i class="ti ti-arrow-up-left text-success"></i>
+                                      </span> -->
+                                      <!-- <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                      <p class="fs-3 mb-0">last year</p> -->
+                                  </div>
+                                  <div class="d-flex align-items-center">
+                                      <div class="me-3">
+                                          <span
+                                              class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                                          <span class="fs-2" id="cash">MEN</span>
+                                      </div>
+                                      <div class="me-3">
+                                          <span
+                                              class="round-8 bg-warning rounded-circle me-2 d-inline-block"></span>
+                                          <span class="fs-2" id="onli">FEMALE</span>
+                                      </div>
+                                      <div>
+                                          <span
+                                              class="round-8 bg-danger rounded-circle me-2 d-inline-block"></span>
+                                          <span class="fs-2" id="wall">KIDS</span>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-4">
+                                  <div class="d-flex justify-content-center">
+                                      <div id="Category" ></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
         </div>
+          
+
+
+
+        </div>
+
+        
         
         
         
