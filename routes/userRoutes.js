@@ -49,6 +49,7 @@ userRoute.post('/cart/RemoveProduct',middleware.isLogin,middleware.isBlock,userC
 userRoute.get('/checkout',middleware.isLogin,middleware.isBlock,userController.loadcheckout)
 
 userRoute.post('/placeOrder',middleware.isLogin,middleware.isBlock,userController.placeOrder)
+userRoute.post('/walletOrder',middleware.isLogin,middleware.isBlock,userController.walletOrder)
 userRoute.post('/onlinePayment',middleware.isLogin,middleware.isBlock,userController.onlinePayment)
 userRoute.post('/verifyOnlinePayment',middleware.isLogin,middleware.isBlock,userController.verifyPayment)
 userRoute.get('/orderSuccess',middleware.isLogin,middleware.isBlock,userController.loadOrderSuccess)
@@ -68,7 +69,7 @@ userRoute.put('/orderReturn',middleware.isLogin,middleware.isBlock,userControlle
 
 userRoute.post('/profile/invoiceData',middleware.isLogin,middleware.isBlock,userController.invoiceData)
 
-
+userRoute.get('/wallet',middleware.isLogin,middleware.isBlock,userController.loadWallet)
 
 
 

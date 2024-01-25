@@ -9,6 +9,7 @@ const product = require("../models/productModel");
 const cart = require("../models/cartModel");
 const Address = require("../models/addressModel");
 const Orders = require("../models/orderModel");
+const Wallet = require("../models/walletModel")
 const crypto = require("crypto");
 const session = require("express-session");
 require("dotenv").config();
@@ -150,6 +151,9 @@ const verifyotp = async (req, res) => {
       // mongo db updating ////////////////////////
       // console.log(updateInfo);
       if (updateInfo) {
+        
+
+
         res.status(200).redirect("/login");
       }
     } else {
@@ -349,8 +353,8 @@ const addtocart = async (req, res) => {
       const newCart = new cart({
         userId: userid,
         items: [{ productId: productid, quantity: Quantity }],
-      });
-
+    });
+    
       const addedToCart = await newCart.save();
 
       if (addedToCart) {
@@ -630,6 +634,61 @@ const placeOrder = async (req, res) => {
   }
 };
 
+const walletOrder= async (req,res)=>{
+  try {
+    const addressId = req.body.addressId;
+    const totalAmount = req.body.Total;
+    const total = parseInt(totalAmount);
+    const Userid = req.session.userId;
+
+    const walletAmount = await Wallet.findOne({userId:Userid})
+    if(walletAmount.balance<total){
+      res.status(200).json({ value: 10 });
+    }else{
+
+      const shippingADR = await Address.findOne({ _id: addressId });
+    const allProducts = await cart.findOne({ userId: Userid });
+
+    const placedOrder = new Orders({
+      userid: Userid,
+      shippingAddress: {
+        fullname: shippingADR.fullname,
+        city: shippingADR.city,
+        state: shippingADR.state,
+        pincode: shippingADR.pincode,
+        phone: shippingADR.phone,
+      },
+      products: allProducts.items,
+      totalAmount: total,
+    });
+    
+    const orderDone = await placedOrder.save();
+    if (orderDone) {
+      const debitonWallet = await Wallet.findOne({userId:Userid});
+      if(debitonWallet){
+        debitonWallet.balance -= total;
+        debitonWallet.history.push({
+          type: 'Debit',
+          amount: total,
+          reason: 'Purchase'
+      });
+       await debitonWallet.save()
+      }
+      const dltcart = await cart.findOneAndUpdate({ userId: Userid },{$set:{items:[]}});
+      await StockAdjusting(allProducts.items);
+      res.status(200).json({ value: 1 });
+    } else {
+      res.status(200).json({ value: 0 });
+    }
+
+
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 const onlinePayment = async (req, res) => {
   try {
     const { addressId, Total } = req.body;
@@ -711,14 +770,39 @@ const cancellOrder = async (req, res) => {
   try {
     const OrderId = req.body.orderid;
     const ProductId = req.body.productid;
+    const price = req.body.actualPrice;
+   
 
-    const findOrder = await Order.findOne({ _id: OrderId });
-    const Cancelled = await findOrder.products.find(
-      (product) => product.productId.toString() === ProductId
-    );
+    const findOrder = await Orders.findOne({ _id: OrderId })
+const Cancelled = findOrder.products.find(
+  (product) => product.productId.toString() === ProductId
+);
+
+
+
     Cancelled.orderStatus = "Cancelled";
     const Save = await findOrder.save();
+    
+    
+const quantity = Cancelled.quantity;
+const total = quantity*price
 
+if (findOrder.paymentMethod === 'online') {
+  const wallet = await Wallet.findOne({ userId: req.session.userId });
+  if (wallet) {
+    wallet.balance += total;
+    wallet.history.push({
+      type: 'Credit',
+      amount: total,
+      reason: 'order cancel refund'
+  });
+    await wallet.save();
+  } else {
+   console.log('wallet koodlla');
+  }
+}
+   
+    
     if (Save) {
       res.status(200).json({ value: 1 });
     }
@@ -733,28 +817,65 @@ const returnOrder = async (req, res) => {
     const orderId = req.body.orderId;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
+    const price = req.body.actualPrice;
+    const total = quantity * price;
 
-    const returnedOrder = await Order.findOne({ _id: orderId });
-    const returnedProduct = await returnedOrder.products.find(
+    const returnedOrder = await Orders.findOne({ _id: orderId });
+    
+    if (!returnedOrder) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const returnedProduct = returnedOrder.products.find(
       (product) => product.productId.toString() === productId
     );
+
+    if (!returnedProduct) {
+      return res.status(404).json({ error: 'Product not found in the order' });
+    }
+
     returnedProduct.orderStatus = "Returned";
-    const returnDone = returnedOrder.save();
+
+    const returnDone = await returnedOrder.save();
 
     if (returnDone) {
+      if (returnedOrder.paymentMethod === 'online'||returnedOrder.paymentMethod === 'COD') {
+        const wlt = await Wallet.findOne({ userId: req.session.userId });
+
+        if (!wlt) {
+          return res.status(404).json({ error: 'Wallet not found' });
+        }
+
+        wlt.balance += total;
+
+        wlt.history.push({
+          type: 'Credit',
+          amount: total,
+          reason: 'order return refund',
+        });
+
+        await wlt.save();
+      }
+
       if (Reason !== "Damaged Product") {
         const Product = await product.findOneAndUpdate(
           { _id: productId },
           { $inc: { Stock: quantity } }
         );
-        if (Product) {
-          res.status(200).json({ value: 1 });
+
+        if (!Product) {
+          return res.status(404).json({ error: 'Product not found' });
         }
       }
-      res.status(200).json({ value: 1 });
+
+      return res.status(200).json({ value: 1 });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 
 const invoiceData = async (req, res) => {
   try {
@@ -777,6 +898,28 @@ const loadOrderSuccess=async (req,res)=>{
     console.log('error.message')
   }
 }
+
+const loadWallet= async(req,res)=>{
+  try {
+    const wallet= await Wallet.findOne({userId:req.session.userId})
+  
+    if(!wallet){
+      const newWallet = new Wallet({
+        userId:req.session.userId,
+
+      });
+      await newWallet.save()
+      res.status(200).render('userView/wallet')
+    }else{
+      res.status(200).render('userView/wallet',{wallet})
+    }
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
 
 module.exports = {
   insertUser,
@@ -806,11 +949,13 @@ module.exports = {
   EditAddress,
   deleteAddress,
   placeOrder,
+  walletOrder,
   loadOrderDetails,
   cancellOrder,
   returnOrder,
   invoiceData,
   onlinePayment,
   verifyPayment,
-  loadOrderSuccess
+  loadOrderSuccess,
+  loadWallet
 };

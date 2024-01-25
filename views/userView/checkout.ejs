@@ -265,6 +265,19 @@
                     </label>
                   </div>
 
+                  <div class="checkout__input__checkbox">
+                    <label for="Wallet">
+                      Wallet Payment
+                      <input
+                        type="radio"
+                        id="Wallet"
+                        name="paymentMethod"
+                        value="Wallet"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+
                   <button type="button" class="site-btn" onclick="place()">
                     PLACE ORDER
                   </button>
@@ -570,12 +583,57 @@
                 console.error("Error placing order:", error);
                 // Handle error appropriately, show an error message, etc.
               });
-          } else {
-            console.log("Unknown payment method selected");
+          }else if(paymentMethodInput === "Wallet"){
+              
+            fetch("walletOrder", {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                addressId,
+                Total,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.value === 10) {
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Insufficient Balance",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+
+                  
+
+                } else if(data.value === 1) {
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Order Placed",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+
+                  setTimeout(() => {
+                    window.location.href='/orderSuccess'
+                  }, 1600);
+                }
+              })
+              .catch((error) => {
+                console.error("Error placing order:", error);
+                // Handle error appropriately, show an error message, etc.
+              });
+
+          }else{
+            console.log('unknown Payment Method');
           }
-        } else {
+        }else{
           console.log("Either selectedRadio or paymentMeth is missing");
         }
+
 
         async function verifyPayment(payment, Order) {
           try {

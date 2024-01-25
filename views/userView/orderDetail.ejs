@@ -136,6 +136,7 @@
           </div>
     
           <table class="table" style="background-color: #f3f2ee; margin-top: 10px;">
+          
             <thead>
               <tr>
                 <th>Image</th>
@@ -168,12 +169,12 @@
                     </td>
                     <td>
                       <% if(product.orderStatus !== 'Cancelled' && product.orderStatus !== 'Delivered' && product.orderStatus !== 'Returned' ){ %>
-                        <button class="btn btn-primary" onclick="cancellOrder('<%= orders[0]._id %>','<%= product.productId._id %>')">Cancel</button>
+                        <button class="btn btn-primary" onclick="cancellOrder('<%= orders[0]._id %>','<%= product.productId._id %>','<%= product.productId.actualPrice %>')">Cancel</button>
                     <% } %>
                     
 
                       <% if(product.orderStatus == 'Delivered'){ %>
-                        <button type="button" class="btn btn-danger" onclick="returnOrder('<%= orders[0]._id %>','<%= product.productId._id %>','<%= product.quantity %>')">
+                        <button type="button" class="btn btn-danger" onclick="returnOrder('<%= orders[0]._id %>','<%= product.productId._id %>','<%= product.quantity %>','<%= product.productId.actualPrice %>')">
                             Return Product
                         </button>
 
@@ -350,14 +351,14 @@ easyinvoice.createInvoice(data, function (result) {
 
 
 
-        function cancellOrder(orderid,productid){
+        function cancellOrder(orderid,productid,actualPrice){
            
            fetch('cancellOrder',{
             method:'put',
             headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({orderid,productid})
+        body: JSON.stringify({orderid,productid,actualPrice})
       
            })
            .then(response => {
@@ -370,7 +371,7 @@ easyinvoice.createInvoice(data, function (result) {
 
 /* return function  *////////////////////////////////////////////
 
-function returnOrder(orderId,productId,quantity){
+function returnOrder(orderId,productId,quantity,actualPrice){
 
 
  
@@ -398,7 +399,7 @@ function returnOrder(orderId,productId,quantity){
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ selectedOption, orderId, productId, quantity }),
+        body: JSON.stringify({ selectedOption, orderId, productId, quantity,actualPrice}),
       });
 
       if (!response.ok) {
