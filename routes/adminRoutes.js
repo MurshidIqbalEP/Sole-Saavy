@@ -59,5 +59,8 @@ adminRoute.get('/salesReport',auth.isLogin,adminController.loadSalesReport)
 adminRoute.get('/salesReportData',auth.isLogin,adminController.reportData)
 adminRoute.get('/dwnldReport',auth.isLogin,adminController.dowloadReport)
 
+adminRoute.get('/offers',auth.isLogin,adminController.loadOffers)
+adminRoute.get('/addOffer',auth.isLogin,adminController.loadaddOffer)
+
 
 module.exports = adminRoute;

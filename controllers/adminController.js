@@ -725,6 +725,24 @@ const dowloadReport = async (req, res) => {
   }
 };
 
+const loadOffers= async (req,res)=>{
+  try {
+    
+    res.status(200).render('adminView/offers');
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+const loadaddOffer = async (req,res)=>{
+  try {
+    res.status(200).render('adminView/addOffer')
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   loadAdminLogin,
   LoginVerify,
@@ -757,4 +775,6 @@ module.exports = {
   loadSalesReport,
   reportData,
   dowloadReport,
+  loadOffers,
+  loadaddOffer
 };

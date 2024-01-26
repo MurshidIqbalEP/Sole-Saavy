@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOLE SAAVY</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/ss.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" /> <!-- External CSS file for additional styles -->
+</head>
+
+<body>
+    <!-- Page Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div>
+          <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="./index.html" class="text-nowrap logo-img">  
+              <img src="/img/ssLOGO.png" width="180" alt="" />
+            </a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+              <i class="ti ti-x fs-8"></i>
+            </div>
+          </div>
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Home</span>
+              </li>
+  
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Dashboard</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                  <span class="hide-menu">CUSTOMERS</span>
+                </a>
+              </li>
+   
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-list"></i>
+                  </span>
+                  <span class="hide-menu">CATEGORIES</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-p"></i>
+                  </span>
+                  <span class="hide-menu">PRODUCTS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                  <span>
+                    <i class="fa-brands fa-dropbox"></i>
+                  </span>
+                  <span class="hide-menu">ORDERS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-credit-card"></i>
+                  </span>
+                  <span class="hide-menu">SALES REPORT</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
+                  <span>
+                    <i class="fas fa-tags"></i>
+  
+                  </span>
+                  <span class="hide-menu">Offers</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                  </span>
+                  <span class="hide-menu">LOGOUT</span>
+                </a>
+              </li>
+  
+              
+              
+              
+             
+            </ul>
+          
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+      </aside>
+      <!--  Sidebar End -->
+
+        <!-- Main Content -->
+        <div class="container-fluid mt-4">
+            <h1 style="text-align: center;">Offer Form</h1>
+            <form id="offerForm" style="margin-left: 300px;">
+                <div class="form-group">
+                    <label for="offerName">Offer Name:</label>
+                    <input type="text" class="form-control" id="offerName" placeholder="Enter Offer Name">
+                    <span id="nameErr"></span>
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date:</label>
+                    <input type="date" class="form-control" id="expiryDate">
+                    <span id="dateErr"></span>
+                </div>
+                <div class="form-group">
+                    <label for="discount">Discount:</label>
+                    <input type="text" class="form-control" id="discount" placeholder="Enter Discount in Percentage">
+                    <span id="disErr"></span>
+                </div>
+                <button type="button" class="btn btn-primary mt-2" onclick="addOffer()">Submit</button>
+            </form>
+        </div>
+
+        
+        <!-- Your additional scripts go here -->
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
+        <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/sidebarmenu.js"></script>
+        <script src="../assets/js/app.min.js"></script>
+        <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../assets/js/dashboard.js"></script>
+
+        <script>
+            function addOffer() {
+                console.log('hai');
+                const offerName = document.getElementById('offerName').value;
+    const expiryDate = document.getElementById('expiryDate').value;
+    const discount = document.getElementById('discount').value;
+
+
+
+                console.log(OffName, Expiry, price);
+
+            }
+        </script>
+
+    </div>
+    <!-- End Main Wrapper -->
+
+</body>
+
+</html>
