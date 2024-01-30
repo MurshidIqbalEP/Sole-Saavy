@@ -11,114 +11,122 @@
     <link rel="stylesheet" href="styles.css" /> <!-- External CSS file for additional styles -->
 </head>
 
+<style>
+  .err{
+    color: red;
+  }
+</style>
+
 <body>
     <!-- Page Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
-        <!-- Sidebar Start -->
+       <!-- Sidebar Start -->
     <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-          <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">  
-              <img src="/img/ssLOGO.png" width="180" alt="" />
-            </a>
-            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-              <i class="ti ti-x fs-8"></i>
-            </div>
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="./index.html" class="text-nowrap logo-img">  
+            <img src="/img/ssLOGO.png" width="180" alt="" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
           </div>
-          <!-- Sidebar navigation-->
-          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-            <ul id="sidebarnav">
-              <li class="nav-small-cap">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">Home</span>
-              </li>
-  
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
-                  <span>
-                    <i class="ti ti-layout-dashboard"></i>
-                  </span>
-                  <span class="hide-menu">Dashboard</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-user"></i>
-                  </span>
-                  <span class="hide-menu">CUSTOMERS</span>
-                </a>
-              </li>
-   
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-list"></i>
-                  </span>
-                  <span class="hide-menu">CATEGORIES</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-p"></i>
-                  </span>
-                  <span class="hide-menu">PRODUCTS</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
-                  <span>
-                    <i class="fa-brands fa-dropbox"></i>
-                  </span>
-                  <span class="hide-menu">ORDERS</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-credit-card"></i>
-                  </span>
-                  <span class="hide-menu">SALES REPORT</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
-                  <span>
-                    <i class="fas fa-tags"></i>
-  
-                  </span>
-                  <span class="hide-menu">Offers</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                  </span>
-                  <span class="hide-menu">LOGOUT</span>
-                </a>
-              </li>
-  
-              
-              
-              
-             
-            </ul>
-          
-          </nav>
-          <!-- End Sidebar navigation -->
         </div>
-        <!-- End Sidebar scroll-->
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li>
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                <span class="hide-menu">CUSTOMERS</span>
+              </a>
+            </li>
+ 
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-list"></i>
+                </span>
+                <span class="hide-menu">CATEGORIES</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-p"></i>
+                </span>
+                <span class="hide-menu">PRODUCTS</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                <span>
+                  <i class="fa-brands fa-dropbox"></i>
+                </span>
+                <span class="hide-menu">ORDERS</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-credit-card"></i>
+                </span>
+                <span class="hide-menu">SALES REPORT</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
+                <span>
+                  <i class="fas fa-tags"></i>
+
+                </span>
+                <span class="hide-menu">Offers</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span class="hide-menu">LOGOUT</span>
+              </a>
+            </li>
+
+            
+            
+            
+           
+          </ul>
+        
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
       </aside>
       <!--  Sidebar End -->
 
@@ -129,17 +137,17 @@
                 <div class="form-group">
                     <label for="offerName">Offer Name:</label>
                     <input type="text" class="form-control" id="offerName" placeholder="Enter Offer Name">
-                    <span id="nameErr"></span>
+                    <span id="nameErr" class="err"></span>
                 </div>
                 <div class="form-group">
                     <label for="expiryDate">Expiry Date:</label>
                     <input type="date" class="form-control" id="expiryDate">
-                    <span id="dateErr"></span>
+                    <span id="dateErr" class="err"></span>
                 </div>
                 <div class="form-group">
                     <label for="discount">Discount:</label>
                     <input type="text" class="form-control" id="discount" placeholder="Enter Discount in Percentage">
-                    <span id="disErr"></span>
+                    <span id="disErr" class="err"></span>
                 </div>
                 <button type="button" class="btn btn-primary mt-2" onclick="addOffer()">Submit</button>
             </form>
@@ -159,14 +167,48 @@
 
         <script>
             function addOffer() {
-                console.log('hai');
-                const offerName = document.getElementById('offerName').value;
-    const expiryDate = document.getElementById('expiryDate').value;
-    const discount = document.getElementById('discount').value;
+                
+                var offerName = document.getElementById('offerName').value;
+                var expiryDate = document.getElementById('expiryDate').value;
+                 var discount = document.getElementById('discount').value;
+                
+                 if(offerName.trim()===''){
+                  document.getElementById('nameErr').innerText='Invalid Name'
+                  return
+                 }else{
+                  document.getElementById('nameErr').innerText=''
+                 }
 
+                 if(expiryDate.trim()===''){
+                  document.getElementById('dateErr').innerText='Invalid Date'
+                  return
+                 }else{
+                  document.getElementById('dateErr').innerText=''
+                 }
 
+                 if(discount.trim()===''){
+                  document.getElementById('disErr').innerText='Invalid Discount'
+                  return
+                 }else{
+                  document.getElementById('disErr').innerText=''
+                 }
 
-                console.log(OffName, Expiry, price);
+               
+
+                fetch('/admin/setOffer',{
+                  method:'post',
+                  headers: {
+                'Content-Type': 'application/json'
+                  },
+                   body:JSON.stringify({offerName, expiryDate, discount})
+                 })
+                 .then(Response =>{
+                  return Response.json();
+                 })
+                 .then(data =>{
+                  console.log("fetch thirch");
+                  window.location.href="/admin/offers"
+                 })
 
             }
         </script>

@@ -3,6 +3,7 @@ const user = require("../models/UserModel");
 const category = require("../models/categoryModel");
 const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
+const Offer = require("../models/offersModel");
 const bcrypt = require("bcrypt");
 const { Parser } = require("json2csv");
 const { trusted } = require("mongoose");
@@ -81,7 +82,6 @@ const loadCategory = async (req, res) => {
   try {
     const Categories = await category.find();
     res.status(200).render("adminView/category", { categories: Categories });
-   
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -132,7 +132,9 @@ const loadProducts = async (req, res) => {
     if (req.query.srt) {
       let request = req.query.srt;
       srt = parseInt(request, 10);
-    }
+    };
+
+    const offers =await Offer.find({})
 
     const allProduct = await product
       .find({ productName: { $regex: ".*" + search + ".*", $options: "i" } })
@@ -147,6 +149,7 @@ const loadProducts = async (req, res) => {
       product: allProduct,
       totalpage: Math.ceil(count / limit),
       currentpage: page,
+      offers
     });
   } catch (error) {
     res.status(500).send(error.message);
@@ -248,8 +251,12 @@ const Edit = async (req, res) => {
 
 const loadAddProduct = async (req, res) => {
   try {
+
+
+    
     const Product = await product.find({});
-    res.status(200).render("adminView/addProduct", { Product });
+
+    res.status(200).render("adminView/addProduct", { Product});
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -725,19 +732,77 @@ const dowloadReport = async (req, res) => {
   }
 };
 
-const loadOffers= async (req,res)=>{
+const loadOffers = async (req, res) => {
   try {
-    
-    res.status(200).render('adminView/offers');
+    const offers = await Offer.find({});
+    res.status(200).render("adminView/offers", { offers });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const loadaddOffer = async (req, res) => {
+  try {
+    res.status(200).render("adminView/addOffer");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const setOffer = async (req, res) => {
+  try {
+    const { offerName, expiryDate, discount } = req.body;
+
+    newOffer = new Offer({
+      offerName: offerName,
+      expiry: new Date(expiryDate),
+      discount: parseInt(discount),
+    });
+
+    const newOfferAdded = await newOffer.save();
+    if (newOfferAdded) {
+      res.status(200).json({ value: 1 });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const setProductOffer= async (req,res)=>{
+  try {
+    const {productId,offerId}=req.body
+    const Product = await product.findOne({_id:productId})
+    const offer = await Offer.findOne({_id:offerId})
+    const percentage =offer.discount;
+    const Name =offer.offerName;
+    const ActualAmt=Product.actualPrice;
+
+    Product.offerAmound = ActualAmt * (percentage / 100);
+    Product.offerName = Name
+
+    const added = await Product.save();
+    if(added){
+      res.status(200).json({Name})
+    }
+   
 
   } catch (error) {
     console.log(error.message);
   }
 }
 
-const loadaddOffer = async (req,res)=>{
+const removeOfferFromProduct = async (req,res)=>{
   try {
-    res.status(200).render('adminView/addOffer')
+    const {productId} =req.body
+
+    const Product = await product.findOne({_id:productId})
+    Product.offerAmound=0;
+    Product.offerName='';
+
+    const removed = Product.save();
+    if(removed){
+      res.status(200).json({value:1})
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -776,5 +841,8 @@ module.exports = {
   reportData,
   dowloadReport,
   loadOffers,
-  loadaddOffer
+  loadaddOffer,
+  setOffer,
+  setProductOffer,
+  removeOfferFromProduct
 };

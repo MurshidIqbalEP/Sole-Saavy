@@ -14,6 +14,8 @@ function findOrders(time){
     .then(data => {
         const {salesDetails,sales,payment,salesByCat}=data
 
+        console.log(salesDetails,sales,payment,salesByCat);
+  
         salesGraph(salesDetails,sales)
         paymentGraph(payment)
         categoryGraph(salesByCat)
@@ -24,7 +26,7 @@ function findOrders(time){
 
  // Vanilla JavaScript
  window.addEventListener("load", () => {
-  findOrders("today");
+  findOrders("yearly");
 });
 
 
@@ -134,13 +136,11 @@ function findOrders(time){
 
 
 function paymentGraph(payment) {
-    console.log("Payment:", payment);
+
     let online = payment.online;
     let COD = payment.cod;
     let wallet = payment.wallet;
-    console.log("Online:", online);
-    console.log("COD:", COD);
-    console.log(wallet, "wallet");
+   
 
    
    

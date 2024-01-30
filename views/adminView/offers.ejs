@@ -164,11 +164,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Add more rows as needed -->
+                      <% for(let i = 0; i < offers.length; i++) { %>
+                        <tr>
+                            <td><%= offers[i].offerName %></td>
+                            <td><%= offers[i].discount %></td>
+                            <td><%= new Date(offers[i].validFrom).toLocaleDateString() %></td>
+                            <td><%= new Date(offers[i].expiry).toLocaleDateString() %></td>
+
+                        </tr>
+                    <% } %>
                     </tbody>
                 </table>
                 <a href="/admin/addOffer">
-                <button class="btn btn-primary">Add Offer</button>
+                <button class="btn btn-dark">Add Offer</button>
             </a>
             </div>
         </div>

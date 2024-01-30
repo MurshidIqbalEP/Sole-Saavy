@@ -28,6 +28,14 @@ const product=mongoose.Schema({
     category:{
         type:String,
         require:true
+    },
+    offerAmound:{
+        type:Number,
+        default:0
+    },
+    offerName:{
+        type:String,
+        default:''
     }
     
 

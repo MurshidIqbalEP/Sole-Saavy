@@ -49,6 +49,14 @@
           color: #fff;
           border: none;
         }
+        .divCoupon {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #e1dede;
+            margin: 10px 0;
+        }
        
       </style>
   </head>
@@ -65,99 +73,111 @@
       data-header-position="fixed"
     >
       <!-- Sidebar Start -->
-      <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-          <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">  
-              <img src="/img/ssLOGO.png" width="180" alt="" />
-            </a>
-            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-              <i class="ti ti-x fs-8"></i>
-            </div>
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="./index.html" class="text-nowrap logo-img">  
+            <img src="/img/ssLOGO.png" width="180" alt="" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
           </div>
-          <!-- Sidebar navigation-->
-          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-            <ul id="sidebarnav">
-              <li class="nav-small-cap">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">Home</span>
-              </li>
-  
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
-                  <span>
-                    <i class="ti ti-layout-dashboard"></i>
-                  </span>
-                  <span class="hide-menu">Dashboard</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-user"></i>
-                  </span>
-                  <span class="hide-menu">CUSTOMERS</span>
-                </a>
-              </li>
-   
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-list"></i>
-                  </span>
-                  <span class="hide-menu">CATEGORIES</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-p"></i>
-                  </span>
-                  <span class="hide-menu">PRODUCTS</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
-                  <span>
-                    <i class="fa-brands fa-dropbox"></i>
-                  </span>
-                  <span class="hide-menu">ORDERS</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-credit-card"></i>
-                  </span>
-                  <span class="hide-menu">SALES REPORT</span>
-                </a>
-              </li>
-  
-              <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
-                  <span>
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                  </span>
-                  <span class="hide-menu">LOGOUT</span>
-                </a>
-              </li>
-  
-              
-              
-              
-             
-            </ul>
-          
-          </nav>
-          <!-- End Sidebar navigation -->
         </div>
-        <!-- End Sidebar scroll-->
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li>
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                <span class="hide-menu">CUSTOMERS</span>
+              </a>
+            </li>
+ 
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-list"></i>
+                </span>
+                <span class="hide-menu">CATEGORIES</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-p"></i>
+                </span>
+                <span class="hide-menu">PRODUCTS</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                <span>
+                  <i class="fa-brands fa-dropbox"></i>
+                </span>
+                <span class="hide-menu">ORDERS</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-credit-card"></i>
+                </span>
+                <span class="hide-menu">SALES REPORT</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
+                <span>
+                  <i class="fas fa-tags"></i>
+
+                </span>
+                <span class="hide-menu">Offers</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span class="hide-menu">LOGOUT</span>
+              </a>
+            </li>
+
+            
+            
+            
+           
+          </ul>
+        
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
       </aside>
       <!--  Sidebar End -->
       <!--  Main wrapper -->
@@ -220,58 +240,77 @@
               </div>
               
               </div>
-
-                  <table class="table table-striped table-bordered text-center">
-                    <thead class="table-warning">
+              <input id="off" type="hidden" value="<%= offers %>">
+              <table class="table table-striped table-bordered text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th>No</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Actual Price</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <% if (product.length > 0) { %>
+                    <% for (let i = 0; i < product.length; i++) { %>
                       <tr>
-                        <th>No</th>
-                        <th>Image</th>
-                        <th>Product Name</th>
-                        <th>Actual Price</th>
-                        <th>Category</th>
-                        <th>Stock</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% if (product.length > 0) { %>
-                        <% for (let i = 0; i < product.length; i++) { %>
-                          <tr>
-                            <td><%= i + 1 %></td>
-                            <td>
-                              <% if (product[i].image && product[i].image.length > 0) { %>
-                              
-                                  <img src="<%= '/uploads/' + product[i].image[0] %>" alt="No pic" class="img-fluid" style="max-width: 50px; max-height: 50px; border-radius: 30%;">
-                                
-                              <% } else { %>
-                                <img src="path/to/placeholder-image.jpg" alt="No pic" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-                              <% } %>
-                            </td>
-                            <td><%= product[i].productName %></td>
-                            <td><%= product[i].actualPrice %></td>
-                            <td><%= product[i].category %></td>
-                            <td><%= product[i].Stock %></td>
-                            <td><%= product[i].description %></td>
-                            <td>
-                              <button type="button" class="btn actionbtn <%= product[i].is_listed ? 'btn-danger' : 'btn-success' %>" data-product-id="<%= product[i]._id %>" data-product-state="<%= product[i].is_listed ? 'Listed' : 'Unlisted' %>" style="min-width: 100px;">
-                                <%= product[i].is_listed ? 'Unlist' : 'List' %>
-                              </button>
+                        <td><%= i + 1 %></td>
+                        <td>
+                          <% if (product[i].image && product[i].image.length > 0) { %>
+                            <img src="<%= '/uploads/' + product[i].image[0] %>" alt="No pic" class="img-fluid" style="max-width: 50px; max-height: 50px; border-radius: 30%;">
+                          <% } else { %>
+                            <img src="path/to/placeholder-image.jpg" alt="No pic" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                          <% } %>
+                        </td>
+                        <td><%= product[i].productName %></td>
+                        <td><%= product[i].actualPrice %></td>
+                        <td><%= product[i].category %></td>
+                        <td><%= product[i].Stock %></td>
+                        <td><%= product[i].description %></td>
+                        <td class="flex align-items-center">
+                          <button type="button" class="btn actionbtn <%= product[i].is_listed ? 'btn-danger' : 'btn-success' %>" data-product-id="<%= product[i]._id %>" data-product-state="<%= product[i].is_listed ? 'Listed' : 'Unlisted' %>" style="min-width: 120px;">
+                            <%= product[i].is_listed ? 'Unlist' : 'List' %>
+                          </button>
+                        
+                          <a href="/admin/productedit?id=<%= product[i]._id %>" class="text-white">
+                            <button type="button" class="btn actionbtn btn-info ml-2 mt-2" style="min-width: 120px;">
+                              EDIT
+                            </button>
+                          </a>
+                        <% if(product[i].offerName === ''){ %>
+                          <button class="btn btn-dark ml-2 mt-2" id="<%= product[i]._id %>" style="min-width: 120px;" onclick="addOfferIntoProduct('<%= product[i]._id %>')">
+                            Apply Offer
+                          </button>
+                          <% }else{ %>
+                            <button class="btn btn-dark ml-2 mt-2" id="<%= product[i]._id %>" style="min-width: 120px; color: red;" onclick="addOfferIntoProduct('<%= product[i]._id %>')">
+                              <%= product[i].offerName %>
+                            </button>
+                          <% } %>
 
-                              <a href="/admin/productedit?id=<%= product[i]._id %>" class="text-white">
-                              <button type="button" class="btn actionbtn btn-info ml-2 mt-2" style="min-width: 100px;">
-                               EDIT
-                              </button></a>
-                            </td>
-                          </tr>
-                        <% } %>
-                      <% } else { %>
-                        <tr>
-                          <td colspan="5">User not found</td>
-                        </tr>
-                      <% } %>
-                    </tbody>
-                  </table>
+
+                        <% if( product[i].offerAmound > 0){ %>
+                          <button class="btn btn-warning ml-2 mt-2" id="<%= product[i]._id %>" style="min-width: 120px;" onclick="removeOffer('<%= product[i]._id %>')">
+                            Remove
+                          </button>
+                       <% } %>
+                          
+                        </td>
+                        
+                        
+                      </tr>
+                    <% } %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="12">User not found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+              
                 </div>
                 
               </table>
@@ -298,6 +337,90 @@
       </div>
 
       <script>  
+
+    function removeOffer(productId){
+      fetch('/admin/removeOffer',{
+        method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({productId})
+         })
+         .then(response =>{
+          return response.json()
+         })
+         .then(data =>{
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Offer Removed",
+          showConfirmButton: false,
+          timer: 1500
+             });
+
+            setTimeout(() => {
+              window.location.reload()
+            }, 1600);
+         })
+
+      
+    }
+
+
+
+
+     function  addOfferIntoProduct(productId){
+      const offers = document.getElementById('off').value
+    
+    
+     // Create Swal alert with offer list
+     Swal.fire({
+                        title: "<u><strong> Offers</strong></u>",
+                        html: `
+                    
+                    <% offers.forEach(offer => { %>
+                        <div class="divCoupon"> 
+                            <p> Offer Name:&nbsp;<strong><%= offer.offerName %></strong></p>
+                            <p>Discount Offer:&nbsp; <strong><%= offer.discount %>%</strong></p>
+                            <button class="btn btn-success offerbtn" onclick="applyoffer('<%= offer._id %>', '<%= offer.discount %>','${productId}' )">Apply</button>
+                        </div>
+                    <% }); %> `,
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        focusConfirm: false,
+                        confirmButtonText: `Done !`,
+                    });
+
+
+    }
+
+    function applyoffer(offerId,Discount,productId){
+      Swal.fire({
+           position: "center",
+           icon: "success",
+           title: "Offer Added",
+           showConfirmButton: false,
+           timer: 1500
+         });
+
+         fetch('/admin/productOffer',{
+          method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({productId,offerId})
+         })
+         .then(response =>{
+          return response.json();
+         })
+         .then(data =>{
+          console.log(data.Name);
+
+          setTimeout(() => {
+              window.location.reload()
+            }, 1600);
+         })
+    }
 
 
   document.querySelectorAll('.actionbtn').forEach(function(button){

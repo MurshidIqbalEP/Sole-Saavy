@@ -61,6 +61,8 @@ adminRoute.get('/dwnldReport',auth.isLogin,adminController.dowloadReport)
 
 adminRoute.get('/offers',auth.isLogin,adminController.loadOffers)
 adminRoute.get('/addOffer',auth.isLogin,adminController.loadaddOffer)
-
+adminRoute.post('/setOffer',auth.isLogin,adminController.setOffer)
+adminRoute.post('/productOffer',auth.isLogin,adminController.setProductOffer)
+adminRoute.post('/removeOffer',auth.isLogin,adminController.removeOfferFromProduct)
 
 module.exports = adminRoute;

@@ -243,7 +243,16 @@
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                         </div>
+                                        <% if(product.offerAmound > 0 ){ %>
+                                          <%   let price =product.actualPrice-product.offerAmound %>
+                                            
+                                            <h5 style="text-decoration: line-through; color: red;"><%= '₹' + product.actualPrice %></h5>
+                                            <h5><%= '₹' + price.toFixed(2) %></h5>
+                                            <p style="color: red;"><%= product.offerName %></p>
+
+                                        <% }else{ %>
                                         <h5><%= '₹' + product.actualPrice.toFixed(2) %></h5>
+                                        <% } %>
                                         <div class="product__color__select">
                                             <!-- Your color selection code goes here -->
                                         </div>

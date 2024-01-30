@@ -455,7 +455,7 @@ const loadcheckout = async (req, res) => {
     var subtotal = 0;
 
     userCart.items.forEach((item) => {
-      subtotal += item.productId.actualPrice * item.quantity;
+      subtotal += (item.productId.actualPrice-item.productId.offerAmound) * item.quantity;
     });
 
     if (userCart && Address) {
@@ -660,6 +660,7 @@ const walletOrder= async (req,res)=>{
       },
       products: allProducts.items,
       totalAmount: total,
+      paymentMethod: "wallet",
     });
     
     const orderDone = await placedOrder.save();

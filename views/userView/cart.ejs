@@ -188,7 +188,19 @@
                       <div class="product__cart__item__text">
                         <h6><%= item.productId.productName %></h6>
                         <h5 id="actualPrice">
-                          &#8377;<%= item.productId.actualPrice %>
+
+                          <% if(item.productId.offerAmound > 0 ){ %>
+                           
+                              
+                              <h5 style="text-decoration: line-through; color: red;"><%= '₹' + item.productId.actualPrice %></h5>
+                              <h5><%= '₹' + (item.productId.actualPrice-item.productId.offerAmound) %></h5>
+                              
+
+                          <% }else{ %>
+                            &#8377;<%= item.productId.actualPrice %>
+                          <% } %>
+
+                          
                         </h5>
                       </div>
                     </td>
@@ -221,7 +233,7 @@
                     </td>
                     <td class="cart__price">
                       &#8377;<span id="price"
-                        ><%= item.productId.actualPrice * item.quantity %></span
+                        ><%= (item.productId.actualPrice-item.productId.offerAmound) * item.quantity %></span
                       >
                     </td>
                     <td>
@@ -236,7 +248,7 @@
                     </td>
                     <!-- <td class="cart__close"><i class="fa fa-close"></i></td> -->
                   </tr>
-                  <% totalPrice += item.productId.actualPrice * item.quantity %>
+                  <% totalPrice +=  (item.productId.actualPrice-item.productId.offerAmound) * item.quantity %>
                   <% }); %>
                 </tbody>
               </table>
