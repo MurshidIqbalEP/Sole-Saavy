@@ -9,7 +9,8 @@ const product = require("../models/productModel");
 const cart = require("../models/cartModel");
 const Address = require("../models/addressModel");
 const Orders = require("../models/orderModel");
-const Wallet = require("../models/walletModel")
+const Wallet = require("../models/walletModel");
+const coupon =  require('../models/couponModel')
 const crypto = require("crypto");
 const session = require("express-session");
 require("dotenv").config();
@@ -451,6 +452,7 @@ const loadcheckout = async (req, res) => {
       .findOne({ userId: Userid })
       .populate("items.productId");
     const address = await Address.find({ userid: Userid });
+    const coupons = await coupon.find()
 
     var subtotal = 0;
 
@@ -463,6 +465,7 @@ const loadcheckout = async (req, res) => {
         userCart,
         Address: address,
         subtotal,
+        coupons
       });
     } else {
       res.status(400).render("userView/404.ejs");

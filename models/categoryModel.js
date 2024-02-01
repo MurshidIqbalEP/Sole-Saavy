@@ -8,6 +8,14 @@ const category=mongoose.Schema({
     is_listed:{
         type:Boolean,
         default:true
+    },
+    offerName:{
+        type:String,
+        default:''
+    },
+    offerPercentage:{
+        type:Number,
+        default:0
     }
     
 

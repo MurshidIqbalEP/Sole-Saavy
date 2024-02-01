@@ -148,6 +148,7 @@
     <!-- Breadcrumb Section End -->
 
     <!-- Checkout Section Begin -->
+
     <section class="checkout spad">
       <div class="container">
         <div class="checkout__form">
@@ -208,8 +209,40 @@
                   <% }); %>
                 </div>
               </div>
+
+              
+
+             
               <div class="col-lg-4 col-md-6">
-                <div class="checkout__order">
+
+                
+                 
+              
+                  <div class="container d-flex flex-column align-items-start bg-light " >
+                    <h4> <b>Coupons</b></h4>
+                    
+                    <div class="mt-2 ">
+                      <select name="couponCode" class="form-control" id="selectedCoupon">
+                        <option  value="" disabled selected>Select a coupon</option>
+                        <% coupons.forEach(coupon => { %>
+                            <% if (new Date(coupon.expiry) >= new Date()) { %>
+                                <option value="<%= coupon.couponName %>" data-coupon="<%=coupon.discount%>">
+                                    <%= coupon.couponName %> <%= coupon.discount %> off Offer validity <%= coupon.expiry.toLocaleDateString() %>
+                                </option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                    </div>
+                    <div class="mt-2 mb-2">
+                        <button class="btn btn-success" onclick="applyCoupon()">Apply</button>
+                    </div>
+                
+              </div>
+              
+              
+              
+
+                <div class="checkout__order" style=" margin-top: 17px;">
                   <h4 class="order__title">Your order</h4>
                   <div class="checkout__order__products">
                     Product <span>Total</span>
@@ -452,6 +485,18 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
+
+      function applyCoupon(){
+         const coupon = document.getElementById('selectedCoupon').value
+         
+         
+
+
+      }
+
+
+
+
       function place() {
     const selectedRadio = document.querySelector('input[name="address"]:checked');
     const paymentMethodInput = document.querySelector('input[name="paymentMethod"]:checked').value;
