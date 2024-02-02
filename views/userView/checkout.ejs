@@ -234,7 +234,7 @@
                     </select>
                     </div>
                     <div class="mt-2 mb-2">
-                        <button class="btn btn-success" onclick="applyCoupon()">Apply</button>
+                        <button type="button" class="btn btn-success" onclick="applyCoupon()">Apply</button>
                     </div>
                 
               </div>
@@ -261,13 +261,11 @@
                     <% }) %>
                   </ul>
                   <ul class="checkout__total__all">
-                    <li>Subtotal <span>&#8377; <%= subtotal %></span></li>
-                    <li>
-                      Total
-                      <span
-                        >&#8377; <span id="total"><%= subtotal %></span></span
-                      >
-                    </li>
+                    
+                    <li>Subtotal<span>&#8377; <span id="subTotal"><%= subtotal %></span></span></li>
+                    <li>coupon <span>-<span>&#8377; <span id="couponAmount">0</span></span></span></li>
+                    <!-- <li>coupon <span id="couponAmount">&#8377; 0</span></li> -->
+                    <li>Total<span>&#8377; <span id="total"><%= subtotal %></span></span></li>
                   </ul>
                   <div class="checkout__input__checkbox" style="padding: 10px">
                     <h5>Payment Methods</h5>
@@ -488,8 +486,60 @@
 
       function applyCoupon(){
          const coupon = document.getElementById('selectedCoupon').value
+         const total = document.getElementById('subTotal').innerText
+         const Amount = parseInt(total)
+
+         console.log(Amount);
          
          
+         if(coupon !== ''){
+          fetch('/ApplyCoupon',{
+            method:'post',
+            headers:{
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              coupon,Amount
+              }),
+          })
+          .then(response =>{
+            return response.json()
+          })
+          .then(data =>{
+            if(data.value ===1){
+              console.log('eppo');
+
+              const discountedTotal = data.Discount
+              document.getElementById('total').innerText=discountedTotal;
+              document.getElementById('couponAmount').innerText=data.DiscountAmount;
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Coupon Added",
+                showConfirmButton: false,
+                timer: 1000
+              }); 
+              
+            }else{
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Low Cart Amount",
+                showConfirmButton: false,
+                timer: 1500
+              }); 
+            }
+          })
+
+        }else{
+          Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "Select a Coupon",
+                showConfirmButton: false,
+                timer: 1500
+              });
+        }
 
 
       }
@@ -505,6 +555,11 @@
 
    
     const Total = document.getElementById("total").innerText;
+    const couponAmount = document.getElementById('couponAmount').innerText;
+    const discount = parseInt(couponAmount)
+    
+
+    
 
     if (!selectedRadio) {
     
@@ -534,6 +589,9 @@
 
         if (selectedRadio && paymentMethodInput) {
           if (paymentMethodInput === "Online") {
+
+            console.log('paymentilek kadannu');
+
             fetch("onlinePayment", {
               method: "post",
               headers: {
@@ -542,13 +600,17 @@
               body: JSON.stringify({
                 addressId,
                 Total,
+                discount
               }),
             })
               .then((response) => {
+               
                 return response.json(); // Add 'return' statement here
               })
               .then((data) => {
+                
                 var Order = data.order;
+                let Discount = data.discount;
 
                 var options = {
                   key: "rzp_test_nwYxVyWUp78tNr",
@@ -560,7 +622,7 @@
                   order_id: Order.id,
                   handler: function (response) {
                   
-                    verifyPayment(response, Order);
+                    verifyPayment(response, Order,Discount);
                   },
                   prefill: {
                     name: "Gaurav Kumar",
@@ -597,6 +659,7 @@
               body: JSON.stringify({
                 addressId,
                 Total,
+                   discount
               }),
             })
               .then((response) => response.json())
@@ -638,6 +701,7 @@
               body: JSON.stringify({
                 addressId,
                 Total,
+                   discount
               }),
             })
               .then((response) => response.json())
@@ -680,7 +744,7 @@
         }
 
 
-        async function verifyPayment(payment, Order) {
+        async function verifyPayment(payment, Order,Discount) {
           try {
             console.log('code on verifing');
             const response = await fetch("/verifyOnlinePayment", {
@@ -688,7 +752,7 @@
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ payment, Order, addressId, Total }),
+              body: JSON.stringify({ payment, Order, addressId, Total,Discount }),
             })
               .then((response) => {
                 response.json();

@@ -65,6 +65,10 @@ const order = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  couponOffer:{
+    type:Number,
+    require:true
+  },
   totalAmount: {
     type: Number,
     require: true,

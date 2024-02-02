@@ -70,20 +70,7 @@ userRoute.put('/orderReturn',middleware.isLogin,middleware.isBlock,userControlle
 userRoute.post('/profile/invoiceData',middleware.isLogin,middleware.isBlock,userController.invoiceData)
 
 userRoute.get('/wallet',middleware.isLogin,middleware.isBlock,userController.loadWallet)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+userRoute.post('/ApplyCoupon',middleware.isLogin,middleware.isBlock,userController.applyCoupon)
 
 
 
