@@ -56,16 +56,17 @@ function generateOTP() {
 }
 
 // referal code generater
-function generateRefCode(length){
-  return crypto.randomBytes(Math.ceil(length / 2))
-  .toString('hex') // convert to hexadecimal format
-  .slice(0, length); // return the required number of characters
+function generateRefCode(length) {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString("hex") // convert to hexadecimal format
+    .slice(0, length); // return the required number of characters
 }
 
 const loadRegister = async (req, res) => {
   try {
-    if(req.query.refCode){
-      req.session.refCode= req.query.refCode; 
+    if (req.query.refCode) {
+      req.session.refCode = req.query.refCode;
     }
 
     res.status(200).render("userView/register");
@@ -104,7 +105,7 @@ const insertUser = async (req, res) => {
     const spass = await securepassword(req.body.pass);
 
     const mailchecking = await User.findOne({ Email: req.body.email });
-    const referelCode = generateRefCode(10)
+    const referelCode = generateRefCode(10);
     console.log(referelCode);
     if (mailchecking) {
       res
@@ -116,14 +117,15 @@ const insertUser = async (req, res) => {
         LastName: req.body.Lastname,
         Email: req.body.email,
         Password: spass,
-        refCode:referelCode
+        refCode: referelCode,
       });
       const userdata = await user.save();
-      
+
       req.session.user = userdata;
       const otp = generateOTP();
       req.session.otp = otp;
-      // console.log(req.session);
+      console.log(req.session.user._id);
+
       sendMail(req.session.user.Email, req.session.user.FirstName, otp);
 
       res.status(200).redirect("/otp-verification");
@@ -165,27 +167,48 @@ const verifyotp = async (req, res) => {
       // mongo db updating ////////////////////////
       // console.log(updateInfo);
       if (updateInfo) {
-        console.log('reeeeeeee',req.session.refCode);
-        if(req.session.refCode){
+        console.log(req.session);
 
-        const ReferedPerson = await User.findOne({refCode:req.session.refCode})
-        console.log(ReferedPerson);
-        const ReferedPersonsWallet = await Wallet.findOne({userId:ReferedPerson._id});
-        ReferedPersonsWallet.balance += 300;
-        ReferedPersonsWallet.history.push({
-          type: "Credit",
-          amount: 300,
-          reason: "Referal",
-        });
-        await ReferedPersonsWallet.save();
-        console.log(ReferedPersonsWallet);
+        if (req.session.refCode) {
+          const ReferedPerson = await User.findOne({
+            refCode: req.session.refCode,
+          });
+          const ReferedPersonsWallet = await Wallet.findOne({
+            userId: ReferedPerson._id,
+          });
+          ReferedPersonsWallet.balance += 300;
+          ReferedPersonsWallet.history.push({
+            type: "Credit",
+            amount: 300,
+            reason: "Referal",
+          });
+          await ReferedPersonsWallet.save();
+          console.log(ReferedPersonsWallet);
 
-        const walletofNewUser = await Wallet.findOne({userId:req.session._id});
-        // walletofNewUser.balance += 100;
-        // await walletofNewUser.save();
-        console.log(walletofNewUser);
+          const newWallet = await new Wallet({
+            userId: req.session.user._id,
+            balance: 100,
+            history: [
+              {
+                type: "Credit",
+                amount: 100,
+                reason: "Referal",
+              },
+            ],
+          });
+          const WalletCreated = await newWallet.save();
+          console.log(WalletCreated);
+
+          // const walletofNewUser = await Wallet.findOne({userId:req.session._id});
+          // walletofNewUser.balance += 100;
+          // walletofNewUser.history.push({
+          //   type: "Credit",
+          //   amount: 300,
+          //   reason: "Referal",
+          // });
+          // await walletofNewUser.save();
         }
-        
+
         res.status(200).redirect("/login");
       }
     } else {
@@ -821,14 +844,10 @@ const cancellOrder = async (req, res) => {
     const ProductId = req.body.productid;
     const price = req.body.actualPrice;
 
-
-
     const findOrder = await Orders.findOne({ _id: OrderId });
     const coundOfProducts = findOrder.products.length;
     const couponAmount = findOrder.couponOffer;
     const coupenAmountPerProduct = Math.floor(couponAmount / coundOfProducts);
-
-
 
     const Cancelled = findOrder.products.find(
       (product) => product.productId.toString() === ProductId
@@ -838,17 +857,19 @@ const cancellOrder = async (req, res) => {
     const Save = await findOrder.save();
 
     const quantity = Cancelled.quantity;
- 
-    const total = quantity * price;
-   
 
-    if (findOrder.paymentMethod === "online" || findOrder.paymentMethod === "wallet") {
+    const total = quantity * price;
+
+    if (
+      findOrder.paymentMethod === "online" ||
+      findOrder.paymentMethod === "wallet"
+    ) {
       const wallet = await Wallet.findOne({ userId: req.session.userId });
       if (wallet) {
-        wallet.balance += total-coupenAmountPerProduct;
+        wallet.balance += total - coupenAmountPerProduct;
         wallet.history.push({
           type: "Credit",
-          amount: total-coupenAmountPerProduct,
+          amount: total - coupenAmountPerProduct,
           reason: "order cancel refund",
         });
         await wallet.save();
@@ -966,13 +987,7 @@ const loadWallet = async (req, res) => {
   try {
     const wallet = await Wallet.findOne({ userId: req.session.userId });
 
-    if (!wallet) {
-      const newWallet = new Wallet({
-        userId: req.session.userId,
-      });
-      await newWallet.save();
-      res.status(200).render("userView/wallet");
-    } else {
+    if (wallet) {
       res.status(200).render("userView/wallet", { wallet });
     }
   } catch (error) {
