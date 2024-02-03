@@ -55,8 +55,19 @@ function generateOTP() {
   return Math.floor(10000 + Math.random() * 90000).toString();
 }
 
+// referal code generater
+function generateRefCode(length){
+  return crypto.randomBytes(Math.ceil(length / 2))
+  .toString('hex') // convert to hexadecimal format
+  .slice(0, length); // return the required number of characters
+}
+
 const loadRegister = async (req, res) => {
   try {
+    if(req.query.refCode){
+      req.session.refCode= req.query.refCode; 
+    }
+
     res.status(200).render("userView/register");
   } catch (error) {
     res.status(500).send(error.message);
@@ -93,7 +104,8 @@ const insertUser = async (req, res) => {
     const spass = await securepassword(req.body.pass);
 
     const mailchecking = await User.findOne({ Email: req.body.email });
-
+    const referelCode = generateRefCode(10)
+    console.log(referelCode);
     if (mailchecking) {
       res
         .status(200)
@@ -104,9 +116,10 @@ const insertUser = async (req, res) => {
         LastName: req.body.Lastname,
         Email: req.body.email,
         Password: spass,
+        refCode:referelCode
       });
       const userdata = await user.save();
-
+      
       req.session.user = userdata;
       const otp = generateOTP();
       req.session.otp = otp;
@@ -152,6 +165,27 @@ const verifyotp = async (req, res) => {
       // mongo db updating ////////////////////////
       // console.log(updateInfo);
       if (updateInfo) {
+        console.log('reeeeeeee',req.session.refCode);
+        if(req.session.refCode){
+
+        const ReferedPerson = await User.findOne({refCode:req.session.refCode})
+        console.log(ReferedPerson);
+        const ReferedPersonsWallet = await Wallet.findOne({userId:ReferedPerson._id});
+        ReferedPersonsWallet.balance += 300;
+        ReferedPersonsWallet.history.push({
+          type: "Credit",
+          amount: 300,
+          reason: "Referal",
+        });
+        await ReferedPersonsWallet.save();
+        console.log(ReferedPersonsWallet);
+
+        const walletofNewUser = await Wallet.findOne({userId:req.session._id});
+        // walletofNewUser.balance += 100;
+        // await walletofNewUser.save();
+        console.log(walletofNewUser);
+        }
+        
         res.status(200).redirect("/login");
       }
     } else {

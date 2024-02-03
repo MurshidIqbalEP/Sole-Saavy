@@ -29,6 +29,10 @@ const user=mongoose.Schema({
       type:Boolean,
       default:false
     },
+    refCode:{
+        type:String,
+        require:true
+    },
     token:{
         type:String,
         default:''
