@@ -686,6 +686,8 @@ const chartdata = async (req, res) => {
     sales.orderCount = salesDetails.map(({ orderCount }) => orderCount);
     sales.label = salesDetails.map(({ label }) => label);
 
+    console.log(payment);
+
     res.status(200).json({ salesDetails, sales, payment, salesByCat });
   } catch (error) {
     console.log(error.message);

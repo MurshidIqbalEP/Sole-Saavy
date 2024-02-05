@@ -231,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product_details_content" style="margin-top: -97px;">
+                <div class="product_details_content" >
                     <div class="container">
                         <div class="row d-flex justify-content-center" style="margin-left: 44px;">
                             <div class="col-lg-8">
@@ -239,13 +239,12 @@
                                     <h4>
                                         <%= product.productName %>
                                     </h4>
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span> - 5 Reviews</span>
+                                    <div class="rating" style="font-size: 20px;" >
+                                        <i class="fa fa-star" style="color: #ffe234;"></i>
+                                        <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                        <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                        <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                        <i class="fa fa-star-o" style="color: 	#ffe234;"></i>
                                     </div>
                                     <% if(product.offerAmound > 0 ){ %>
                                         <%   let price =product.actualPrice-product.offerAmound %>

@@ -136,63 +136,66 @@ function findOrders(time){
 
 
 function paymentGraph(payment) {
+  // Ensure that payment object has the correct properties
+  let online = payment.online || 0; // Default to 0 if property is undefined
+  let cod = payment.cod || 0;
+  let wallet = payment.wallet || 0;
 
-    let online = payment.online;
-    let COD = payment.cod;
-    let wallet = payment.wallet;
-   
+  console.log(payment);
 
-   
-   
+  var breakup = {
+      color: "#adb5bd",
+      series: [cod, online, wallet],
+      labels: ["COD", "Online", "Wallet"],
+      chart: {
+          width: 180,
+          type: "donut",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          foreColor: "#adb0bb",
+      },
+      plotOptions: {
+          pie: {
+              startAngle: 0,
+              endAngle: 360,
+              donut: {
+                  size: '75%',
+              },
+          },
+      },
+      stroke: {
+          show: false,
+      },
+      dataLabels: {
+          enabled: false,
+      },
+      legend: {
+          show: false,
+      },
+      colors: ["#5D87FF", "#FFC107", "#FF5733"],
+      responsive: [
+          {
+              breakpoint: 991,
+              options: {
+                  chart: {
+                      width: 150,
+                  },
+              },
+          },
+      ],
+      tooltip: {
+          theme: "dark",
+          fillSeriesColor: false,
+      },
+  };
 
-    var breakup = {
-        color: "#adb5bd",
-        series: [COD, online, wallet],
-        labels: ["COD", "Online", "Wallet"], // Added "Wallet" to labels
-        chart: {
-            width: 180,
-            type: "donut",
-            fontFamily: "Plus Jakarta Sans', sans-serif",
-            foreColor: "#adb0bb",
-        },
-        plotOptions: {
-            pie: {
-                startAngle: 0,
-                endAngle: 360,
-                donut: {
-                    size: '75%',
-                },
-            },
-        },
-        stroke: {
-            show: false,
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        legend: {
-            show: false,
-        },
-        colors: ["#5D87FF", "#FFC107", "#FF5733"], // Added color for "Wallet"
-        responsive: [
-            {
-                breakpoint: 991,
-                options: {
-                    chart: {
-                        width: 150,
-                    },
-                },
-            },
-        ],
-        tooltip: {
-            theme: "dark",
-            fillSeriesColor: false,
-        },
-    };
-
-    chart = new ApexCharts(document.querySelector("#breakup"), breakup);
-    chart.render();
+  chart = new ApexCharts(document.querySelector("#breakup"), breakup);
+  chart.render();
 }
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 

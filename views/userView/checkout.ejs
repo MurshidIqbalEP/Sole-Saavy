@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <style>
+      .error{
+        color: red;
+      }
+    </style>
   </head>
 
   <body>
@@ -95,8 +100,8 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="/home">Home</a></li>
-                        <li><a href="/shop">Shop</a></li>
+                        <li ><a href="/home">Home</a></li>
+                        <li class="active"><a href="/shop">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                
@@ -298,6 +303,7 @@
                         id="razorpay"
                         name="paymentMethod"
                         value="Online"
+                        checked
                       />
                       <span class="checkmark"></span>
                     </label>
@@ -579,10 +585,7 @@
         });
         return; 
     }
-
-    var addressId = selectedRadio.getAttribute("data-address-id");
-
-    if (!paymentMethodInput) {
+    if (paymentMethodInput==null) {
         
         Swal.fire({
             position: "center",
@@ -593,6 +596,10 @@
         });
         return; // Exit the function to prevent further execution
     }
+
+    var addressId = selectedRadio.getAttribute("data-address-id");
+
+    
 
         if (selectedRadio && paymentMethodInput) {
           if (paymentMethodInput === "Online") {

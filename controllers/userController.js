@@ -343,7 +343,7 @@ const loadShop = async (req, res) => {
   try {
     let search = req.query.search || "";
     let page = parseInt(req.query.page) || 1;
-    const limit = 3;
+    const limit = 6;
     let cat = req.query.cat || "";
     let sortDirection = parseInt(req.query.srt) || 1;
 
@@ -375,6 +375,8 @@ const loadShop = async (req, res) => {
       currentPage: page,
       currentCategory: cat,
       currentSort: sortDirection,
+      search
+
     });
   } catch (error) {
     console.log(error.message);
@@ -532,18 +534,36 @@ const loadcheckout = async (req, res) => {
 
 const loadprofile = async (req, res) => {
   try {
+    let page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
+    let limit = 3;
+
     const userId = req.session.userId;
     const findUser = await User.findOne({ _id: userId });
     if (findUser) {
       const address = await Address.find({ userid: req.session.userId });
-      const orders = await Orders.find({ userid: req.session.userId }).populate(
-        "products.productId"
-      );
+      const orders = await Orders.find({ userid: req.session.userId })
+        .populate("products.productId")
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort({ orderedDate: -1 }) // Sorting by the "createdAt" field in descending order
+        .exec();
+
+      const count = await Orders.find({
+        userid: req.session.userId,
+      }).countDocuments();
+
+      const totalPage = Math.ceil(count / limit);
 
       res.status(200).render("userView/profile.ejs", {
         user: findUser,
         Address: address,
         Orders: orders,
+        totalPage,
+        currentPage: page,
       });
     } else {
       res.status(200).render("userView/404.ejs");

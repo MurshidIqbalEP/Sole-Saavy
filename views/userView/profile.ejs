@@ -218,7 +218,7 @@
                 class="list-group-item list-group-item-action "
                 data-toggle="list"
                 href="#orders"
-                >Orders</a
+                >My Orders</a
               >
 
              
@@ -361,6 +361,7 @@
               <div class="tab-pane fade" id="orders">
                 
                 <h2><%= user.FirstName %>'s Orders</h2>
+               
 
                 <% if(Orders.length==0){ %>
                   <div style=" border: 1px solid; border-color: black; height: 100px; text-align: center;" >
@@ -390,8 +391,23 @@
                     <button class="btn btn-primary" > Details </button></a>
                   </li>
                   <% }); %>
+
+                  
+
                 </ul>
+                <nav aria-label="...">
+                  <ul class="pagination pagination-lm">
+                    <% for (let i = 1; i <= totalPage; i++) { %>
+                      <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>" tabindex="<%= i === currentPage ? '0' : '-1' %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </nav>
+                
               </div>
+
+              
 <!--  orders end -->
 
 

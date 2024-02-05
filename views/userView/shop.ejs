@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    
 </head>
 
 
@@ -178,7 +180,7 @@
                                                 <% if (categories.length > 0) { %>
                                                     <ul class="nice-scroll">
                                                       <% for (let i = 0; i < categories.length; i++) { %>
-                                                        <li> <a href="?cat=<%= categories[i].categoryName %>">  <%= categories[i].categoryName %> </a></li>
+                                                        <li> <a href="?cat=<%= categories[i].categoryName %>&search=<%= search %>&srt=<%= currentSort  %>&page=1">  <%= categories[i].categoryName %> </a></li>
                                                       <% } %>
                                                     </ul>
                                                   <% } %>
@@ -195,8 +197,8 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="/shop?srt=-1">High To Low</a></li>
-                                                    <li><a href="/shop?srt=1    ">Low To High</a></li>
+                                                    <li><a href="/shop?srt=-1&search=<%= search %>&cat=<%= currentCategory %>&page=1">High To Low</a></li>
+                                                    <li><a href="/shop?srt=1&search=<%= search %>&cat=<%= currentCategory %>&page=1">Low To High</a></li>
                                                     
                                                 </ul>
                                             </div>
@@ -243,12 +245,12 @@
                                     <div class="product__item__text">
                                         <h6><%= product.productName %></h6>
                                         <a onclick="cart(`<%= product._id %>`)"  class="add-cart" style="cursor: pointer">+ Add To Cart</a>
-                                        <div class="rating">
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
+                                        <div class="rating" style="font-size: 20px;" >
+                                            <i class="fa fa-star" style="color: #ffe234;"></i>
+                                            <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                            <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                            <i class="fa fa-star" style="color: 	#ffe234;"></i>
+                                            <i class="fa fa-star-o" style="color: 	#ffe234;"></i>
                                         </div>
                                         <% if(product.offerAmound > 0 ){ %>
                                           <%   let price =product.actualPrice-product.offerAmound %>
@@ -273,18 +275,12 @@
                         <ul class="pagination pagination-lm">
                           <% for (let i = 1; i <= totalPage; i++) { %>
                             <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                              <a class="page-link" href="?page=<%= i %>" tabindex="<%= i === currentPage ? '0' : '-1' %>"><%= i %></a>
+                              <a class="page-link" href="?page=<%= i %>&search=<%= search %>&cat=<%= currentCategory %>&srt=<%= currentSort %>" tabindex="<%= i === currentPage ? '0' : '-1' %>"><%= i %></a>
                             </li>
                           <% } %>
                         </ul>
                       </nav>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
+              
                       
                 </div>
 
