@@ -1234,7 +1234,7 @@ ol {
 
 .shop__sidebar__accordion .card-heading a {
 	color: #111111;
-	font-size: 16px;
+	font-size: 19px;
 	font-weight: 700;
 	text-transform: uppercase;
 	display: block;
@@ -1255,7 +1255,7 @@ ol {
 .shop__sidebar__categories ul li a,
 .shop__sidebar__price ul li a,
 .shop__sidebar__brand ul li a {
-	color: #b7b7b7;
+	
 	font-size: 15px;
 	line-height: 32px;
 	-webkit-transition: all, 0.3s;

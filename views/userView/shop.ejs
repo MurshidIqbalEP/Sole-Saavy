@@ -173,19 +173,33 @@
                                     </div>
 
                                     
-
+                                       
+                                        
                                     <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <div class="shop__sidebar__categories">
+                                            <div class="">
                                                 <% if (categories.length > 0) { %>
                                                     <ul class="nice-scroll">
-                                                      <% for (let i = 0; i < categories.length; i++) { %>
-                                                        <li> <a href="?cat=<%= categories[i].categoryName %>&search=<%= search %>&srt=<%= currentSort  %>&page=1">  <%= categories[i].categoryName %> </a></li>
-                                                      <% } %>
+                                                        <% for (let i = 0; i < categories.length; i++) { %>
+                                                            <% if (currentCategory === categories[i].categoryName) { %>
+                                                                <li style="font-weight: bold;">
+                                                                    <a href="?cat=<%= categories[i].categoryName %>&search=<%= search %>&srt=<%= currentSort %>&page=1">
+                                                                        <%= categories[i].categoryName %>
+                                                                    </a>
+                                                                </li>
+                                                            <% } else { %>
+                                                                <li style="color: black;">
+                                                                    <a href="?cat=<%= categories[i].categoryName %>&search=<%= search %>&srt=<%= currentSort %>&page=1">
+                                                                        <%= categories[i].categoryName %>
+                                                                    </a>
+                                                                </li>
+                                                            <% } %>
+                                                        <% } %>
+                                                        
                                                     </ul>
-                                                  <% } %>
-                                                  
+                                                <% } %>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -197,8 +211,22 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="/shop?srt=-1&search=<%= search %>&cat=<%= currentCategory %>&page=1">High To Low</a></li>
+                                                     <% if(currentSort === -1){ %>
+                                                        <li  style="font-weight: bold;"><a href="/shop?srt=-1&search=<%= search %>&cat=<%= currentCategory %>&page=1">High To Low</a></li>
+
+                                                  <%  }else { %>
+                                                    <li ><a href="/shop?srt=-1&search=<%= search %>&cat=<%= currentCategory %>&page=1">High To Low</a></li>
+
+                                                    <% } %>
+
+                                                    <% if(currentSort === 1){ %>
+                                                        <li style="font-weight: bold;"><a href="/shop?srt=1&search=<%= search %>&cat=<%= currentCategory %>&page=1">Low To High</a></li>
+                                                  <%  }else { %>
                                                     <li><a href="/shop?srt=1&search=<%= search %>&cat=<%= currentCategory %>&page=1">Low To High</a></li>
+                                                    <% } %>
+                                                    
+                                                   
+                                                   
                                                     
                                                 </ul>
                                             </div>
@@ -230,7 +258,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     
-                                    <div class="product__item__pic set-bg"  onclick="window.location.href='/productDetail?id=<%= product._id %>'"  data-setbg="<%= '/uploads/' + product.image[0] %>">
+                                    <div class="product__item__pic set-bg " style="border-radius: 13px;" onclick="window.location.href='/productDetail?id=<%= product._id %>'"  data-setbg="<%= '/uploads/' + product.image[0] %>">
                                         
                                          <!-- Link around the image -->
                                             <ul class="product__hover">
@@ -371,6 +399,10 @@ fetch('/addtocart', {
       })
 
 } 
+
+
+
+
 
 </script>
 

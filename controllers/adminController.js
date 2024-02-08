@@ -4,12 +4,13 @@ const category = require("../models/categoryModel");
 const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
 const Offer = require("../models/offersModel");
-const coupon =  require('../models/couponModel')
+const coupon = require("../models/couponModel");
 const bcrypt = require("bcrypt");
 const { Parser } = require("json2csv");
 const { trusted } = require("mongoose");
 const { render } = require("../routes/userRoutes");
 
+// hashing password
 const securepassword = async (Password) => {
   try {
     const passwordhash = await bcrypt.hash(Password, 10);
@@ -19,6 +20,7 @@ const securepassword = async (Password) => {
   }
 };
 
+// rendering admin login
 const loadAdminLogin = async (req, res) => {
   try {
     res.status(200).render("adminView/login");
@@ -27,6 +29,7 @@ const loadAdminLogin = async (req, res) => {
   }
 };
 
+// verifying admin login
 const LoginVerify = async (req, res) => {
   try {
     const email = req.body.Email;
@@ -55,6 +58,7 @@ const LoginVerify = async (req, res) => {
   }
 };
 
+// admin logout
 const adminLogOut = async (req, res) => {
   try {
     req.session.destroy();
@@ -62,6 +66,7 @@ const adminLogOut = async (req, res) => {
   } catch (error) {}
 };
 
+//render admin dashboard
 const loadHome = async (req, res) => {
   try {
     res.status(200).render("adminView/Dashboard");
@@ -70,6 +75,7 @@ const loadHome = async (req, res) => {
   }
 };
 
+// rendering customer list page
 const loadCustomers = async (req, res) => {
   try {
     const onlyUser = await user.find({ is_admin: 0 });
@@ -79,6 +85,7 @@ const loadCustomers = async (req, res) => {
   }
 };
 
+//rendering category list page
 const loadCategory = async (req, res) => {
   try {
     const offers = await Offer.find();
@@ -91,6 +98,7 @@ const loadCategory = async (req, res) => {
   }
 };
 
+//add category
 const addCategory = async (req, res) => {
   try {
     const catNAme = req.body.category;
@@ -118,6 +126,7 @@ const addCategory = async (req, res) => {
   }
 };
 
+// rendering product list page
 const loadProducts = async (req, res) => {
   try {
     let search = "";
@@ -160,6 +169,7 @@ const loadProducts = async (req, res) => {
   }
 };
 
+// blocking user
 const loadBlockUser = async (req, res) => {
   try {
     const userid = req.body.userId;
@@ -174,6 +184,7 @@ const loadBlockUser = async (req, res) => {
   }
 };
 
+// unbloacking user
 const loadunblockUser = async (req, res) => {
   try {
     const userid = req.body.userId;
@@ -188,6 +199,7 @@ const loadunblockUser = async (req, res) => {
   }
 };
 
+// unlist category
 const unlistCategory = async (req, res) => {
   try {
     const CategoryId = req.body.categoryId;
@@ -202,6 +214,7 @@ const unlistCategory = async (req, res) => {
   }
 };
 
+// list category
 const listCategory = async (req, res) => {
   try {
     const CategoryId = req.body.categoryId;
@@ -216,6 +229,7 @@ const listCategory = async (req, res) => {
   }
 };
 
+// category edit page rendering
 const loadEdit = async (req, res) => {
   try {
     const id = req.query.id;
@@ -228,6 +242,7 @@ const loadEdit = async (req, res) => {
   }
 };
 
+// editing category
 const Edit = async (req, res) => {
   try {
     const id = req.body.ID;
@@ -253,6 +268,7 @@ const Edit = async (req, res) => {
   }
 };
 
+// rendering add product page
 const loadAddProduct = async (req, res) => {
   try {
     const Product = await product.find({});
@@ -263,6 +279,7 @@ const loadAddProduct = async (req, res) => {
   }
 };
 
+//adding new product
 const insertProduct = async (req, res) => {
   try {
     const img = [];
@@ -288,6 +305,7 @@ const insertProduct = async (req, res) => {
   }
 };
 
+// unlisting product
 const unlistProduct = async (req, res) => {
   try {
     const ProductId = req.body.productId;
@@ -302,6 +320,7 @@ const unlistProduct = async (req, res) => {
   }
 };
 
+// listing product
 const listProduct = async (req, res) => {
   try {
     const ProductId = req.body.productId;
@@ -316,6 +335,7 @@ const listProduct = async (req, res) => {
   }
 };
 
+//rendering product edit page
 const loadproductedit = async (req, res) => {
   try {
     const productid = req.query.id;
@@ -329,6 +349,7 @@ const loadproductedit = async (req, res) => {
   }
 };
 
+//singlr image delete
 const deleteimg = async (req, res) => {
   try {
     const { img, productID } = req.body;
@@ -345,17 +366,7 @@ const deleteimg = async (req, res) => {
   }
 };
 
-const cropImage = async (req, res) => {
-  try {
-    const img = req.query.img;
-    const productId = req.query.id;
-
-    res.status(200).render("adminView/crop", { img, productId });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
+// product editing
 const editproduct = async (req, res) => {
   try {
     console.log(req.body.stock);
@@ -400,6 +411,7 @@ const editproduct = async (req, res) => {
   }
 };
 
+// rendering order list page
 const loadOrders = async (req, res) => {
   try {
     let srt = 1;
@@ -421,7 +433,6 @@ const loadOrders = async (req, res) => {
       .populate("products.productId")
       .exec();
 
-
     const count = await Orders.find({}).countDocuments();
 
     res.status(200).render("adminView/orders", {
@@ -435,6 +446,7 @@ const loadOrders = async (req, res) => {
   }
 };
 
+// rendering order details page
 const loadOrderDetail = async (req, res) => {
   try {
     const orderId = req.query.id;
@@ -451,6 +463,7 @@ const loadOrderDetail = async (req, res) => {
   }
 };
 
+// setting order status
 const setSatus = async (req, res) => {
   try {
     const { selectedValue, orderid, productid } = req.body;
@@ -469,6 +482,7 @@ const setSatus = async (req, res) => {
   }
 };
 
+// collecting chart data
 const chartdata = async (req, res) => {
   try {
     const time = req.query.time;
@@ -694,6 +708,7 @@ const chartdata = async (req, res) => {
   }
 };
 
+//rendering sales report page
 const loadSalesReport = async (req, res) => {
   try {
     res.status(200).render("adminView/salesReport");
@@ -702,6 +717,7 @@ const loadSalesReport = async (req, res) => {
   }
 };
 
+// collecting sales report data
 const reportData = async (req, res) => {
   try {
     const startingDate = new Date(req.query.start);
@@ -719,6 +735,7 @@ const reportData = async (req, res) => {
   }
 };
 
+// doeload sales report
 const dowloadReport = async (req, res) => {
   try {
     const startingDate = new Date(req.query.start);
@@ -736,6 +753,7 @@ const dowloadReport = async (req, res) => {
   }
 };
 
+// rendering offer list page
 const loadOffers = async (req, res) => {
   try {
     const offers = await Offer.find({});
@@ -745,6 +763,7 @@ const loadOffers = async (req, res) => {
   }
 };
 
+// add offers page
 const loadaddOffer = async (req, res) => {
   try {
     res.status(200).render("adminView/addOffer");
@@ -753,6 +772,7 @@ const loadaddOffer = async (req, res) => {
   }
 };
 
+// adding new offer
 const setOffer = async (req, res) => {
   try {
     const { offerName, expiryDate, discount } = req.body;
@@ -772,6 +792,7 @@ const setOffer = async (req, res) => {
   }
 };
 
+// product offer
 const setProductOffer = async (req, res) => {
   try {
     const { productId, offerId } = req.body;
@@ -784,15 +805,17 @@ const setProductOffer = async (req, res) => {
     Product.offerAmound = ActualAmt * (percentage / 100);
     Product.offerName = Name;
 
-    const added = await Product.save();
-    if (added) {
-      res.status(200).json({ Name });
+    const updatedProduct = await Product.save();
+
+    if (updatedProduct) {
+      res.status(200).json({ value: 1 });
     }
   } catch (error) {
     console.log(error.message);
   }
 };
 
+// removing product offer
 const removeOfferFromProduct = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -810,16 +833,19 @@ const removeOfferFromProduct = async (req, res) => {
   }
 };
 
+// adding offer to category
 const setCategoryOffer = async (req, res) => {
   try {
     const { offerId, categoryId } = req.body;
 
     const Category = await category.findOne({ _id: categoryId });
+    console.log(Category);
     const offer = await Offer.findOne({ _id: offerId });
 
     const offerName = offer.offerName;
     const percentage = offer.discount;
     const catName = Category.categoryName;
+    console.log(catName);
 
     Category.offerName = offerName;
     Category.offerPercentage = percentage;
@@ -832,13 +858,14 @@ const setCategoryOffer = async (req, res) => {
       product.offerAmound = price * (percentage / 100);
 
       await product.save();
-      res.status(200).json({ value: 1 });
     }
+    res.status(200).json({ value: 1 });
   } catch (error) {
     console.log(error.message);
   }
 };
 
+// removing offer from category
 const removeCategoryOffer = async (req, res) => {
   try {
     const categoryId = req.body.categoryId;
@@ -864,33 +891,35 @@ const removeCategoryOffer = async (req, res) => {
   }
 };
 
-const loadCouponPage = async (req,res)=>{
+//rendering coupon page
+const loadCouponPage = async (req, res) => {
   try {
     const coupons = await coupon.find();
-    res.render('adminView/coupon.ejs',{coupons})
+    res.render("adminView/coupon.ejs", { coupons });
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
-const addCoupon = async (req,res)=>{
+// adding new coupon
+const addCoupon = async (req, res) => {
   try {
-     const {Name,Expiry,Amount,mcv}= req.body
+    const { Name, Expiry, Amount, mcv } = req.body;
 
     const Coupon = new coupon({
       couponName: Name,
       expiry: Expiry,
       discount: Amount,
-      minimumCartValue: mcv
-    })
-    const done = await Coupon.save()
-    if(done){
-      res.status(200).json({value:1})
+      minimumCartValue: mcv,
+    });
+    const done = await Coupon.save();
+    if (done) {
+      res.status(200).json({ value: 1 });
     }
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 module.exports = {
   loadAdminLogin,
@@ -919,7 +948,6 @@ module.exports = {
   loadOrders,
   loadOrderDetail,
   setSatus,
-  cropImage,
   chartdata,
   loadSalesReport,
   reportData,
@@ -932,5 +960,5 @@ module.exports = {
   setCategoryOffer,
   removeCategoryOffer,
   loadCouponPage,
-  addCoupon
+  addCoupon,
 };

@@ -44,7 +44,6 @@ adminRoute.post('/list-product',auth.isLogin,adminController.listProduct)
 adminRoute.get('/productedit',auth.isLogin,adminController.loadproductedit)
 adminRoute.delete('/deleteimg',auth.isLogin,adminController.deleteimg)
 adminRoute.post('/productedit',auth.isLogin,upload.array('files', 4),adminController.editproduct)
-adminRoute.get('/crop',auth.isLogin,adminController.cropImage)
 
 
 

@@ -15,6 +15,7 @@ const crypto = require("crypto");
 const session = require("express-session");
 require("dotenv").config();
 
+// razorpay settings
 const RAZORPAY = require("razorpay");
 
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
@@ -23,6 +24,7 @@ const instance = new RAZORPAY({
   key_secret: RAZORPAY_SECRET_KEY,
 });
 
+// password hashing
 const securepassword = async (Password) => {
   try {
     const passwordhash = await bcrypt.hash(Password, 10);
@@ -63,6 +65,7 @@ function generateRefCode(length) {
     .slice(0, length); // return the required number of characters
 }
 
+// rendering register
 const loadRegister = async (req, res) => {
   try {
     if (req.query.refCode) {
@@ -75,6 +78,7 @@ const loadRegister = async (req, res) => {
   }
 };
 
+//rendering login
 const loadLogin = async (req, res) => {
   try {
     res.status(200).render("userView/login");
@@ -83,6 +87,7 @@ const loadLogin = async (req, res) => {
   }
 };
 
+// user logout
 const userLogOut = async (req, res) => {
   try {
     req.session.destroy();
@@ -92,6 +97,7 @@ const userLogOut = async (req, res) => {
   }
 };
 
+// rendering home page
 const loadhome = async (req, res) => {
   try {
     res.status(200).render("userView/home");
@@ -100,6 +106,7 @@ const loadhome = async (req, res) => {
   }
 };
 
+// creating user
 const insertUser = async (req, res) => {
   try {
     const spass = await securepassword(req.body.pass);
@@ -135,6 +142,7 @@ const insertUser = async (req, res) => {
   }
 };
 
+// resent otp
 const resendotp = async (req, res) => {
   const otp = generateOTP();
   req.session.otp = otp;
@@ -143,6 +151,7 @@ const resendotp = async (req, res) => {
   res.status(200).render("userView/otp", { resendOtpMsg: "resending otp" }); /////////////////
 };
 
+// rendering otp page
 const loadotp = async (req, res) => {
   try {
     res.status(200).render("userView/otp");
@@ -151,6 +160,7 @@ const loadotp = async (req, res) => {
   }
 };
 
+// verifing otp page and creating wallet
 const verifyotp = async (req, res) => {
   try {
     const { otp1, otp2, otp3, otp4, otp5 } = req.body;
@@ -176,10 +186,10 @@ const verifyotp = async (req, res) => {
           const ReferedPersonsWallet = await Wallet.findOne({
             userId: ReferedPerson._id,
           });
-          ReferedPersonsWallet.balance += 300;
+          ReferedPersonsWallet.balance += 3000;
           ReferedPersonsWallet.history.push({
             type: "Credit",
-            amount: 300,
+            amount: 3000,
             reason: "Referal",
           });
           await ReferedPersonsWallet.save();
@@ -187,26 +197,16 @@ const verifyotp = async (req, res) => {
 
           const newWallet = await new Wallet({
             userId: req.session.user._id,
-            balance: 100,
+            balance: 1000,
             history: [
               {
                 type: "Credit",
-                amount: 100,
+                amount: 1000,
                 reason: "Referal",
               },
             ],
           });
           const WalletCreated = await newWallet.save();
-          console.log(WalletCreated);
-
-          // const walletofNewUser = await Wallet.findOne({userId:req.session._id});
-          // walletofNewUser.balance += 100;
-          // walletofNewUser.history.push({
-          //   type: "Credit",
-          //   amount: 300,
-          //   reason: "Referal",
-          // });
-          // await walletofNewUser.save();
         }
 
         res.status(200).redirect("/login");
@@ -219,6 +219,7 @@ const verifyotp = async (req, res) => {
   }
 };
 
+// verifying login
 const verifylogin = async (req, res) => {
   try {
     const Email = req.body.Email;
@@ -270,6 +271,7 @@ const verifylogin = async (req, res) => {
   }
 };
 
+// endering forgot password page
 const loadforgetpass = async (req, res) => {
   try {
     res.status(200).render("userView/forgetpass");
@@ -278,6 +280,7 @@ const loadforgetpass = async (req, res) => {
   }
 };
 
+// new password sending
 const sendforgrtpass = async (req, res) => {
   try {
     const Email = req.body.Email;
@@ -305,6 +308,7 @@ const sendforgrtpass = async (req, res) => {
   }
 };
 
+// reset passwor page
 const loadforgetpassword = async (req, res) => {
   try {
     const tkn = req.query.token;
@@ -322,6 +326,7 @@ const loadforgetpassword = async (req, res) => {
   }
 };
 
+// reset page rendering
 const Resetpassword = async (req, res) => {
   try {
     const newpassword = req.body.Password;
@@ -339,6 +344,7 @@ const Resetpassword = async (req, res) => {
   }
 };
 
+// rending shop
 const loadShop = async (req, res) => {
   try {
     let search = req.query.search || "";
@@ -375,15 +381,14 @@ const loadShop = async (req, res) => {
       currentPage: page,
       currentCategory: cat,
       currentSort: sortDirection,
-      search
-
+      search,
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal Server Error");
   }
 };
-
+// rendering product details page
 const loadShopDetail = async (req, res) => {
   try {
     const id = req.query.id;
@@ -396,7 +401,7 @@ const loadShopDetail = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
-
+// add to cart products
 const addtocart = async (req, res) => {
   try {
     const productid = req.body.prodId;
@@ -443,7 +448,7 @@ const addtocart = async (req, res) => {
     console.log(error.message);
   }
 };
-
+// rendering cart
 const loadCart = async (req, res) => {
   try {
     const findingUsersCart = await cart
@@ -474,7 +479,7 @@ const updateQuantity = async (req, res) => {
     console.log(error.message);
   }
 };
-
+// removing products from cart
 const removeProduct = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -500,6 +505,7 @@ const removeProduct = async (req, res) => {
   } catch (error) {}
 };
 
+// rendering checkout page
 const loadcheckout = async (req, res) => {
   try {
     const Userid = req.session.userId;
@@ -532,6 +538,7 @@ const loadcheckout = async (req, res) => {
   }
 };
 
+// rendering profile
 const loadprofile = async (req, res) => {
   try {
     let page = 1;
@@ -573,6 +580,7 @@ const loadprofile = async (req, res) => {
   }
 };
 
+// edit password
 const editPassword = async (req, res) => {
   try {
     const currentPass = req.body.currentPass;
@@ -597,6 +605,7 @@ const editPassword = async (req, res) => {
   }
 };
 
+// add new address
 const addAddress = async (req, res) => {
   try {
     const address = new Address({
@@ -618,6 +627,7 @@ const addAddress = async (req, res) => {
   } catch (error) {}
 };
 
+// edit address
 const loadEditAddress = async (req, res) => {
   try {
     const ProductId = req.query.id;
@@ -631,6 +641,7 @@ const loadEditAddress = async (req, res) => {
   }
 };
 
+// edit address
 const EditAddress = async (req, res) => {
   try {
     const Fullname = req.body.fullname;
@@ -661,6 +672,7 @@ const EditAddress = async (req, res) => {
   }
 };
 
+// delete address
 const deleteAddress = async (req, res) => {
   try {
     const id = req.body.ProductId;
@@ -676,6 +688,7 @@ const deleteAddress = async (req, res) => {
   }
 };
 
+// placing an order
 const placeOrder = async (req, res) => {
   try {
     const addressId = req.body.addressId;
@@ -717,6 +730,7 @@ const placeOrder = async (req, res) => {
   }
 };
 
+// order using wallet
 const walletOrder = async (req, res) => {
   try {
     const addressId = req.body.addressId;
@@ -774,6 +788,7 @@ const walletOrder = async (req, res) => {
   }
 };
 
+// order by online
 const onlinePayment = async (req, res) => {
   try {
     console.log("adya fetch");
@@ -798,6 +813,8 @@ const onlinePayment = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// verify  onlinr payment
 const verifyPayment = async (req, res) => {
   try {
     const userid = req.session.userId;
@@ -844,6 +861,7 @@ const verifyPayment = async (req, res) => {
   }
 };
 
+// render order details page
 const loadOrderDetails = async (req, res) => {
   try {
     const orderId = req.query.orderid;
@@ -858,6 +876,7 @@ const loadOrderDetails = async (req, res) => {
   }
 };
 
+// cancell oreder
 const cancellOrder = async (req, res) => {
   try {
     const OrderId = req.body.orderid;
@@ -906,6 +925,7 @@ const cancellOrder = async (req, res) => {
   }
 };
 
+// return order
 const returnOrder = async (req, res) => {
   try {
     const Reason = req.body.selectedOption;
@@ -981,6 +1001,7 @@ const returnOrder = async (req, res) => {
   }
 };
 
+// fetching invoice datas
 const invoiceData = async (req, res) => {
   try {
     const orderId = req.body.orderid;
@@ -995,6 +1016,7 @@ const invoiceData = async (req, res) => {
   }
 };
 
+//rendering order succes page
 const loadOrderSuccess = async (req, res) => {
   try {
     res.status(200).render("userView/orderSuccess");
@@ -1003,11 +1025,14 @@ const loadOrderSuccess = async (req, res) => {
   }
 };
 
+// rendering wallet
 const loadWallet = async (req, res) => {
   try {
     const wallet = await Wallet.findOne({ userId: req.session.userId });
 
     if (wallet) {
+      // Sort the history array in descending order based on date
+      wallet.history.sort((a, b) => b.date - a.date);
       res.status(200).render("userView/wallet", { wallet });
     }
   } catch (error) {
@@ -1015,6 +1040,7 @@ const loadWallet = async (req, res) => {
   }
 };
 
+// apply coupon
 const applyCoupon = async (req, res) => {
   try {
     const Name = req.body.coupon;
