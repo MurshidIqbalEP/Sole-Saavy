@@ -16,6 +16,19 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <style>
+      .form-container {
+          background-color: #cfd8dd; /* Light gray background color */
+          padding: 20px;
+          border-radius: 10px;
+          margin: 0 auto; /* Center the form horizontally */
+          width: 70%; /* Set width of the form */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+
+      }
+
+    .form-container h2 {
+       text-align: center; /* Center the heading */
+    }
         table {
           border-collapse: collapse;
           width: 100%;
@@ -223,11 +236,10 @@
           <!-- Row 1 -->
           <div class="row text-center"  >
              
-              
-
+          
 
           
-            <div class="container mt-5";>
+            <div class="container mt-5 form-container";>
                 <h2 class=" mb-5">Edit Product</h2>
                 
             
@@ -274,7 +286,7 @@
 
                      <% if(product.image.length > 0){ %>
                     
-                    <div class="d-flex " style="    margin-left: 240px; margin-top: 10px;">
+                    <div class="d-flex " style="    margin-left: 47px; margin-top: 10px;">
                      
                       <% for(let i=0; i < product.image.length; i++) { %>
                           <div style="display: flex; flex-direction: column; margin-left: 20px;"><img class="border border-dark" src="/uploads/<%= product.image[i] %>" alt="" style="width: 150px; height: 180px;" >

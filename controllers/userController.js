@@ -197,13 +197,15 @@ const verifylogin = async (req, res) => {
     const password = req.body.pass;
 
     const userData = await User.findOne({ Email: Email });
-    req.session.userId = userData._id;
+    
 
     // Checking registration
     if (!userData) {
       return res
         .status(200)
         .render("userView/login", { message: "Invalid user" });
+    }else{
+      req.session.userId = userData._id;
     }
 
     // Password matching
@@ -236,9 +238,7 @@ const verifylogin = async (req, res) => {
     res.status(200).redirect("home");
   } catch (error) {
     // Handle the error appropriately, maybe by rendering an error page
-    res
-      .status(404)
-      .render("404.ejs", { errorMessage: "Internal Server Error" });
+   console.log(error.message);
   }
 };
 

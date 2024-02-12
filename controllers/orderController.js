@@ -142,7 +142,6 @@ const walletOrder = async (req, res) => {
   // order by online
 const onlinePayment = async (req, res) => {
     try {
-      console.log("adya fetch");
       const { addressId, Total, discount } = req.body;
       const amount = parseInt(Total);
       const userId = req.session.userId;
@@ -152,8 +151,7 @@ const onlinePayment = async (req, res) => {
         currency: "INR",
         receipt: userId,
       };
-  
-      console.log("hai");
+
       // Using async/await for better readability
       const order = await instance.orders.create(options);
       console.log("hai");
