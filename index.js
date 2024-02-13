@@ -1,5 +1,8 @@
 const moongose = require("mongoose")
-moongose.connect("mongodb://127.0.0.1:27017/sole_Savvy");
+// moongose.connect("mongodb://127.0.0.1:27017/sole_Savvy");
+require('dotenv').config();
+moongose.connect(process.env.MONGODB_URI)
+
 
 const express = require("express")
 const app = express();
