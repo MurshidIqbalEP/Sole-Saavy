@@ -178,6 +178,19 @@ const verifyotp = async (req, res) => {
             ],
           });
           const WalletCreated = await newWallet.save();
+        }else{
+          const newWallet = await new Wallet({
+            userId: req.session.user._id,
+            balance: 100,
+            history: [
+              {
+                type: "Credit",
+                amount: 100,
+                reason: "Account Open",
+              },
+            ],
+          });
+          const WalletCreated = await newWallet.save();
         }
 
         res.status(200).redirect("/login");
@@ -526,8 +539,8 @@ const deleteAddress = async (req, res) => {
 // rendering wallet
 const loadWallet = async (req, res) => {
   try {
+   
     const wallet = await Wallet.findOne({ userId: req.session.userId });
-
     if (wallet) {
       // Sort the history array in descending order based on date
       wallet.history.sort((a, b) => b.date - a.date);
