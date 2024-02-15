@@ -584,22 +584,35 @@ const chartdata = async (req, res) => {
           },
         },
         {
+          $addFields: {
+            month: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$_id", 1] }, then: "January" },
+                  { case: { $eq: ["$_id", 2] }, then: "February" },
+                  { case: { $eq: ["$_id", 3] }, then: "March" },
+                  { case: { $eq: ["$_id", 4] }, then: "April" },
+                  { case: { $eq: ["$_id", 5] }, then: "May" },
+                  { case: { $eq: ["$_id", 6] }, then: "June" },
+                  { case: { $eq: ["$_id", 7] }, then: "July" },
+                  { case: { $eq: ["$_id", 8] }, then: "August" },
+                  { case: { $eq: ["$_id", 9] }, then: "September" },
+                  { case: { $eq: ["$_id", 10] }, then: "October" },
+                  { case: { $eq: ["$_id", 11] }, then: "November" },
+                  { case: { $eq: ["$_id", 12] }, then: "December" }
+                ],
+                default: "Unknown"
+              }
+            }
+          }
+        },
+        {
           $project: {
             _id: 0,
-            label: {
-              $dateToString: {
-                format: "%B",
-                date: {
-                  $dateFromParts: {
-                    year: new Date().getFullYear(),
-                    month: "$_id",
-                  },
-                },
-              },
-            }, // Format month name
+            label: "$month",
             totalAmount: 1,
-            orderCount: 1,
-          },
+            orderCount: 1
+          }
         },
         {
           $sort: { _id: 1 },
