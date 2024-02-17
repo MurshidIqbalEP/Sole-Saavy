@@ -80,110 +80,120 @@
       data-header-position="fixed"
     >
       <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
-      <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./Dashboard" class="text-nowrap logo-img">  
-            <img src="/img/ssLOGO.png" width="180" alt="" />
-          </a>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-            <i class="ti ti-x fs-8"></i>
+      <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div>
+          <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="./Dashboard" class="text-nowrap logo-img">  
+              <img src="/img/ssLOGO.png" width="180" alt="" />
+            </a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+              <i class="ti ti-x fs-8"></i>
+            </div>
           </div>
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Home</span>
+              </li>
+  
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Dashboard</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                  <span class="hide-menu">CUSTOMERS</span>
+                </a>
+              </li>
+   
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-list"></i>
+                  </span>
+                  <span class="hide-menu">CATEGORIES</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-p"></i>
+                  </span>
+                  <span class="hide-menu">PRODUCTS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                  <span>
+                    <i class="fa-brands fa-dropbox"></i>
+                  </span>
+                  <span class="hide-menu">ORDERS</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-credit-card"></i>
+                  </span>
+                  <span class="hide-menu">SALES REPORT</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
+                  <span>
+                    <i class="fas fa-tags"></i>
+  
+                  </span>
+                  <span class="hide-menu">Offers</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/coupons" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-receipt"></i>
+  
+                  </span>
+                  <span class="hide-menu">Coupons</span>
+                </a>
+              </li>
+  
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                  <span>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                  </span>
+                  <span class="hide-menu">LOGOUT</span>
+                </a>
+              </li>
+  
+              
+              
+              
+             
+            </ul>
+          
+          </nav>
+          <!-- End Sidebar navigation -->
         </div>
-        <!-- Sidebar navigation-->
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-          <ul id="sidebarnav">
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Home</span>
-            </li>
-
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
-                <span>
-                  <i class="ti ti-layout-dashboard"></i>
-                </span>
-                <span class="hide-menu">Dashboard</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
-                <span>
-                  <i class="fa-solid fa-user"></i>
-                </span>
-                <span class="hide-menu">CUSTOMERS</span>
-              </a>
-            </li>
- 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
-                <span>
-                  <i class="fa-solid fa-list"></i>
-                </span>
-                <span class="hide-menu">CATEGORIES</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
-                <span>
-                  <i class="fa-solid fa-p"></i>
-                </span>
-                <span class="hide-menu">PRODUCTS</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
-                <span>
-                  <i class="fa-brands fa-dropbox"></i>
-                </span>
-                <span class="hide-menu">ORDERS</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
-                <span>
-                  <i class="fa-solid fa-credit-card"></i>
-                </span>
-                <span class="hide-menu">SALES REPORT</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
-                <span>
-                  <i class="fas fa-tags"></i>
-
-                </span>
-                <span class="hide-menu">Offers</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
-                <span>
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                </span>
-                <span class="hide-menu">LOGOUT</span>
-              </a>
-            </li>
-
-            
-            
-            
-           
-          </ul>
-        
-        </nav>
-        <!-- End Sidebar navigation -->
-      </div>
-      <!-- End Sidebar scroll-->
-    </aside>
+        <!-- End Sidebar scroll-->
+      </aside>
     <!--  Sidebar End -->
       </aside>
       <!--  Sidebar End -->
