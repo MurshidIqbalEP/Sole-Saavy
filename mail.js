@@ -20,7 +20,7 @@ const mailOptions ={
 from:'murshidm2x@gmail.com',
 to:Email,
 subject:`email verification for ${Name}`,
-text:`this is your otp:${otp}`
+text:`This OTP is valid for the next 1 minute. This is your otp:${otp}, `
 }
 
 //send mail

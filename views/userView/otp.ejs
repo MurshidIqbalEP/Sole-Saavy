@@ -19,6 +19,7 @@
             align-items: center;
             min-height: 100vh;
         }
+        
 
         .container {
             text-align: center;
@@ -61,6 +62,12 @@
         .error{
             color:#ff0606
         }
+        .ExpTime{
+            color: #ec0c0cb7;
+            font-weight: bold;
+            font-size: 30px;
+
+        }
     </style>
 </head>
 
@@ -79,7 +86,9 @@
 
         <form action="/verify-otp" method="post">
             <div class="form-group">
+                
                 <label for="otp1">Enter OTP:</label>
+                <p id="ExpiryTime" class="ExpTime"></p>
                 <input type="text" id="otp1" name="otp1" maxlength="1" class="otp-input" data-next="otp2" required>
                 <input type="text" id="otp2" name="otp2" maxlength="1" class="otp-input" data-next="otp3" required>
                 <input type="text" id="otp3" name="otp3" maxlength="1" class="otp-input" data-next="otp4" required>
@@ -91,10 +100,52 @@
                 <button type="submit" id="submitBtn" class="btn btn-success verify-btn">Verify OTP</button>
 
             </div>
-            <a   href="/resend-otp">resent OTP</a> 
+            <a   href="/resend-otp" id="resent">Resent OTP</a> 
+            <span class="time"></span>
+
             
         </form>
     </div>
+
+    <script>
+        const startingMinutes = 1;
+        let time = startingMinutes * 60;
+
+        const countdownExp = document.getElementById('ExpiryTime');
+        setInterval(() => {
+            updateCountdown();
+        }, 1000);
+        function updateCountdown(){
+            const minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+            seconds = seconds < 1 ? '0' + seconds : seconds;
+
+            countdownExp.innerHTML=`${minutes}:${seconds}`;
+            if (time > 0) {
+        time--;
+            }
+        }
+
+
+
+
+
+        function timer(n){
+            const link = document.getElementById('resent');
+            link.removeAttribute('href');
+            link.style.color='red'
+         const interval=setInterval(() => {
+            if(n==0){
+                clearInterval(interval)
+                link.setAttribute('href', '/resend-otp');
+                link.style.color=''
+            }
+          document.querySelector('.time').innerHTML = n;
+          n = n-1; 
+         }, 1000);
+        }
+        timer(15)
+    </script>
 
     <!-- Bootstrap JS and Popper.js (Optional) -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

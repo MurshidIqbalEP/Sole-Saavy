@@ -31,6 +31,9 @@
       size: 5px;
       color: red;
     }
+    .error{
+      color: red;
+    }
     #addresses {
       margin-top: 20px;
       margin-left: 10px;
@@ -496,7 +499,7 @@
               </div>
 
               <button
-                type="submit"
+                type="button"
                 class="btn btn-primary"
                 onclick="addAddress()"
               >
@@ -810,7 +813,7 @@ function orderDetails(orderid){
           nameerror.textContent = "";
         }
 
-        const cityreg = /^[a-zA-Z]{1,10}$/;
+        const cityreg = /^[a-zA-Z]{1,20}$/;
         if (!cityreg.test(City.trim())) {
           cityerror.textContent = "Invalid input";
           return false;
@@ -818,7 +821,7 @@ function orderDetails(orderid){
           cityerror.textContent = "";
         }
 
-        const statereg = /^[a-zA-Z]{1,10}$/;
+        const statereg = /^[a-zA-Z]{1,20}$/;
         if (!statereg.test(State.trim())) {
           stateerror.textContent = "Invalid input";
           return false;
@@ -861,6 +864,9 @@ function orderDetails(orderid){
               const msg = document.getElementById("addressmsg");
               msg.innerText = "Address Added";
               msg.style.color = "green";
+              setTimeout(() => {
+                location.reload()
+              }, 1000);
             } else {
               const msg = document.getElementById("addressmsg");
               msg.innerText = "Some thing Wrong";

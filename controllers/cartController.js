@@ -29,8 +29,10 @@ const addtocart = async (req, res) => {
           res.status(200).json({ message: "Product Added to Cart" });
         }
       } else {
-        const productCheck = await cart.findOne({ "items.productId": productid });
-        if (productCheck) {
+        // If the cart exists, check if the product is already in the cart
+        const isProductInCart = userincart.items.find(product => product.productId.toString() === productid);
+        if (isProductInCart) {
+          console.log(isProductInCart);
           res.status(200).json({ message: "Product Already  Exist in Cart" });
         } else {
           const newprodectinCart = {
@@ -59,10 +61,18 @@ const addtocart = async (req, res) => {
   // rendering cart
 const loadCart = async (req, res) => {
     try {
+      const userid = req.session.userId;
+      const newCart = new cart({
+        userId: userid,  
+      });
+      const addedToCart = await newCart.save();
+      
       const findingUsersCart = await cart
         .findOne({ userId: req.session.userId })
         .populate("items.productId");
-  
+    
+      console.log(findingUsersCart);
+
       res.status(200).render("userView/cart", { cart: findingUsersCart });
     } catch (error) {
       res.status(500).send(error.message);

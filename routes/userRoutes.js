@@ -19,7 +19,7 @@ userRoute.post('/register',userController.insertUser);
 
 //login
 userRoute.get('/login',middleware.isLogout,userController.loadLogin);
-userRoute.post('/login',userController.verifylogin);
+userRoute.post('/login',middleware.isLogout,userController.verifylogin);
 userRoute.get('/logout',middleware.isLogin,userController.userLogOut)
 userRoute.get('/forgetpass',userController.loadforgetpass);
 userRoute.post('/forgetpass',userController.sendforgrtpass);
@@ -28,10 +28,11 @@ userRoute.post('/forget-password',userController.Resetpassword);
 userRoute.get('/registered',userController.loadLogin);
 userRoute.get('/otp-verification',userController.loadotp);
 userRoute.post('/verify-otp',userController.verifyotp);
-userRoute.get('/home',middleware.isLogin,middleware.isBlock,userController.loadhome);
 userRoute.get('/resend-otp',userController.resendotp)
-userRoute.get('/shop',middleware.isLogin,middleware.isBlock,userController.loadShop)
-userRoute.get('/productDetail',middleware.isLogin,middleware.isBlock,userController.loadShopDetail)
+
+userRoute.get('/home',middleware.isBlock,userController.loadhome);
+userRoute.get('/shop',middleware.isBlock,userController.loadShop)
+userRoute.get('/productDetail',middleware.isBlock,userController.loadShopDetail)
 userRoute.get('/wallet',middleware.isLogin,middleware.isBlock,userController.loadWallet)
 
 //cart related routes

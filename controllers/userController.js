@@ -102,7 +102,10 @@ const insertUser = async (req, res) => {
       req.session.user = userdata;
       const otp = generateOTP();
       req.session.otp = otp;
-      console.log(req.session.user._id);
+      req.session.otpCreatedTime = Date.now();
+
+      console.log(req.session.otp);
+      console.log(req.session.otpCreatedTime);
 
       sendMail(req.session.user.Email, req.session.user.FirstName, otp);
 
@@ -117,7 +120,8 @@ const insertUser = async (req, res) => {
 const resendotp = async (req, res) => {
   const otp = generateOTP();
   req.session.otp = otp;
-
+  req.session.otpCreatedTime = Date.now();
+  console.log(req.session);
   sendMail(req.session.user.Email, req.session.user.FirstName, otp);
   res.status(200).render("userView/otp", { resendOtpMsg: "resending otp" }); /////////////////
 };
@@ -136,67 +140,74 @@ const verifyotp = async (req, res) => {
   try {
     const { otp1, otp2, otp3, otp4, otp5 } = req.body;
     const userOtp = parseInt(otp1 + otp2 + otp3 + otp4 + otp5);
+    const otpEnteredTime = Date.now();
+    const otpCreatedTime = req.session.otpCreatedTime;
 
-    // console.log(req.session.otp);
-    // console.log(userOtp);
+    const difference = otpEnteredTime - otpCreatedTime;
+    const differenceInMinutes = difference / (1000 * 60);
+    const OtpLimitInMinute = 1;
 
-    if (userOtp == req.session.otp) {
-      const updateInfo = await User.updateOne(
-        { _id: req.session.user._id },
-        { $set: { is_verified: 1 } }
-      );
-      // mongo db updating ////////////////////////
-      // console.log(updateInfo);
-      if (updateInfo) {
-        console.log(req.session);
+    if (differenceInMinutes <= OtpLimitInMinute) {
+      if (userOtp == req.session.otp) {
+        const updateInfo = await User.updateOne(
+          { _id: req.session.user._id },
+          { $set: { is_verified: 1 } }
+        );
+        // mongo db updating ////////////////////////
+        // console.log(updateInfo);
+        if (updateInfo) {
+          console.log(req.session);
 
-        if (req.session.refCode) {
-          const ReferedPerson = await User.findOne({
-            refCode: req.session.refCode,
-          });
-          const ReferedPersonsWallet = await Wallet.findOne({
-            userId: ReferedPerson._id,
-          });
-          ReferedPersonsWallet.balance += 3000;
-          ReferedPersonsWallet.history.push({
-            type: "Credit",
-            amount: 3000,
-            reason: "Referal",
-          });
-          await ReferedPersonsWallet.save();
-          console.log(ReferedPersonsWallet);
+          if (req.session.refCode) {
+            const ReferedPerson = await User.findOne({
+              refCode: req.session.refCode,
+            });
+            const ReferedPersonsWallet = await Wallet.findOne({
+              userId: ReferedPerson._id,
+            });
+            ReferedPersonsWallet.balance += 3000;
+            ReferedPersonsWallet.history.push({
+              type: "Credit",
+              amount: 3000,
+              reason: "Referal",
+            });
+            await ReferedPersonsWallet.save();
+            console.log(ReferedPersonsWallet);
 
-          const newWallet = await new Wallet({
-            userId: req.session.user._id,
-            balance: 1000,
-            history: [
-              {
-                type: "Credit",
-                amount: 1000,
-                reason: "Referal",
-              },
-            ],
-          });
-          const WalletCreated = await newWallet.save();
-        }else{
-          const newWallet = await new Wallet({
-            userId: req.session.user._id,
-            balance: 100,
-            history: [
-              {
-                type: "Credit",
-                amount: 100,
-                reason: "Account Open",
-              },
-            ],
-          });
-          const WalletCreated = await newWallet.save();
+            const newWallet = await new Wallet({
+              userId: req.session.user._id,
+              balance: 1000,
+              history: [
+                {
+                  type: "Credit",
+                  amount: 1000,
+                  reason: "Referal",
+                },
+              ],
+            });
+            const WalletCreated = await newWallet.save();
+          } else {
+            const newWallet = await new Wallet({
+              userId: req.session.user._id,
+              balance: 100,
+              history: [
+                {
+                  type: "Credit",
+                  amount: 100,
+                  reason: "Account Open",
+                },
+              ],
+            });
+            const WalletCreated = await newWallet.save();
+          }
+
+          res.status(200).redirect("/login");
         }
-
-        res.status(200).redirect("/login");
+      } else {
+        res.status(200).render("userView/otp", { message: "invalid otp" });
       }
     } else {
-      res.status(200).render("userView/otp", { message: "invalid otp" });
+      res.status(200).render("userView/otp", { message: "OTP Expired" });
     }
   } catch (error) {
     res.status(500).send(error.message);
@@ -210,14 +221,13 @@ const verifylogin = async (req, res) => {
     const password = req.body.pass;
 
     const userData = await User.findOne({ Email: Email });
-    
 
     // Checking registration
     if (!userData) {
       return res
         .status(200)
         .render("userView/login", { message: "Invalid user" });
-    }else{
+    } else {
       req.session.userId = userData._id;
     }
 
@@ -251,7 +261,7 @@ const verifylogin = async (req, res) => {
     res.status(200).redirect("home");
   } catch (error) {
     // Handle the error appropriately, maybe by rendering an error page
-   console.log(error.message);
+    console.log(error.message);
   }
 };
 
@@ -539,7 +549,6 @@ const deleteAddress = async (req, res) => {
 // rendering wallet
 const loadWallet = async (req, res) => {
   try {
-   
     const wallet = await Wallet.findOne({ userId: req.session.userId });
     if (wallet) {
       // Sort the history array in descending order based on date
