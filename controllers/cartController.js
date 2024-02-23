@@ -159,12 +159,35 @@ const loadcheckout = async (req, res) => {
     }
   };
 
+  const stockChecking = async (req,res)=>{
+   const UserId = req.session.userId;
+
+    const userCart = await cart.findOne({userId:UserId}).populate('items.productId');
+    let flag = 0;
+    userCart.items.forEach(async (item)=>{
+      if(item.quantity > item.productId.Stock){
+        flag += 1;
+      }
+
+    })
+
+    if(flag > 0){
+      res.status(200).json({ value: 1});
+    }else{
+      res.status(200).json({ value: 0});
+    }
+    
+
+  }
+
+
 module.exports = {
     addtocart,
     loadCart,
     updateQuantity,
     removeProduct,
-    loadcheckout
+    loadcheckout,
+    stockChecking
 
   };
   

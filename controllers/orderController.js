@@ -397,6 +397,26 @@ const applyCoupon = async (req, res) => {
     }
   };
 
+  // Removing coupon
+  const removeCoupon = async (req,res)=>{
+    try {
+      const Name = req.body.coupon;
+      const Amount = req.body.Amount;
+
+      const Coupon = await coupon.findOne({ couponName: Name });
+      if(Coupon){
+        const DiscountAmount = Coupon.discount;
+        const Discount = Amount + DiscountAmount;
+        res.status(200).json({ value: 1, Discount, DiscountAmount });
+      }else{
+        console.log('coupon not find');
+      }
+      
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
 module.exports = {
     placeOrder,
     walletOrder,
@@ -407,5 +427,6 @@ module.exports = {
     cancellOrder,
     returnOrder,
     invoiceData,
-    applyCoupon
+    applyCoupon,
+    removeCoupon
 }

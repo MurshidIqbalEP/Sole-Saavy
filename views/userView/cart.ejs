@@ -30,6 +30,22 @@
       padding-left: 4px;
       padding-right: 4px;
     }
+
+    .Nstock {
+      color: red;
+      text-decoration: line-through;
+      font-weight: bold;
+    }
+
+    .Pstock {
+      color: green;
+      font-weight: bold;
+    }
+    .CartButton{
+      color: white;
+      cursor: pointer;
+    }
+    
   </style>
 </head>
 
@@ -171,9 +187,6 @@
               <% }else{ %>
 
 
-
-
-
                 <table>
                   <thead>
                     <tr>
@@ -197,6 +210,11 @@
                             <div class="product__cart__item__text">
                               <h6>
                                 <%= item.productId.productName %>
+                                  <% if(item.productId.Stock <=0){ %>
+                                    <p class="Nstock">Out-of-stock</p>
+                                    <% }else {%>
+                                      <p class="Pstock">Available</p>
+                                      <% } %>
                               </h6>
                               <h5 id="actualPrice">
 
@@ -264,7 +282,9 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="continue__btn update__btn">
+
                 <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+
               </div>
             </div>
           </div>
@@ -281,7 +301,23 @@
                   <%= totalPrice %>
                 </span></li>
             </ul>
-            <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+            <% let count=0 %>
+              <% cart.items.forEach((item)=> { %>
+                <% if(item.productId.Stock===0){ %>
+                  <% count=1 %>
+                    <% } %>
+                      <% }) %>
+
+                        <% if(count===1){ %>
+                          <a class="primary-btn CartButton"  style="color: white;">Out of Stock</a>
+                          <% } else { %>
+                            <a class="primary-btn CartButton" style="color: white;" onclick="checkout()">Proceed to checkout</a>
+                            <% } %>
+
+
+
+
+
           </div>
         </div>
       </div>
@@ -362,6 +398,39 @@
   <!-- Search End -->
 
   <script>
+
+
+function checkout(){
+
+  fetch("/stockCheck", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              if (data.value === 1) {
+                Swal.fire("Out Of Stock!");
+                
+              }else{
+                location.href='/checkout'
+              }
+              
+            })
+
+
+}
+
+
+
+
+
+
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
       document.addEventListener("click", function (event) {
         if (event.target.classList.contains("quantity-btn")) {

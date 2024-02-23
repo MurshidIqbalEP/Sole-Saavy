@@ -246,14 +246,12 @@
                     </select>
                     </div>
                     <div class="mt-2 mb-2">
-                        <button type="button" class="btn btn-success" onclick="applyCoupon()">Apply</button>
+                        <button type="button" style="width: 100px;" class="btn btn-success" onclick="applyCoupon()">Apply</button>
+                        <button type="button" style="width: 100px;" class="btn btn-danger" onclick="removeCoupon()" >Remove</button>
                     </div>
                 
               </div>
               
-              
-              
-
                 <div class="checkout__order" style=" margin-top: 17px;">
                   <h4 class="order__title">Your order</h4>
                   <div class="checkout__order__products">
@@ -554,13 +552,61 @@
       }
 
 
+    function removeCoupon(){
+      const coupon = document.getElementById('selectedCoupon').value
+         const total = document.getElementById('subTotal').innerText
+         const Amount = parseInt(total)
+         
+         console.log(coupon,Amount);
+        
+         if(coupon !== ''){
+          fetch('/removeCoupon',{
+            method:'post',
+            headers:{
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              coupon,Amount
+              }),
+          })
+          .then(response =>{
+            return response.json()
+          })
+          .then(data =>{
+            if(data.value ===1){
+              const discountedTotal = data.Discount
+              document.getElementById('total').innerText=discountedTotal;
+              document.getElementById('couponAmount').innerText=0;
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Coupon removed",
+                showConfirmButton: false,
+                timer: 1000
+              }); 
+              
+            }
+          })
+
+        }else{
+          Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "No Coupon Found",
+                showConfirmButton: false,
+                timer: 1500
+              });
+        }
+
+
+    }
+
 
 
       function place() {
     const selectedRadio = document.querySelector('input[name="address"]:checked');
     const paymentMethodInput = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-    console.log(paymentMethodInput);
 
    
     const Total = document.getElementById("total").innerText;
@@ -595,9 +641,21 @@
 
     var addressId = selectedRadio.getAttribute("data-address-id");
 
-    
+    fetch("/stockCheck", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
 
-        if (selectedRadio && paymentMethodInput) {
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              if (data.value === 1) {
+                Swal.fire("Out Of Stock!");
+                
+              }else{
+                
+                if (selectedRadio && paymentMethodInput) {
           if (paymentMethodInput === "Online") {
 
             console.log('paymentilek kadannu');
@@ -752,6 +810,15 @@
         }else{
           console.log("Either selectedRadio or paymentMeth is missing");
         }
+
+
+              }
+              
+            })
+
+    
+
+        
 
 
         async function verifyPayment(payment, Order,Discount) {

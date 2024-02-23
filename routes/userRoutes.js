@@ -40,6 +40,7 @@ userRoute.post('/addtocart',middleware.isLogin,middleware.isBlock,cartController
 userRoute.get('/cart',middleware.isLogin,middleware.isBlock,middleware.isLogin,cartController.loadCart)
 userRoute.put('/cart/updateQuantity',middleware.isLogin,middleware.isBlock,cartController.updateQuantity)
 userRoute.post('/cart/RemoveProduct',middleware.isLogin,middleware.isBlock,cartController.removeProduct)
+userRoute.post('/stockCheck',middleware.isLogin,middleware.isBlock,cartController.stockChecking)
 
 userRoute.get('/checkout',middleware.isLogin,middleware.isBlock,cartController.loadcheckout)
 
@@ -56,6 +57,8 @@ userRoute.put('/profile/cancellOrder',middleware.isLogin,middleware.isBlock,orde
 userRoute.put('/orderReturn',middleware.isLogin,middleware.isBlock,orderController.returnOrder)
 userRoute.post('/profile/invoiceData',middleware.isLogin,middleware.isBlock,orderController.invoiceData)
 userRoute.post('/ApplyCoupon',middleware.isLogin,middleware.isBlock,orderController.applyCoupon)
+userRoute.post('/removeCoupon',middleware.isLogin,middleware.isBlock,orderController.removeCoupon)
+
 
 // profile related routes
 userRoute.get('/profile',middleware.isLogin,middleware.isBlock,userController.loadprofile)
