@@ -159,27 +159,28 @@ const loadcheckout = async (req, res) => {
     }
   };
 
-  const stockChecking = async (req,res)=>{
-   const UserId = req.session.userId;
+  const stockChecking = async (req, res) => {
+    const UserId = req.session.userId;
 
-    const userCart = await cart.findOne({userId:UserId}).populate('items.productId');
-    let flag = 0;
-    userCart.items.forEach(async (item)=>{
-      if(item.quantity > item.productId.Stock){
-        flag += 1;
-      }
+    try {
+        const userCart = await cart.findOne({ userId: UserId }).populate('items.productId');
+        let flag = 0;
 
-    })
+        for (const item of userCart.items) {
+            if (item.quantity > item.productId.Stock || item.productId.is_listed === false) {
+                flag += 1;
+            }
+        }
 
-    if(flag > 0){
-      res.status(200).json({ value: 1});
-    }else{
-      res.status(200).json({ value: 0});
+        if (flag > 0) {
+            res.status(200).json({ value: 1 });
+        } else {
+            res.status(200).json({ value: 0 });
+        }
+    } catch (error) {
+       console.log(error.message);
     }
-    
-
-  }
-
+}
 
 module.exports = {
     addtocart,
