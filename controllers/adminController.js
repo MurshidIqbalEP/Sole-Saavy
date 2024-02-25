@@ -352,8 +352,14 @@ const loadproductedit = async (req, res) => {
 //singlr image delete
 const deleteimg = async (req, res) => {
   try {
-    const { img, productID } = req.body;
+    console.log("ethunnund");
+    
 
+    const { img, productID } = req.body;
+   
+   const ExistingImg = await product.findOne({_id: productID });
+   if(ExistingImg.image.length > 2){
+   
     const dltImage = await product.findOneAndUpdate(
       { _id: productID },
       { $pull: { image: img } }
@@ -361,6 +367,11 @@ const deleteimg = async (req, res) => {
     if (dltImage) {
       res.status(200).json({ value: 0 });
     }
+
+   }else{
+    res.status(200).json({ value: 1 });
+   }
+   
   } catch (error) {
     console.log(error.message);
   }
@@ -372,17 +383,22 @@ const editproduct = async (req, res) => {
     console.log(req.body.stock);
     console.log(req.body.description);
     const img = [];
-    
+ 
+   
+
     const existingImg = await product.findOne({_id: req.body.id })
     for(let i=0;i<existingImg.image.length;i++){
       img.push(existingImg.image[i])
     }
+
+
   if(existingImg.image.length < 4){
     for (let i = 0; i < req.files.length; i++) {
       img.push(req.files[i].filename);
     }
   }
     
+
     if (img.length > 0) {
       const updateProductWithIMG = await product.findOneAndUpdate(
         { _id: req.body.id },

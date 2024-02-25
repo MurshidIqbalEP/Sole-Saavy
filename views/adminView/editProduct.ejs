@@ -311,6 +311,7 @@
       const Price = document.getElementById('actualPrice').value
       const fileInput = document.getElementById('imageFiles');
       const files = fileInput.files
+      
 
   if(Price <= 0){
     
@@ -330,31 +331,13 @@
   }
 
 
-
-      
-
-      
-
     })})
   
 
 
-    function deleteIMG(img,productID){
+   function deleteIMG(img,productID){
+  console.log(img,productID);
 
-
-   var result=   Swal.fire({
-  title: "Are you sure?",
-  text: "You wanna Delete ",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-})
-
-
-.then((result) => {
-  if (result.isConfirmed) {
 
     fetch('/admin/deleteimg',{
       method:'DELETE',
@@ -367,41 +350,27 @@
       return response.json()
     })
     .then(data=>{
- 
-     
-    })
-
-    Swal.fire({
+      if(data.value === 0){
+        Swal.fire({
       title: "Deleted!",
       text: "Image has been deleted.",
       icon: "success"
     });
 
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000);
-  }else{
-    Swal.fire({
-      title: "Ooops!",
-      text: "Image has been deleted.",
+      }else{
+        Swal.fire({
+      title: "Wrong!",
+      text: "Two Images Needed.",
       icon: "error"
     });
-  }
-});
- 
+      }
+     
+    })
 
 
     }
 
-    function CropImg(image,productId){
-   fetch('/admin/crop?img=image&id=productId',{
-    method:"get",
-    headers:{
-        'Content-Type' : 'application/json'
-      },
-
-   })
-}
+   
 
       </script>
 

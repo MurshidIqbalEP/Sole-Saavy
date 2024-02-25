@@ -40,6 +40,11 @@
             background-color: rgb(222, 217, 217);
             /* Include padding in the input's total width */
         }
+        .error{
+          color: red;
+          font-weight: bold;
+          font-size: large;
+        }
     </style>
 
 </head>
@@ -170,7 +175,7 @@
         <div class="body-wrapper">
             <div class="container-fluid">
                 <h3>Select Date:</h3>
-                <span id="err" style="color: red;"></span>
+                <span id="err" class="error"></span>
                 <label for="Start">Start Date:</label>
                 <input id="startDate" type="date">
 
@@ -207,14 +212,17 @@
 
         <script>
             function salesData() {
-                const sart = document.getElementById('startDate').value
+                const start = document.getElementById('startDate').value
                 const end = document.getElementById('endDate').value
 
-                if (sart == '' || end == '') {
-                    document.getElementById('err').innerText = "select Date"
+
+                if (start == '' || end == '') {
+                    document.getElementById('err').innerText = "Select Date"
+                }else if(start < end ){
+                  document.getElementById('err').innerText = "Wrong Date"
                 } else {
 
-                    let url = `/admin/salesReportData?start=${sart}&end=${end}`
+                    let url = `/admin/salesReportData?start=${start}&end=${end}`
 
                     fetch(url, {
                         method: "get",
@@ -254,13 +262,13 @@
 
 
             function dwnldReport() {
-                const sart = document.getElementById('startDate').value
+                const start = document.getElementById('startDate').value
                 const end = document.getElementById('endDate').value
 
-                if (sart == '' || end == '') {
+                if (start == '' || end == '') {
                     document.getElementById('err').innerText = "select Date"
                 } else {
-                    let url = `/admin/dwnldReport?start=${sart}&end=${end}`
+                    let url = `/admin/dwnldReport?start=${start}&end=${end}`
 
                     fetch(url, {
                         method: "get",
