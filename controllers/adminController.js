@@ -372,10 +372,17 @@ const editproduct = async (req, res) => {
     console.log(req.body.stock);
     console.log(req.body.description);
     const img = [];
+    
+    const existingImg = await product.findOne({_id: req.body.id })
+    for(let i=0;i<existingImg.image.length;i++){
+      img.push(existingImg.image[i])
+    }
+  if(existingImg.image.length < 4){
     for (let i = 0; i < req.files.length; i++) {
       img.push(req.files[i].filename);
     }
-
+  }
+    
     if (img.length > 0) {
       const updateProductWithIMG = await product.findOneAndUpdate(
         { _id: req.body.id },
