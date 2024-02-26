@@ -5,6 +5,7 @@ const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
 const Offer = require("../models/offersModel");
 const coupon = require("../models/couponModel");
+const Refferel = require('../models/refferelModel');
 const bcrypt = require("bcrypt");
 const { Parser } = require("json2csv");
 const { trusted } = require("mongoose");
@@ -979,8 +980,6 @@ const updateCoupon = async (req, res) => {
     const ExistingCoupon = await coupon.findOne({ couponName: cpnName });
 
     if (ExistingCoupon) {
-      console.log("ExistingCoupon")
-      console.log(ExistingCoupon)
       return res.status(200).json({ value: 0 });
     } else {
       const updatingCoupon = await coupon.findOne({ couponName: Name });
@@ -998,6 +997,16 @@ const updateCoupon = async (req, res) => {
     console.log(error.message);
   }
 };
+
+const loadReferalpage = async (req,res)=>{
+try {
+  const Details = await Refferel.find()
+  console.log(Details[0]);
+  res.status(200).render('adminview/ReferralDetails',{ Details });
+} catch (error) {
+  console.log(error.message);
+}
+}
 
 module.exports = {
   loadAdminLogin,
@@ -1041,4 +1050,5 @@ module.exports = {
   addCoupon,
   loadEditCoupon,
   updateCoupon,
+  loadReferalpage
 };

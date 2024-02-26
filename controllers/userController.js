@@ -9,6 +9,7 @@ const product = require("../models/productModel");
 const Address = require("../models/addressModel");
 const Orders = require("../models/orderModel");
 const Wallet = require("../models/walletModel");
+const Refferel = require('../models/refferelModel');
 const crypto = require("crypto");
 const session = require("express-session");
 require("dotenv").config();
@@ -156,9 +157,12 @@ const verifyotp = async (req, res) => {
         // mongo db updating ////////////////////////
         // console.log(updateInfo);
         if (updateInfo) {
-          console.log(req.session);
+
 
           if (req.session.refCode) {
+            const user = await User.findOne(
+              { _id: req.session.user._id }
+            );
             const ReferedPerson = await User.findOne({
               refCode: req.session.refCode,
             });
@@ -172,7 +176,18 @@ const verifyotp = async (req, res) => {
               reason: "Referal",
             });
             await ReferedPersonsWallet.save();
-            console.log(ReferedPersonsWallet);
+
+            const refferalDetails = await new Refferel({
+              history:[{
+                Referrer: ReferedPerson.FirstName,
+                referrerEmail:ReferedPerson.Email,
+                Recipient:user.FirstName,
+                RecipientEmail:user.Email
+              }]
+              
+            })
+
+           const saved = await refferalDetails.save();
 
             const newWallet = await new Wallet({
               userId: req.session.user._id,

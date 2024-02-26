@@ -73,5 +73,7 @@ adminRoute.post('/addCoupon',auth.isLogin,adminController.addCoupon)
 adminRoute.get('/editCoupon',auth.isLogin,adminController.loadEditCoupon)
 adminRoute.post('/couponEdited',auth.isLogin,adminController.updateCoupon)
 
+adminRoute.get('/refference',auth.isLogin,adminController.loadReferalpage)
+
 
 module.exports = adminRoute;
