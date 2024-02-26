@@ -218,10 +218,18 @@
                 const start = document.getElementById('startDate').value
                 const end = document.getElementById('endDate').value
 
+                const date1 = new Date(start);
+                 const startTimestamp = date1.getTime();
+
+                 const date2 = new Date(end);
+                 const endTimestamp = date2.getTime();
+               
+
+
 
                 if (start == '' || end == '') {
                     document.getElementById('err').innerText = "Select Date"
-                }else if(start > end ){
+                }else if(startTimestamp > endTimestamp ){
                   document.getElementById('err').innerText = "Wrong Date"
                 } else {
 

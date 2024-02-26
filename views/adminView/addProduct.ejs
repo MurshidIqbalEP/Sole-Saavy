@@ -259,7 +259,7 @@
 
           <div class="container mt-5">
             <h1 class="mb-4">Add Product</h1>
-            <form  method="post" enctype="multipart/form-data" >
+            <form  method="post" onsubmit="return validation()" enctype="multipart/form-data" >
               <div class="form-group">
                 <label for="productName">Product Name:</label>
                 <input type="text" class="form-control" name="productName" required>
@@ -268,8 +268,9 @@
         
               <div class="form-group">
                 <label for="img">Product Image:</label>
-                <input type="file" class="form-control-file" name="files"  multiple required>
-              </div>
+                <input type="file" id="files" class="form-control-file" name="files" multiple accept="image/*" required>
+            </div>
+            
               <br>
         
               <div class="form-group">
@@ -299,7 +300,23 @@
       </div>
 
       <script>
+        function validation(){
+          
+    const files = document.getElementById('files').value
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    for (const file of files) {
+        const fileNameParts = file.name.split('.');
+        const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
         
+        if (!allowedExtensions.includes(fileExtension)) {
+            alert('Please select only image files (JPG, JPEG, PNG, GIF).');
+            
+            return;
+        }
+    }
+       
+        }
       </script>
       
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
