@@ -11,6 +11,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+   
     <style>
       .form-container {
           background-color: #cfd8dd; /* Light gray background color */
@@ -311,15 +312,19 @@
       const Price = document.getElementById('actualPrice').value
       const fileInput = document.getElementById('imageFiles');
       const files = fileInput.files
-      
 
-  if(Price <= 0){
-    
-    document.getElementById('priceERROR').innerText='Check The Price '
+      for (let i = 0; i < files.length; i++) {
+    const fileName = files[i].name;
+    const fileType = fileName.slice(fileName.lastIndexOf('.') + 1).toLowerCase();
+    if (fileType !== 'jpg' && fileType !== 'png') {
+        console.log('File ' + fileName + ' is not a valid image. Only JPG and PNG formats are allowed.');
+       return false;
+    }else if(Price <= 0) {
+      document.getElementById('priceERROR').innerText='Check The Price '
     return false;
-  }else{
-
-    let id= document.getElementById('id').value.trim()
+      
+    }else{
+      let id= document.getElementById('id').value.trim()
             fetch('/admin/productedit', {
             method: 'POST',
             headers: {
@@ -328,10 +333,11 @@
             body:JSON.stringify({id})
         })
 
-  }
-
-
+    }
+}
     })})
+      
+
   
 
 

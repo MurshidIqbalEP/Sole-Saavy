@@ -763,6 +763,7 @@ const reportData = async (req, res) => {
       { $match: { orderedDate: { $gte: startingDate, $lte: endDate } } },
     ]);
 
+console.log(salesData);
     if (salesData) {
       res.status(200).json({ salesData });
     }
