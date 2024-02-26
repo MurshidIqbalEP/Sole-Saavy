@@ -353,25 +353,21 @@ const loadproductedit = async (req, res) => {
 const deleteimg = async (req, res) => {
   try {
     console.log("ethunnund");
-    
 
     const { img, productID } = req.body;
-   
-   const ExistingImg = await product.findOne({_id: productID });
-   if(ExistingImg.image.length > 2){
-   
-    const dltImage = await product.findOneAndUpdate(
-      { _id: productID },
-      { $pull: { image: img } }
-    );
-    if (dltImage) {
-      res.status(200).json({ value: 0 });
-    }
 
-   }else{
-    res.status(200).json({ value: 1 });
-   }
-   
+    const ExistingImg = await product.findOne({ _id: productID });
+    if (ExistingImg.image.length > 2) {
+      const dltImage = await product.findOneAndUpdate(
+        { _id: productID },
+        { $pull: { image: img } }
+      );
+      if (dltImage) {
+        res.status(200).json({ value: 0 });
+      }
+    } else {
+      res.status(200).json({ value: 1 });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -383,21 +379,17 @@ const editproduct = async (req, res) => {
     console.log(req.body.stock);
     console.log(req.body.description);
     const img = [];
- 
-   
 
-    const existingImg = await product.findOne({_id: req.body.id })
-    for(let i=0;i<existingImg.image.length;i++){
-      img.push(existingImg.image[i])
+    const existingImg = await product.findOne({ _id: req.body.id });
+    for (let i = 0; i < existingImg.image.length; i++) {
+      img.push(existingImg.image[i]);
     }
 
-
-  if(existingImg.image.length < 4){
-    for (let i = 0; i < req.files.length; i++) {
-      img.push(req.files[i].filename);
+    if (existingImg.image.length < 4) {
+      for (let i = 0; i < req.files.length; i++) {
+        img.push(req.files[i].filename);
+      }
     }
-  }
-    
 
     if (img.length > 0) {
       const updateProductWithIMG = await product.findOneAndUpdate(
@@ -622,20 +614,20 @@ const chartdata = async (req, res) => {
                   { case: { $eq: ["$_id", 9] }, then: "September" },
                   { case: { $eq: ["$_id", 10] }, then: "October" },
                   { case: { $eq: ["$_id", 11] }, then: "November" },
-                  { case: { $eq: ["$_id", 12] }, then: "December" }
+                  { case: { $eq: ["$_id", 12] }, then: "December" },
                 ],
-                default: "Unknown"
-              }
-            }
-          }
+                default: "Unknown",
+              },
+            },
+          },
         },
         {
           $project: {
             _id: 0,
             label: "$month",
             totalAmount: 1,
-            orderCount: 1
-          }
+            orderCount: 1,
+          },
         },
         {
           $sort: { _id: 1 },
@@ -763,7 +755,7 @@ const reportData = async (req, res) => {
       { $match: { orderedDate: { $gte: startingDate, $lte: endDate } } },
     ]);
 
-console.log(salesData);
+    console.log(salesData);
     if (salesData) {
       res.status(200).json({ salesData });
     }
@@ -943,15 +935,64 @@ const addCoupon = async (req, res) => {
   try {
     const { Name, Expiry, Amount, mcv } = req.body;
 
-    const Coupon = new coupon({
-      couponName: Name,
-      expiry: Expiry,
-      discount: Amount,
-      minimumCartValue: mcv,
-    });
-    const done = await Coupon.save();
-    if (done) {
-      res.status(200).json({ value: 1 });
+    const ExistingCoupon = await coupon.findOne({ couponName: Name });
+    if(ExistingCoupon){
+      res.status(200).json({ value: 0 });
+    }else{
+      const Coupon = new coupon({
+        couponName: Name,
+        expiry: Expiry,
+        discount: Amount,
+        minimumCartValue: mcv,
+      });
+      const done = await Coupon.save();
+      if (done) {
+        res.status(200).json({ value: 1 });
+      }
+
+    }
+
+   
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const loadEditCoupon = async (req, res) => {
+  try {
+    const Name = req.query.Name;
+
+    const Coupon = await coupon.findOne({ couponName: Name });
+
+    if (Coupon) {
+      res.status(200).render("adminView/editCoupon", { Coupon, Name });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const updateCoupon = async (req, res) => {
+  try {
+    const { cpnName, expDate, Discount, minCartValue, Name } = req.body;
+
+    const ExistingCoupon = await coupon.findOne({ couponName: cpnName });
+
+    if (ExistingCoupon) {
+      console.log("ExistingCoupon")
+      console.log(ExistingCoupon)
+      return res.status(200).json({ value: 0 });
+    } else {
+      const updatingCoupon = await coupon.findOne({ couponName: Name });
+      updatingCoupon.couponName = cpnName;
+      updatingCoupon.expiry = expDate;
+      updatingCoupon.discount = Discount;
+      updatingCoupon.minimumCartValue = minCartValue;
+
+      const updated = await updatingCoupon.save();
+      if (updated) {
+        res.status(200).json({ value: 1 });
+      }
     }
   } catch (error) {
     console.log(error.message);
@@ -998,4 +1039,6 @@ module.exports = {
   removeCategoryOffer,
   loadCouponPage,
   addCoupon,
+  loadEditCoupon,
+  updateCoupon,
 };

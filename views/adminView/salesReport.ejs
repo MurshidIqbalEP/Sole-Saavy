@@ -5,9 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SOLE SAAVY</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <link rel="shortcut icon" type="image/png" href="/img/Favicon.jpg" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         .body-wrapper {
             text-align: center;
@@ -202,7 +204,8 @@
 
                     </tbody>
                 </table>
-                <button class="btn btn-success" onclick="dwnldReport()"> Dowload</button>
+                <button class="btn btn-success" onclick="dwnldReport()"> Dowload XL</button>
+                <button class="btn btn-danger" onclick="dwnldReport()"> Dowload PDF </button>
             </div>
 
         </div>
@@ -218,7 +221,7 @@
 
                 if (start == '' || end == '') {
                     document.getElementById('err').innerText = "Select Date"
-                }else if(start < end ){
+                }else if(start > end ){
                   document.getElementById('err').innerText = "Wrong Date"
                 } else {
 
@@ -260,6 +263,21 @@
 
             }
 
+            function generatePDF(){
+ // Create a new jsPDF instance
+ const doc = new jsPDF();
+
+// Add table header
+doc.text("Table Data", 10, 10);
+
+// Generate PDF table from HTML table
+doc.autoTable({ html: '#myTable' });
+
+// Save the document as PDF
+doc.save("table_data.pdf");
+             
+        }
+           
 
             function dwnldReport() {
                 const start = document.getElementById('startDate').value
@@ -321,7 +339,7 @@
 
         </script>
 
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
         <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

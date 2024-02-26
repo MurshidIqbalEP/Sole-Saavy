@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOLE SAAVY</title>
+    <link rel="shortcut icon" type="image/png" href="/img/Favicon.jpg" />
+    <link rel="stylesheet" href="/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        .form-container {
+            background-color: #cfd8dd;
+            /* Light gray background color */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 0 auto;
+            /* Center the form horizontally */
+            width: 70%;
+            /* Set width of the form */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Add shadow */
+
+        }
+
+        .form-container h2 {
+            text-align: center;
+            /* Center the heading */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .block {
+            background-color: #ff6347;
+            /* Tomato color */
+            color: #fff;
+            border: none;
+        }
+
+        .unblock {
+            background-color: #5cb85c;
+            /* Green color */
+            color: #fff;
+            border: none;
+        }
+
+        .form-control {
+            width: 50%;
+            align-items: center;
+            margin-left: 25%;
+            border: solid;
+        }
+
+        .btn {
+            margin-left: 20px;
+        }
+
+        .errMsg {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+                    <a href="./Dashboard" class="text-nowrap logo-img">
+                        <img src="/img/ssLOGO.png" width="180" alt="" />
+                    </a>
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
+                    </div>
+                </div>
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/Dashboard" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-layout-dashboard"></i>
+                                </span>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/customers" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <span class="hide-menu">CUSTOMERS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/Category" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-list"></i>
+                                </span>
+                                <span class="hide-menu">CATEGORIES</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-p"></i>
+                                </span>
+                                <span class="hide-menu">PRODUCTS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+                                <span>
+                                    <i class="fa-brands fa-dropbox"></i>
+                                </span>
+                                <span class="hide-menu">ORDERS</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/salesReport" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-credit-card"></i>
+                                </span>
+                                <span class="hide-menu">SALES REPORT</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/offers" aria-expanded="false">
+                                <span>
+                                    <i class="fas fa-tags"></i>
+
+                                </span>
+                                <span class="hide-menu">Offers</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                </span>
+                                <span class="hide-menu">LOGOUT</span>
+                            </a>
+                        </li>
+
+
+
+
+
+                    </ul>
+
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        </aside>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
+                                href="javascript:void(0)">
+                                <i class="ti ti-menu-2"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                                <i class="ti ti-bell-ringing"></i>
+                                <div class="notification bg-primary rounded-circle"></div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                            <a href="" target="_blank" class="btn btn-primary">PROFILE</a>
+
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <!-- Row 1 -->
+                <div class="row text-center">
+
+
+
+
+                    <div class="container mt-5 form-container" ;>
+                        <h2 class=" mb-5">Edit Coupon</h2>
+
+
+                        <form method="POST" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label class="text-center" for="productName">Coupon Name:</label>
+                                <input type="text" class="form-control" id="Name" value="<%= Coupon.couponName %>">
+                                <span id="NameErr" class="errMsg"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="actualPrice">Expiry:</label>
+                                <input type="date" class="form-control" id="Expiry"
+                                    value="<%= new Date(Coupon.expiry).toLocaleString('en-US')%>">
+                                <span id="ExpErr" class="errMsg"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="category">Discount:</label>
+                                <input type="text" class="form-control" id="Discount" value="<%= Coupon.discount %>">
+                                <span id="DisErr" class="errMsg"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="stock">MiinimumCartValue:</label>
+                                <input type="number" class="form-control" id="mcv"
+                                    value="<%= Coupon.minimumCartValue %>">
+                                <span id="MinErr" class="errMsg"></span>
+                            </div>
+
+
+
+                            <br>
+
+
+
+
+                            <button type="button" class="btn editbtn  btn-primary mt-3" onclick="editCoupon('<%= Name %>')">Save
+                                Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <script>
+                    async function editCoupon(Name) {
+                        let isVerified = true
+                        const cpnName = document.getElementById('Name').value;
+                        const expDate = document.getElementById('Expiry').value;
+                        const Discount = document.getElementById('Discount').value;
+                        const minCartValue = document.getElementById('mcv').value;
+                        console.log(Name);
+
+                        if (cpnName === '') {
+                            document.getElementById('NameErr').innerText = "Invalid Name"
+                            return false
+                        } else {
+                            document.getElementById('NameErr').innerText = ""
+                        }
+                        
+                        if (expDate === "") {
+                            document.getElementById('ExpErr').innerText = "Invalid Date"
+                            return false
+                        } else {
+                            document.getElementById('ExpErr').innerText = ""
+                        }
+
+                        if (Discount === '' || Discount === "0") {
+                            document.getElementById('DisErr').innerText = "Invalid Discount"
+                            return false
+                        } else {
+                            document.getElementById('DisErr').innerText = ""
+                        }
+
+                        if (minCartValue === "0" || minCartValue === '') {
+                            document.getElementById('MinErr').innerText = "Invalid MinimumCartValue"
+                             return false
+                        } else {
+                            document.getElementById('MinErr').innerText = ""
+                        }
+        try {
+            
+        } catch (error) {
+            console.log(error)
+        }
+                        fetch('/admin/couponEdited',{
+                method:'post',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                 body:JSON.stringify({cpnName, expDate, Discount, minCartValue,Name})
+                }).then(response =>{
+              return response.json()
+               })
+               .then(data =>{
+             
+             if(data.value===1){
+                 Swal.fire({
+                   position: "center",
+                   icon: "success",
+                   title: "Coupon Updated",
+                   showConfirmButton: false,
+                   timer: 1500
+                 });
+
+                 setTimeout(() => {
+                     window.location.href='/admin/coupons'
+                 }, 1600);
+                 
+             }else if (data.value === 0) {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Existing Coupon",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+         })
+
+
+
+                    }
+                </script>
+
+
+
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- sweetalert  -->
+                <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+                <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="../assets/js/sidebarmenu.js"></script>
+                <script src="../assets/js/app.min.js"></script>
+                <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+                <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+                <script src="../assets/js/dashboard.js"></script>
+</body>
+
+</html>

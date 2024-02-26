@@ -70,5 +70,8 @@ adminRoute.post('/removeOfferCategory',auth.isLogin,adminController.removeCatego
 
 adminRoute.get('/coupons',auth.isLogin,adminController.loadCouponPage)
 adminRoute.post('/addCoupon',auth.isLogin,adminController.addCoupon)
+adminRoute.get('/editCoupon',auth.isLogin,adminController.loadEditCoupon)
+adminRoute.post('/couponEdited',auth.isLogin,adminController.updateCoupon)
+
 
 module.exports = adminRoute;
