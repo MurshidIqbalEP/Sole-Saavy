@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SOLE SAAVY</title>
+    <script src="html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <link rel="shortcut icon" type="image/png" href="/img/Favicon.jpg" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
@@ -200,7 +201,9 @@
 
 
             <div class="table-responsive" style="padding: 10px;">
-                <table class="table table-bordered" id="myTable">
+              <div id="myTable">
+               <h3 style="text-align: center;">Sales Report</h3>
+                <table class="table table-bordered" >
                     <thead class="table-dark">
                         <tr>
                             <th>Order Date</th>
@@ -214,8 +217,9 @@
 
                     </tbody>
                 </table>
+              </div>
                 <button class="btn btn-success" onclick="dwnldReport()"> Dowload XL</button>
-                <button class="btn btn-danger" onclick="dwnldReport()"> Dowload PDF </button>
+                <button class="btn btn-danger" onclick="generatePDF()"> Dowload PDF </button>
             </div>
 
         </div>
@@ -238,9 +242,21 @@
 
 
                 if (start == '' || end == '') {
-                    document.getElementById('err').innerText = "Select Date"
+                  Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Select Date",
+            showConfirmButton: false,
+            timer: 1500
+          });
                 }else if(startTimestamp > endTimestamp ){
-                  document.getElementById('err').innerText = "Wrong Date"
+                  Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Wrong Date",
+            showConfirmButton: false,
+            timer: 1500
+          });
                 } else {
 
                     let url = `/admin/salesReportData?start=${start}&end=${end}`
@@ -282,17 +298,33 @@
             }
 
             function generatePDF(){
- // Create a new jsPDF instance
- const doc = new jsPDF();
+        const Table = document.getElementById('myTable')
+        const start = document.getElementById('startDate').value
+        const end = document.getElementById('endDate').value
 
-// Add table header
-doc.text("Table Data", 10, 10);
+        if (start == '' || end == '') {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Select Date",
+            showConfirmButton: false,
+            timer: 1500
+          });
+         }else{
+          var opt = {
+        margin:       0.5,
+        filename:     'salesReport.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
 
-// Generate PDF table from HTML table
-doc.autoTable({ html: '#myTable' });
+        html2pdf().from(Table).set(opt).save();
 
-// Save the document as PDF
-doc.save("table_data.pdf");
+         }
+
+        
+       
              
         }
            
@@ -302,7 +334,13 @@ doc.save("table_data.pdf");
                 const end = document.getElementById('endDate').value
 
                 if (start == '' || end == '') {
-                    document.getElementById('err').innerText = "select Date"
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Select Date",
+                   showConfirmButton: false,
+                   timer: 1500
+                  });
                 } else {
                     let url = `/admin/dwnldReport?start=${start}&end=${end}`
 
