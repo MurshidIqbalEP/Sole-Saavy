@@ -998,7 +998,7 @@ const updateCoupon = async (req, res) => {
 const loadReferalpage = async (req, res) => {
   try {
     const Details = await Refferel.find();
-    res.status(200).render("adminview/ReferralDetails", { Details });
+    res.status(200).render("adminView/ReferralDetails", { Details });
   } catch (error) {
     console.log(error.message);
   }
