@@ -186,19 +186,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                      <%= Details.history %>
-                      <% if (Details && Details.history) { %>
-                        <% Details.history.forEach(entry => { %>
+                      
+                        <% Details[0].history.forEach(entry => { %>
                             <tr>
-                                <td><%= entry %></td>
-                               
+                                <td><%= entry.Referrer %></td>
+                                <td> <%= entry.referrerEmail %> </td>
+                                <td><%= entry.Recipient %></td>
+                                <td><%= entry.RecipientEmail %></td>
+                                <td><%= entry.date.toLocaleDateString() %></td>
                             </tr>
                         <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="5">No history available</td>
-                        </tr>
-                    <% } %>
+            
+                       
                     </tbody>
                 </table>
                 
