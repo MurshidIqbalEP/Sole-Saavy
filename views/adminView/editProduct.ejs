@@ -361,8 +361,8 @@
 
 
    function deleteIMG(img,productID){
-  console.log(img,productID);
 
+    event.preventDefault(); 
 
     fetch('/admin/deleteimg',{
       method:'DELETE',
@@ -375,12 +375,17 @@
       return response.json()
     })
     .then(data=>{
+
       if(data.value === 0){
         Swal.fire({
       title: "Deleted!",
       text: "Image has been deleted.",
       icon: "success"
     });
+     
+    setTimeout(() => {
+      location.reload()
+    }, 1500);
 
       }else{
         Swal.fire({

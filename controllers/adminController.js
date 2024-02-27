@@ -5,7 +5,7 @@ const product = require("../models/productModel");
 const Orders = require("../models/orderModel");
 const Offer = require("../models/offersModel");
 const coupon = require("../models/couponModel");
-const Refferel = require('../models/refferelModel');
+const Refferel = require("../models/refferelModel");
 const bcrypt = require("bcrypt");
 const { Parser } = require("json2csv");
 const { trusted } = require("mongoose");
@@ -353,16 +353,16 @@ const loadproductedit = async (req, res) => {
 //singlr image delete
 const deleteimg = async (req, res) => {
   try {
-    console.log("ethunnund");
-
     const { img, productID } = req.body;
 
     const ExistingImg = await product.findOne({ _id: productID });
+
     if (ExistingImg.image.length > 2) {
       const dltImage = await product.findOneAndUpdate(
         { _id: productID },
         { $pull: { image: img } }
       );
+
       if (dltImage) {
         res.status(200).json({ value: 0 });
       }
@@ -937,9 +937,9 @@ const addCoupon = async (req, res) => {
     const { Name, Expiry, Amount, mcv } = req.body;
 
     const ExistingCoupon = await coupon.findOne({ couponName: Name });
-    if(ExistingCoupon){
+    if (ExistingCoupon) {
       res.status(200).json({ value: 0 });
-    }else{
+    } else {
       const Coupon = new coupon({
         couponName: Name,
         expiry: Expiry,
@@ -950,10 +950,7 @@ const addCoupon = async (req, res) => {
       if (done) {
         res.status(200).json({ value: 1 });
       }
-
     }
-
-   
   } catch (error) {
     console.log(error.message);
   }
@@ -998,14 +995,14 @@ const updateCoupon = async (req, res) => {
   }
 };
 
-const loadReferalpage = async (req,res)=>{
-try {
-  const Details = await Refferel.find()
-  res.status(200).render('adminview/ReferralDetails',{ Details });
-} catch (error) {
-  console.log(error.message);
-}
-}
+const loadReferalpage = async (req, res) => {
+  try {
+    const Details = await Refferel.find();
+    res.status(200).render("adminview/ReferralDetails", { Details });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 module.exports = {
   loadAdminLogin,
@@ -1049,5 +1046,5 @@ module.exports = {
   addCoupon,
   loadEditCoupon,
   updateCoupon,
-  loadReferalpage
+  loadReferalpage,
 };
