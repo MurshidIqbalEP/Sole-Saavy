@@ -246,8 +246,8 @@
                     </select>
                     </div>
                     <div class="mt-2 mb-2">
-                        <button type="button" style="width: 100px;" class="btn btn-success" onclick="applyCoupon()">Apply</button>
-                        <button type="button" style="width: 100px;" class="btn btn-danger" onclick="removeCoupon()" >Remove</button>
+                        <button type="button" id="applyButton" style="width: 100px;" class="btn btn-success" onclick="applyCoupon()">Apply</button>
+                        <button type="button" id="removeButton" style="width: 100px;" class="btn btn-danger" onclick="removeCoupon()" >Remove</button>
                     </div>
                 
               </div>
@@ -526,7 +526,9 @@
                 showConfirmButton: false,
                 timer: 1000
               }); 
-              
+
+              document.getElementById("applyButton").disabled = true;
+              document.getElementById("removeButton").disabled = false;
             }else{
               Swal.fire({
                 position: "center",
@@ -584,6 +586,8 @@
                 showConfirmButton: false,
                 timer: 1000
               }); 
+              document.getElementById("applyButton").disabled = false;
+              document.getElementById("removeButton").disabled = true;
               
             }
           })

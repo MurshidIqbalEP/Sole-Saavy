@@ -14,7 +14,7 @@ const middleware = require('../middleware/auth')
 
 
 userRoute.get('/',userController.loadhome)
-userRoute.get('/register',userController.loadRegister)
+userRoute.get('/register',middleware.isLogout,userController.loadRegister)
 userRoute.post('/register',userController.insertUser);
 
 //login
